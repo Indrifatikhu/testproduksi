@@ -14,14 +14,14 @@ return new class extends Migration
     {
         Schema::create('produksi', function (Blueprint $table) {
             $table->id();
-            $table->string(DB::raw("CONCAT(kode_bull, kode_batch)"))->nullable();
+            // $table->string(DB::raw("CONCAT(kode_bull, kode_batch)"))->nullable();
+            $table->date('tanggal')->nullable();
             $table->string('bangsa')->nullable();
-            $table->string('nama_bull')->nullable();
             $table->char('kode_bull')->nullable();
             $table->char('kode_batch')->nullable();
             $table->integer('produksi')->nullable();
             $table->string('ptm')->nullable();
-            $table->char('konsentrasi')->nullable();
+            $table->string('konsentrasi')->nullable();
             $table->timestamps();
         });
     }

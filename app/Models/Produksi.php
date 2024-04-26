@@ -15,14 +15,13 @@ class Produksi extends Model
     // public $id_produksi = Produksi::select(['produksi.*', DB::raw("CONCAT(produksi.kode_bull, '-', produksi.kode_batch, '-', produksi.produksi) as id_produksi")])->get();
 
     protected $fillable = [
-        'bangsa',
-        'nama_bull',
+        'tanggal',
         'kode_bull',
+        'bangsa',
         'kode_batch',
         'produksi',
         'ptm',
         'konsentrasi',
-        'tanggal_produksi'
     ];
 
 }

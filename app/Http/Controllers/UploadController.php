@@ -16,7 +16,7 @@ class UploadController extends Controller
 {
     public function index() 
     {
-        return view('uplaoad.index', ["tittle"=>"Produksi"]);
+        return view('upload.index', ["tittle"=>"Produksi"]);
     }
 
     public function filter(Request $request)
@@ -26,37 +26,51 @@ class UploadController extends Controller
         
         // Initialize filtered data array
         $filteredData = [];
+        $filter_bull = $request->input('kode_bull');
         $filter_bangsa = $request->input('bangsa');
-        $filter_bull = $request->input('nama_bull');
         
-        // Perform your initial query to retrieve all data
-        $allData = Produksi::select(
-            'id', 
-            'created_at',
-            'bangsa',
-            'nama_bull',
-            'kode_bull',
-            'kode_batch',
-            'produksi',
-            'ptm',
-            'konsentrasi'
-        )->latest()->get();
+        $filter_from_date =  $request->input('from_date');
+        $filter_to_date = $request->input('to_date');
 
+        $filter_per_page = ($request->input('perPage')) ? $request->input('perPage') : 10;
+        
+
+        DB::enableQueryLog();
+        
         // If a filter is applied
-        if ($filter_bangsa && $filter_bull) {
-            // Get the filter value
-            $filteredData = Produksi::where(['bangsa' => $filter_bangsa, 'nama_bull' => $filter_bull])->latest()->get();
+        if ($filter_bull && $filter_bangsa) {
+            // Jika filter from date & to date tidak kosong
+            if ($filter_from_date && $filter_to_date) {
+                $filteredData = Produksi::where(['kode_bull' => $filter_bull, 'bangsa' => $filter_bangsa])
+                                            ->whereBetween('tanggal', [date('Y-m-d', strtotime($filter_from_date)), date('Y-m-d', strtotime($filter_to_date))])
+                                            ->paginate($filter_per_page);
+            } else {
+                // Get the filter value
+                $filteredData = Produksi::where(['kode_bull' => $filter_bull, 'bangsa' => $filter_bangsa])->latest()->paginate($filter_per_page);       
+            }
         } else {
-            // If no filter is applied, use all data
-            $filteredData = $allData;
+            // Jika filtger from date & to date tidak kosong
+            if ($filter_from_date && $filter_to_date) {
+                $filteredData = Produksi::whereBetween('tanggal', [date('Y-m-d', strtotime($filter_from_date)), date('Y-m-d', strtotime($filter_to_date))])
+                                            ->paginate($filter_per_page);
+            } else {
+                $filteredData = Produksi::paginate($filter_per_page);
+            }
         }
 
+        $totalFiltered = $filteredData->total();
+        // dd($filteredData);
         return view('upload.index', [
             "tittle" => "Produksi", 
             'filteredData'=>$filteredData, 
             'filter_bangsa' => $filter_bangsa,
             'filter_bull' => $filter_bull,
-            'allData' => $allData
+            'allData' => $filteredData,
+            'bull' => $filter_bull,
+            'from_date' => $filter_from_date,
+            'to_date' => $filter_to_date,
+            'per_page' => $filter_per_page,
+            'totalFiltered' => $totalFiltered
         ]);
     }
 
@@ -72,16 +86,16 @@ class UploadController extends Controller
         $file = $request->file('file');
         Excel::import(new ProduksiImport, $file);
         
-        return back()->withStatus('Imported Successfully');
+        return back()->with('success','File Imported Successfully');
     }    
 
     
     public function store(Request $request) {
         // $produksiId = $request->id;
         $request->validate([
-            'bangsa' => 'required',
-            'nama_bull' => 'required',
+            'tanggal' => 'required',
             'kode_bull' => 'required',
+            'bangsa' => 'required',
             'kode_batch' => 'required',
             'produksi' => 'required',
             'ptm' => 'required',
@@ -89,9 +103,9 @@ class UploadController extends Controller
         ]);
         $produksi = Produksi::create(
             [
-                'bangsa' => $request->bangsa,
-                'nama_bull'  => $request->nama_bull,
+                'tanggal' => $request->tanggal,
                 'kode_bull' => $request->kode_bull,
+                'bangsa' => $request->bangsa,
                 'kode_batch' => $request->kode_batch,
                 'produksi' => $request->produksi,
                 'ptm' => $request->ptm,
@@ -113,19 +127,3 @@ class UploadController extends Controller
         return back()->with('success', 'Data Berhasil di Hapus');
     }
 }
-
-// $data = $request->validate([]);
-        // $allData = Produksi::findorOrFail($id)->update($data);
-        // return back()->with('success', 'Data Berhasil di Update');
-        // return view('upload.index', [compact('allData'), "tittle" => "Produksi", "id" => $id]);
-
-
-// $request->validate([
-        //     'bangsa' => 'required',
-        //     'nama_bull' => 'required',
-        //     'kode_bull' => 'required',
-        //     'kode_batch' => 'required',
-        //     'produksi' => 'required',
-        //     'ptm' => 'required',
-        //     'konsentrasi' => 'required'
-        // ]);

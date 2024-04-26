@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Events\QueryExecuted;
 
@@ -33,6 +34,9 @@ class AppServiceProvider extends ServiceProvider
         {
             return number_format($price, 2, '.', '\'');
         });
+
+        // menggunakan pagination Bootstrap
+        Paginator::useBootstrapFive();
 
     }
 }

@@ -12,7 +12,7 @@
                     <div class="form-group">
                         <label for="date" class="col-sm-3 control-label">Date</label>
                         <div class="col-sm-12">
-                            <input type="date" formatDate="dd-mm-yyyy" class="form-control" id="date" name="date" placeholder="dd-mm-yyyy" value="{{ old('date') }}">
+                            <input type="date" formatDate="dd-mm-yyyy" class="form-control" id="tanggal" name="tanggal" placeholder="dd-mm-yyyy" value="{{ old('tanggal') }}">
                         </div>
                     </div>
                     <div class="form-group">

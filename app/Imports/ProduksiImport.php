@@ -16,9 +16,9 @@ class ProduksiImport implements ToCollection, WithHeadingRow
         foreach ($rows as $row) 
         {
             Produksi::create([
-                'bangsa' => $row['bangsa'],
+                'tanggal' => $row['tanggal'],
                 'kode_bull' => $row['kode_bull'],
-                'nama_bull' => $row['nama_bull'],
+                'bangsa' => $row['bangsa'],
                 'kode_batch' => $row['kode_batch'],
                 'produksi'  => $row['produksi'],
                 'ptm'       => $row['ptm'],
