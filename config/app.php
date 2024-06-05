@@ -1,7 +1,9 @@
 <?php
 
+use App\Providers\AppServiceProvider;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
+use Itstructure\LaRbac\LaRbacServiceProvider;
 
 return [
 

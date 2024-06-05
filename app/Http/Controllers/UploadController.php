@@ -16,8 +16,9 @@ class UploadController extends Controller
 {
     public function index() 
     {
-        return view('upload.index', ["tittle"=>"Produksi"]);
+        return view('upload.index');
     }
+
 
     public function filter(Request $request)
     {
@@ -61,7 +62,7 @@ class UploadController extends Controller
         $totalFiltered = $filteredData->total();
         // dd($filteredData);
         return view('upload.index', [
-            "tittle" => "Produksi", 
+            "tittle" => "Tambah Data", 
             'filteredData'=>$filteredData, 
             'filter_bangsa' => $filter_bangsa,
             'filter_bull' => $filter_bull,

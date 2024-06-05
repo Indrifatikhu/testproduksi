@@ -1,12 +1,17 @@
-@extends('layouts.main')
-@section('container')
+@extends('adminlte::page')
 
-<div class="container-sm justify-content-center">
-    <div class="row justify-content">
-        <div class="col-md">
-            <div class="card">
-                <div class="card-header text-center" style="background-color: #d1e7dd">
-                    <h2><b>Upload File Produksi</b></h2>    
+@section('title', 'Upload Data')
+
+
+@section('content')
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card my-4">
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                    <div class="bg-light pt-4 pb-3 shadow-sm">
+                        <h5 class="text-dark text-capitalize ps-3"><b>Tambah Data Produksi</b></h5>
+                    </div>
                 </div>
 
                 <div class="card-body">
@@ -17,26 +22,15 @@
                             <fieldset>
                                 <div class="row">
                                     <div class="col-md-3">
-                                        <div><h3><b>Filter</b></h3></div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <i class="fa fa-calendar">From Date</i>&nbsp;
                                         <span></span> 
-                                        <i class="fa fa-caret-down"></i>&nbsp; 
                                         <label for="from_date">From Date</label>
-                                        <input type="text" name="from_date" id="from_date" class="form-control" value="{{ @$from_date }}" placeholder="From Date('Y-M-D')"><span></span>
+                                        <input type="text" name="from_date" id="from_date" class="form-control @error('Tanggal') is invalid @enderror" value="{{ @$from_date }}" placeholder="From Date('Y-M-D')"><span></span>
                                     </div>
                                     <div class="col-md-3">
-                                        <i class="fa fa-calendar"></i>&nbsp;
                                         <span></span> 
-                                        <i class="fa fa-caret-down"></i>&nbsp; 
                                         <label for="to_date">To Date</label>
                                         <input type="text" name="to_date" id="to_date" class="form-control" value="{{ @$to_date }}" placeholder="To Date('Y-M-D')"><span></span>
                                     </div>
-
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="bangsa" class="control-label">Bangsa</label>
@@ -87,48 +81,67 @@
                                         </div>
                                     </div>
                                     <div class="col-md-3">
-                                        <div class="form-actions">
-                                            <div class="btn-group" role="group" aria-label="Basic example">
-                                                <button type="submit" class="btn btn-success mt-4">Cari</button>
+                                        <div class="form-group">
+                                            <div class="form-actions">
+                                                <div class="btn-group-sm" role="group" aria-label="true" style="margin-top: 35px">
+                                                    <button type="submit" class="btn btn-success">Cari</button>&nbsp;
+                                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#import-modal">Import</button>&nbsp;
+                                                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#produksi-modal">Tambah Data</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
+                                @if ($errors->any())
+                                    <div class="my-3">
+                                        <div class="alert alert-danger">
+                                            <ul>
+                                                @foreach ($errors->all() as $error)
+                                                    <li>{{ $error }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    </div>
+                                @endif
+                                
+                                @if (session('success'))
+                                    <div class="my-3">
+                                        <div class="alert alert-success">
+                                            {{ session('success')    }}
+                                        </div>
+                                    </div>                                    
+                                @endif
                             </fieldset>
                         </div>
                     </form>
-
-                    <hr style="border-color: black;">
-
+                    <hr>
                     {{-- Table Data --}}
                     @if (empty($filter_bangsa && $filter_bull))
                         <!-- Iterate over $allData to display ALL results -->
-                        <table class="table table-fixed table-bordered" id="myTable" style="table-layout: fixed; text-align:center">
+                        <table class="table table-fixed table-bordered" id="myTable" style="table-layout: fixed; text-align:center; vertical-align: middle">
                             <thead class="table-success" id="">
                                 <tr>
-                                    <th style="width: 5%; text-align: center">
+                                    <th style="width: 4%; text-align: center">
                                         <div class="floatL t5">
-                                            <input type="checkbox" name="selectAllColumnsCheckbox" id="selectAllColumnsCheckbox">
+                                            {{-- <input type="checkbox" name="selectAllColumnsCheckbox" id="selectAllColumnsCheckbox"> --}}
+                                            <input type="checkbox" onclick="toggleSelectAll(this)">
                                         </div>
                                     </th>
                                     <th style="width: 8%; text-align: center">
                                         <div class="floatU">
                                             Action
-                                        </div>
-                                        <div class="floatD visually-hidden">
-                                            <a href="javascript:void(0);" title="hapus" class="btn btn-default delete-selected-button hidden">
-                                                <i class="fa-solid fa-trash-can text-danger"></i>
-                                                <span class="text-danger">Hapus</span>
-                                            </a>
+                                            <button onclick="deleteSelectedData()">Delete Selected</button>
                                         </div>
                                     </th>
-                                    <th style="width: 15%; text-align: center">Date</th>
-                                    <th style="width: 12%; text-align: center">Kode Bull</th>
+                                    <th style="width: 10%; text-align: center">Date</th>
+                                    <th style="width: 10%; text-align: center">Kode Bull</th>
                                     <th style="width: 14%; text-align: center">Bangsa</th>
                                     <th style="width: 12%; text-align: center">Kode Batch</th>
                                     <th style="width: 12%; text-align: center">Produksi</th>
                                     <th style="width: 9%; text-align: center">PTM (%)</th>
                                     <th style="width: 13%; text-align: center">Konsentrasi (Juta)</th>
+                                    <th style="width: 8%; text-align: center">Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -137,8 +150,10 @@
                                         <td>
                                             <input type="checkbox" class="columnCheckboxes" data-id="{{ $data->id }}" name="columnCheckboxes" id="columnCheckboxes">
                                         </td>
-                                        <td><button class="icon-button delete-btn" data-id="{{ $data->id }}" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $data->id }}"><i class="fa-solid fa-trash-can"></i></button> &nbsp; 
-                                            <button class="icon-button edit-btn" data-id="{{ $data->id }}" data-bs-toggle="modal" data-bs-target="#editModal{{ $data->id }}"><i class="fa-solid fa-pencil"></i></button>
+                                        <td><button class="icon-button delete-btn" data-id="{{ $data->id }}" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $data->id }}" 
+                                                style="border: none !important; background-color:transparent; size"><i class="fa-solid fa-xs fa-trash-can"></i></button>
+                                            <button class="icon-button edit-btn" data-id="{{ $data->id }}" data-bs-toggle="modal" data-bs-target="#editModal{{ $data->id }}"
+                                                style="border: none !important; background-color:transparent"><i class="fa-solid fa-xs fa-pencil"></i></button>
                                         </td>
                                         <td>{{ $data->tanggal }}</td>
                                         <td>{{ $data->kode_bull }}</td>
@@ -161,7 +176,7 @@
                         </div>
                         
                         <!-- Iterate over $filteredData to display FILTERED results -->
-                        <table class="table table-fixed table-bordered" id="myTable" style="table-layout: fixed; text-align:center">
+                        <table class="table table-relative table-bordered text-center" id="myTable">
                             <thead class="table-success" id="">
                                 <th style="width: 5%; text-align: center"><input type="checkbox" name="selectAllColumnsCheckbox" id="selectAllColumnsCheckbox"></th>
                                 <th style="width: 8%; text-align: center">
@@ -187,8 +202,10 @@
                                 @foreach ($filteredData as $result)
                                     <tr>
                                         <td><input type="checkbox" class="columnCheckboxes" data-id="{{ $result->id }}" name="columnCheckboxes" id="columnCheckboxes"></td>
-                                        <td><button class="icon-button delete-btn" data-id="{{ $result->id }}" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $result->id }}"><i class="fa-solid fa-trash-can"></i></button> &nbsp; 
-                                            <button class="icon-button edit-btn" data-id="{{ $result->id }}" data-bs-toggle="modal" data-bs-target="#editModal{{ $result->id }}"><i class="fa-solid fa-pencil"></i></button>
+                                        <td><button class="icon-button delete-btn" data-id="{{ $data->id }}" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $data->id }}" 
+                                                style="border: none !important; background-color:transparent"><i class="fa-solid fa-xs fa-trash-can"></i></button>
+                                            <button class="icon-button edit-btn" data-id="{{ $data->id }}" data-bs-toggle="modal" data-bs-target="#editModal{{ $data->id }}"
+                                                style="border: none !important; background-color:transparent"><i class="fa-solid fa-xs fa-pencil"></i></button>
                                         </td>
                                         <td>{{ $result->tanggal }}</td>
                                         <td>{{ $result->kode_bull }}</td>
@@ -204,38 +221,22 @@
                         </table>
                     @endif
                     
-                    <hr>
-                    
-                    <div class="mb-3">
-                        <table id="summaryTable">
-                            <thead>
-                                <tr>
-                                    <th>Month</th>
-                                    <th>Sum of Produksi</th>
-                                </tr>
-                            </thead>
-    
-                            <tbody id="summaryBody">
-                                <!-- The summary will be added here by JavaScript -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
                 
+                    <!-- import Modal -->
+                    @include('upload.import-modal')
 
-                <!-- Edit Modal -->
-                @include('upload.edit-modal')
-                
-                <!-- Delete Modal - Add Production Data Manually -->
-                @include('upload.delete-modal')
+                    <!-- Add Modal -->
+                    @include('upload.create-modal')
+
+                    <!-- Edit Modal -->
+                    @include('upload.edit-modal')
                     
+                    <!-- Delete Modal - Add Production Data Manually -->
+                    @include('upload.delete-modal')
+                </div>
             </div>
-        </div> 
+        </div>
     </div>
 </div>
 
-
-
-
-
-@endsection
+@stop

@@ -24,7 +24,7 @@ class UserController extends Controller
     {
         if(Auth::attempt($request->only(['email', 'password']))) {
             session(['user' => Auth::user()]);
-            return redirect('upload');
+            return redirect('pages/dashboard');
         } else {
             return redirect(route('login'))->with('failed', 'Email or Password Wrong');
         }
@@ -41,33 +41,11 @@ class UserController extends Controller
         return redirect(route('login'));
     }
 
-    public function dashboard()
-    {
-        return view('pages.dashboard', ["tittle"=>"Dashboard"]); 
-    }
 
     public function profile()
     {
         return view('pages.profile', ["tittle"=>"Profile"]);
     }
-
-    // public function updateProfile(Request $request)
-    // {
-    //     if ($request->password) {
-    //         $user = new User();
-    //         $user->name = $request->name;
-    //         $user->email = $request->email;
-    //         $user->password = Hash::make($request->password);
-    //         $user->update();
-    //     } else {
-    //         $user = new User();
-    //         $user->name = $request->name;
-    //         $user->email = $request->email;
-    //         $user->update();
-    //     }
-
-    //     return redirect(route('profile'));
-    // }
 
     public function updateProfile(Request $request, $id)
     {

@@ -1,11 +1,11 @@
 @foreach ($allData as $data)
 
 <div class="modal fade" id="editModal{{ $data->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-md">
         <!-- Modal content -->
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="staticBackdropLabel">Edit User by ID : {{ $data->id }}</h4>
+                <h4 class="modal-title" id="staticBackdropLabel">Edit User by ID : <b>{{ $data->id }}</b></h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
@@ -42,7 +42,9 @@
                         <label for="editKonsentrasi">Konsentrasi :</label>
                         <input type="char" class="form-control @error('konsentrasi') is invalid @enderror" id="konsentrasi" name="konsentrasi" value="{{ old('konsentrasi', $data->konsentrasi) }}">
                     </div>
-                    <button type="submit" id="updateBtn" class="btn btn-primary" href="javascript:void(0)">Update</button>
+                    <div class="modal-footer">
+                        <button type="submit" id="updateBtn" class="btn btn-primary" href="javascript:void(0)">Update</button>
+                    </div>
                 </form>
             </div>
 

@@ -3,11 +3,57 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "open-app": "gulp open-app",
+        "start": "npm run open-app",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "watch": "gulp-watch"
     },
     "devDependencies": {
+        "@popperjs/core": "^2.11.6",
         "axios": "^1.6.4",
+        "bootstrap": "^5.2.3",
+        "gulp": "^4.0.2",
+        "gulp-autoprefixer": "^7.0.1",
+        "gulp-clean": "^0.4.0",
+        "gulp-install": "^1.1.0",
+        "gulp-open": "^3.0.1",
+        "gulp-sass": "^5.1.0",
+        "gulp-sourcemaps": "^2.6.5",
         "laravel-vite-plugin": "^1.0.0",
+        "sass": "^1.56.1",
         "vite": "^5.0.0"
-    }
+    },
+    "name": "material-dashboard",
+    "version": "3.1.0",
+    "description": "Freebie Dashboard for Bootstrap 5",
+    "main": "pages/dashboard.html",
+    "directories": {
+        "example": "root"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/creativetimofficial/material-dashboard.git"
+    },
+    "keywords": [
+        "material dashboard",
+        "bootstrap 5",
+        "dashboard",
+        "creative tim",
+        "html dashboard",
+        "html css dashboard",
+        "web dashboard",
+        "freebie",
+        "free bootstrap dashboard",
+        "css3 dashboard",
+        "bootstrap dashboard",
+        "frontend",
+        "responsive bootstrap dashboard"
+    ],
+    "author": "Creative Tim <hello@creative-tim.com> (https://www.creative-tim.com/)",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/creativetimofficial/material-dashboard/issues"
+    },
+    "homepage": "http://creative-tim.com/product/material-dashboard"
 }
