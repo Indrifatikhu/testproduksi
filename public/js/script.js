@@ -1,35 +1,3 @@
-
-// Function to show date picker
-// $(document).ready(function(){
-//     $('#from_date').datepicker({
-//         format: 'dd-mm-yyyy',
-//         autoclose: true,
-//         todayHighlight: true,
-//         multidateSeparator: true,
-//     });
-// });
-
-// $(document).ready(function(){
-//     $('#to_date').datepicker({
-//         format: 'dd-mm-yyyy',
-//         autoclose: true,
-//         todayHighlight: true
-//     });
-// });
-
-// Function to delete using delete icon
-$(document).ready(function() {
-    $('.delete-btn').on('click', function() {
-        var row = $(this).closest('tr');
-        var id = $(this).data('id');
-        if (confirm('Are you sure you want to delete row ' + id + '?')) {
-            row.remove();
-            // Additional code to delete data from the server using AJAX
-        }
-    });
-});
-
-
 function openEditModal(id) {
     $('#editModal .modal-title').text('Edit User by ID: ' + id);
     $('#editModal').modal('show');
@@ -78,10 +46,22 @@ function calculateSumByMonth() {
         monthCell.textContent = month;
         sumCell.textContent = sumByMonth[month];
     }
+    var targetSumBody = document.getElementById("targetBody");
+    for (var month in sumByMonth) {
+        var row = targetSumBody.insertRow();
+        console.log(sumByMonth[month]);
+        console.log(row);
+        var sumCell = row.insertCell(1);
+        console.log(sumCell);
+        sumCell.textContent = sumByMonth[month];
+        console.log(sumCell);
+    }
+    
 }
 
 // Call the function when the page loads
 window.onload = calculateSumByMonth;
+
 
 function sisaProduksi() {
     var jml_produksi = document.getElementById("myTable");
@@ -130,11 +110,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     <td>${index + 1}</td>
                     <td>${target.bulan}</td>
                     <td>${target.target_bulanan}</td>
-                    <td>R</td>
+                    <td></td>
                     <td>${target.tahun}</td>
                     <td>${target.target_tahunan}</td>
-                    <td>R</td>
-                    <td>%</td>
+                    <td></td>
+                    <td></td>
                     `;
                     targetBody.appendChild(row);
                 });
@@ -143,29 +123,29 @@ document.addEventListener('DOMContentLoaded', (event) => {
 });
 
 
-document.addEventListener('DOMContentLoaded', (event) => {
-    // Perform subtraction
-    const updatedProduksiData = produksiData.map((produksi) => {
-        const cartItem = cartData.find(cart => cart.produksi_id === produksi.id);
-        if (cartItem) {
-            produksi.produksi -= cartItem.jml_distribusi;
-        }
-        return produksi;
-    });
+// document.addEventListener('DOMContentLoaded', (event) => {
+//     // Perform subtraction
+//     const updatedProduksiData = produksiData.map((produksi) => {
+//         const cartItem = cartData.find(cart => cart.produksi_id === produksi.id);
+//         if (cartItem) {
+//             produksi.produksi -= cartItem.jml_distribusi;
+//         }
+//         return produksi;
+//     });
 
-    // Update produksiTable with new values
-    produksiBody.innerHTML = '';
-    updatedProduksiData.forEach((produksi) => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${produksi.id}</td>
-            <td>${produksi.produksi}</td>
-        `;
-        produksiBody.appendChild(row);
-    });
+//     // Update produksiTable with new values
+//     produksiBody.innerHTML = '';
+//     updatedProduksiData.forEach((produksi) => {
+//         const row = document.createElement('tr');
+//         row.innerHTML = `
+//             <td>${produksi.id}</td>
+//             <td>${produksi.produksi}</td>
+//         `;
+//         produksiBody.appendChild(row);
+//     });
 
-    console.log('Updated Produksi Data:', updatedProduksiData);
-});
+//     console.log('Updated Produksi Data:', updatedProduksiData);
+// });
 
 // ${((target.monthly_realization / target.monthly_target) * 100).toFixed(2)}%
 
@@ -192,25 +172,3 @@ document.addEventListener('DOMContentLoaded', (event) => {
 //     });
 // });
 
-
-function deleteSelectedData() {
-    const selectedIndexes = Array.from(document.querySelectorAll('.select-checkbox:checked'))
-                                .map(checkbox => checkbox.getAttribute('data-index'));
-
-    if (selectedIndexes.length > 0) {
-        // Perform deletion action here
-        console.log('Deleting data at indexes:', selectedIndexes);
-
-        // Optionally, remove the selected rows from the table
-        selectedIndexes.forEach(index => {
-            document.querySelector(`.select-checkbox[data-index="${index}"]`).closest('tr').remove();
-        });
-    } else {
-        alert('No data selected for deletion');
-    }
-}
-
-function toggleSelectAll(source) {
-    const checkboxes = document.querySelectorAll('.select-checkbox');
-    checkboxes.forEach(checkbox => checkbox.checked = source.checked);
-}

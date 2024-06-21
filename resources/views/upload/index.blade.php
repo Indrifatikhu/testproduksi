@@ -119,19 +119,18 @@
                     {{-- Table Data --}}
                     @if (empty($filter_bangsa && $filter_bull))
                         <!-- Iterate over $allData to display ALL results -->
-                        <table class="table table-fixed table-bordered" id="myTable" style="table-layout: fixed; text-align:center; vertical-align: middle">
-                            <thead class="table-success" id="">
+                        <table class="table table-fixed table-bordered text-center" id="myTable" style="table-layout: fixed">
+                            <thead>
                                 <tr>
-                                    <th style="width: 4%; text-align: center">
+                                    {{-- <th style="width: 4%; text-align: center">
                                         <div class="floatL t5">
-                                            {{-- <input type="checkbox" name="selectAllColumnsCheckbox" id="selectAllColumnsCheckbox"> --}}
+                                            <input type="checkbox" name="selectAllColumnsCheckbox" id="selectAllColumnsCheckbox">
                                             <input type="checkbox" onclick="toggleSelectAll(this)">
                                         </div>
-                                    </th>
+                                    </th> --}}
                                     <th style="width: 8%; text-align: center">
                                         <div class="floatU">
                                             Action
-                                            <button onclick="deleteSelectedData()">Delete Selected</button>
                                         </div>
                                     </th>
                                     <th style="width: 10%; text-align: center">Date</th>
@@ -147,9 +146,9 @@
                             <tbody>
                                 @foreach ($allData as $data)
                                     <tr>
-                                        <td>
+                                        {{-- <td>
                                             <input type="checkbox" class="columnCheckboxes" data-id="{{ $data->id }}" name="columnCheckboxes" id="columnCheckboxes">
-                                        </td>
+                                        </td> --}}
                                         <td><button class="icon-button delete-btn" data-id="{{ $data->id }}" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $data->id }}" 
                                                 style="border: none !important; background-color:transparent; size"><i class="fa-solid fa-xs fa-trash-can"></i></button>
                                             <button class="icon-button edit-btn" data-id="{{ $data->id }}" data-bs-toggle="modal" data-bs-target="#editModal{{ $data->id }}"
@@ -178,7 +177,7 @@
                         <!-- Iterate over $filteredData to display FILTERED results -->
                         <table class="table table-relative table-bordered text-center" id="myTable">
                             <thead class="table-success" id="">
-                                <th style="width: 5%; text-align: center"><input type="checkbox" name="selectAllColumnsCheckbox" id="selectAllColumnsCheckbox"></th>
+                                {{-- <th style="width: 5%; text-align: center"><input type="checkbox" name="selectAllColumnsCheckbox" id="selectAllColumnsCheckbox"></th> --}}
                                 <th style="width: 8%; text-align: center">
                                     <div class="floatU">
                                         Action
@@ -201,7 +200,7 @@
                             <tbody>
                                 @foreach ($filteredData as $result)
                                     <tr>
-                                        <td><input type="checkbox" class="columnCheckboxes" data-id="{{ $result->id }}" name="columnCheckboxes" id="columnCheckboxes"></td>
+                                        {{-- <td><input type="checkbox" class="columnCheckboxes" data-id="{{ $result->id }}" name="columnCheckboxes" id="columnCheckboxes"></td> --}}
                                         <td><button class="icon-button delete-btn" data-id="{{ $data->id }}" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $data->id }}" 
                                                 style="border: none !important; background-color:transparent"><i class="fa-solid fa-xs fa-trash-can"></i></button>
                                             <button class="icon-button edit-btn" data-id="{{ $data->id }}" data-bs-toggle="modal" data-bs-target="#editModal{{ $data->id }}"

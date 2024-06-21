@@ -154,8 +154,8 @@ return [
 
     'layout_topnav' => null,
     'layout_boxed' => null,
-    'layout_fixed_sidebar' => null,
-    'layout_fixed_navbar' => null,
+    'layout_fixed_sidebar' => 'enable',
+    'layout_fixed_navbar' => 'enable',
     'layout_fixed_footer' => null,
     'layout_dark_mode' => null,
 
