@@ -5,7 +5,7 @@
         <!-- Modal content -->
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="staticBackdropLabel">Edit User by ID : <b>{{ $data->id }}</b></h4>
+                <h4 class="modal-title" id="staticBackdropLabel">Edit Data Produksi</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
@@ -16,7 +16,7 @@
                     <input type="hidden" name="id" id="id">
                     <div class="form-group">
                         <label for="editTanggal">Tanggal Produksi :</label>
-                        <input type="text" class="form-control @error('created_at') is invalid @enderror" id="tanggal" name="tanggal" value="{{ old('tanggal', $data->tanggal) }}">
+                        <input type="date" class="form-control @error('created_at') is invalid @enderror" id="tanggal" name="tanggal" value="{{ old('tanggal', $data->tanggal) }}">
                     </div>
                     <div class="form-group">
                         <label for="editKodeBull">Kode Bull :</label>
@@ -43,7 +43,8 @@
                         <input type="char" class="form-control @error('konsentrasi') is invalid @enderror" id="konsentrasi" name="konsentrasi" value="{{ old('konsentrasi', $data->konsentrasi) }}">
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" id="updateBtn" class="btn btn-primary" href="javascript:void(0)">Update</button>
+                        <button type="button" class="btn btn-sm btn-default" data-bs-dismiss="modal"><i class="fas fa-times mr-2"></i>Batal</button>
+                        <button type="submit" id="updateBtn" class="btn btn-sm btn-primary" href="javascript:void(0)"><i class="fas fa-save mr-2"></i>Update</button>
                     </div>
                 </form>
             </div>

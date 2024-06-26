@@ -27,47 +27,56 @@ class UploadController extends Controller
         
         // Initialize filtered data array
         $filteredData = [];
-        $filter_bull = $request->input('kode_bull');
         $filter_bangsa = $request->input('bangsa');
         
         $filter_from_date =  $request->input('from_date');
         $filter_to_date = $request->input('to_date');
-
         $filter_per_page = ($request->input('perPage')) ? $request->input('perPage') : 10;
         
 
         DB::enableQueryLog();
         
         // If a filter is applied
-        if ($filter_bull && $filter_bangsa) {
-            // Jika filter from date & to date tidak kosong
+        if ($filter_bangsa) {
             if ($filter_from_date && $filter_to_date) {
-                $filteredData = Produksi::where(['kode_bull' => $filter_bull, 'bangsa' => $filter_bangsa])
-                                            ->whereBetween('tanggal', [date('Y-m-d', strtotime($filter_from_date)), date('Y-m-d', strtotime($filter_to_date))])
-                                            ->paginate($filter_per_page);
+                $filteredData = Produksi::select('produksi.*', DB::raw('produksi.produksi - IFNULL(SUM(distribusi.jumlah), 0) as sisa'))
+                                        ->leftJoin('distribusi', 'produksi.id', '=', 'distribusi.id_produksi')
+                                        ->where('produksi.bangsa', $filter_bangsa)
+                                        ->whereBetween('produksi.tanggal', [date('Y-m-d', strtotime($filter_from_date)), date('Y-m-d', strtotime($filter_to_date))])
+                                        ->groupBy('produksi.id')
+                                        ->paginate($filter_per_page);
             } else {
-                // Get the filter value
-                $filteredData = Produksi::where(['kode_bull' => $filter_bull, 'bangsa' => $filter_bangsa])->latest()->paginate($filter_per_page);       
+                $filteredData = Produksi::select('produksi.*', DB::raw('produksi.produksi - IFNULL(SUM(distribusi.jumlah), 0) as sisa'))
+                                        ->leftJoin('distribusi', 'produksi.id', '=', 'distribusi.id_produksi')
+                                        ->where('produksi.bangsa', $filter_bangsa)
+                                        ->groupBy('produksi.id')
+                                        ->latest()
+                                        ->paginate($filter_per_page);
             }
         } else {
-            // Jika filtger from date & to date tidak kosong
             if ($filter_from_date && $filter_to_date) {
-                $filteredData = Produksi::whereBetween('tanggal', [date('Y-m-d', strtotime($filter_from_date)), date('Y-m-d', strtotime($filter_to_date))])
-                                            ->paginate($filter_per_page);
+                $filteredData = Produksi::select('produksi.*', DB::raw('produksi.produksi - IFNULL(SUM(distribusi.jumlah), 0) as sisa'))
+                                        ->leftJoin('distribusi', 'produksi.id', '=', 'distribusi.id_produksi')
+                                        ->whereBetween('produksi.tanggal', [date('Y-m-d', strtotime($filter_from_date)), date('Y-m-d', strtotime($filter_to_date))])
+                                        ->groupBy('produksi.id')
+                                        ->paginate($filter_per_page);
             } else {
-                $filteredData = Produksi::paginate($filter_per_page);
+                $filteredData = Produksi::select('produksi.*', DB::raw('produksi.produksi - IFNULL(SUM(distribusi.jumlah), 0) as sisa'))
+                                        ->leftJoin('distribusi', 'produksi.id', '=', 'distribusi.id_produksi')
+                                        ->groupBy('produksi.id')
+                                        ->paginate($filter_per_page);
             }
         }
 
         $totalFiltered = $filteredData->total();
+        $bangsa = Produksi::select('bangsa')->groupBy('bangsa')->get();
         // dd($filteredData);
         return view('upload.index', [
             "tittle" => "Tambah Data", 
+            'bangsa' => $bangsa,
             'filteredData'=>$filteredData, 
             'filter_bangsa' => $filter_bangsa,
-            'filter_bull' => $filter_bull,
             'allData' => $filteredData,
-            'bull' => $filter_bull,
             'from_date' => $filter_from_date,
             'to_date' => $filter_to_date,
             'per_page' => $filter_per_page,
@@ -95,6 +104,7 @@ class UploadController extends Controller
         // $produksiId = $request->id;
         $request->validate([
             'tanggal' => 'required',
+            'nama_bull' => 'required',
             'kode_bull' => 'required',
             'bangsa' => 'required',
             'kode_batch' => 'required',
@@ -105,14 +115,15 @@ class UploadController extends Controller
         $produksi = Produksi::create(
             [
                 'tanggal' => $request->tanggal,
+                'nama_bull' => $request->nama_bull,
                 'kode_bull' => $request->kode_bull,
                 'bangsa' => $request->bangsa,
                 'kode_batch' => $request->kode_batch,
                 'produksi' => $request->produksi,
                 'ptm' => $request->ptm,
                 'konsentrasi' => $request->konsentrasi
-                ]
-            );
+            ]
+        );
 
         return back()->with('success', 'Data Produksi Harian Berhasil Ditambahkan');
     }

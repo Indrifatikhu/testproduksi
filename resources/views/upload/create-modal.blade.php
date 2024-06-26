@@ -18,7 +18,7 @@
                     <div class="form-group">
                         <label for="bangsa" class="col-sm-3 control-label">Bangsa</label>
                         <div class="col-sm-12">
-                            <input type="text" class="form-control @error('bangsa') is invalid @enderror" id="bangsa" name="bangsa" placeholder="bangsa" value="{{ old('bangsa') }}">
+                            <input type="text" class="form-control @error('bangsa') is invalid @enderror" id="bangsa" name="bangsa" placeholder="Bangsa" value="{{ old('bangsa') }}">
 
                             @error('bangsa')
                                 <div class="invalid-feedback">
@@ -30,25 +30,25 @@
                     <div class="form-group">
                         <label for="nama_bull" class="col-sm-3 control-label">Nama Bull</label>
                         <div class="col-sm-12">
-                            <input type="text" class="form-control @error('nama_bull') is invalid @enderror" id="nama_bull" name="nama_bull" placeholder="nama_bull" value="{{ old('nama_bull') }}">
+                            <input type="text" class="form-control @error('nama_bull') is invalid @enderror" id="nama_bull" name="nama_bull" placeholder="Nama Bull" value="{{ old('nama_bull') }}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="kode_bull" class="col-sm-3 control-label">Kode Bull</label>
                         <div class="col-sm-12">
-                            <input type="text" class="form-control @error('kode_bull') is invalid @enderror" id="kode_bull" name="kode_bull" placeholder="kode_bull" value="{{ old('kode_bull') }}">
+                            <input type="text" class="form-control @error('kode_bull') is invalid @enderror" id="kode_bull" name="kode_bull" placeholder="Kode Bull" value="{{ old('kode_bull') }}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="kode_batch" class="col-sm-3 control-label">Kode Batch</label>
                         <div class="col-sm-12">
-                            <input type="text" class="form-control @error('kode_batch') is invalid @enderror" id="kode_batch" name="kode_batch" placeholder="kode_batch" value="{{ old('kode_batch') }}">
+                            <input type="text" class="form-control @error('kode_batch') is invalid @enderror" id="kode_batch" name="kode_batch" placeholder="Kode Batch" value="{{ old('kode_batch') }}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="produksi" class="col-sm-3 control-label">Produksi</label>
                         <div class="col-sm-12">
-                            <input type="number" class="form-control @error('produksi') is invalid @enderror" id="produksi" name="produksi" placeholder="produksi" value="{{ old('produksi') }}">
+                            <input type="number" class="form-control @error('produksi') is invalid @enderror" id="produksi" name="produksi" placeholder="Jumlah Produksi" value="{{ old('produksi') }}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -65,8 +65,8 @@
                     </div>
                     <div class="modal-footer">
                         <div class="button-group">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal"><i class="fas fa-times mr-2"></i>Close</button>
+                            <button type="submit" class="btn btn-sm btn-primary"><i class="fas fa-save mr-2"></i>Save Changes</button>
                         </div>
         
                     </div>

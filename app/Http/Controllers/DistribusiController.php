@@ -5,40 +5,58 @@ namespace App\Http\Controllers;
 use App\Models\Distribusi;
 use Illuminate\Http\Request;
 use App\Models\Produksi;
+use Illuminate\Support\Facades\DB;
 
 class DistribusiController extends Controller
 {
     public function index()
     {
-        $data_distribusi = Distribusi::all();
-        $allData = Produksi::all();
-        return view('pages.cart', compact('data_distribusi', 'allData'));
+        $distribusi = Distribusi::with('produksi')->get();
+        $produksi = Produksi::with('distribusi')
+                            ->select('produksi.*', DB::raw('produksi.produksi - IFNULL(SUM(distribusi.jumlah), 0) as sisa'))
+                            ->leftJoin('distribusi', 'produksi.id', '=', 'distribusi.id_produksi')
+                            ->groupBy('produksi.id')
+                            ->havingRaw('sisa > 0')
+                            ->get();
+
+        return view('pages.cart', [
+            'distribusi' => $distribusi,
+            'produksi' => $produksi
+        ]);
     }
 
     public function store(Request $request) 
     {
         $request->validate([
-            'bangsa' => 'required', 
-            'kode_batch' => 'required', 
-            'kode_bull' => 'required', 
-            'nama_bull' => 'required', 
-            'tgl_distribusi' => 'required', 
-            'jml_distribusi' => 'required', 
-            'tujuan_distribusi' => 'required',
-            'container' => 'required',
+            'id_produksi' => 'required',
+            'tanggal' => 'required',
+            'jumlah' => 'required|numeric',
+            'tujuan' => 'required',
+            'container' => 'required'
         ]);
-        $distribusi = Distribusi::create(
-            [
-                'bangsa'=> $request->bangsa, 
-                'kode_batch'=> $request->kode_batch, 
-                'kode_bull'=> $request->kode_bull, 
-                'nama_bull'=> $request->nama_bull, 
-                'tgl_distribusi'=> $request->tgl_distribusi, 
-                'jml_distribusi'=> $request->jml_distribusi, 
-                'tujuan_distribusi'=> $request->tujuan_distribusi,
-                'container'=> $request->container,
-                ]
-            );
+
+        $produksi = Produksi::find($request->id_produksi);
+
+        if (!$produksi) {
+            return back()->withErrors(['id_produksi' => 'Produksi tidak ditemukan']);
+        }
+
+        $totalDistribusi = Distribusi::where('id_produksi', $request->id_produksi)->sum('jumlah');
+
+        $sisaProduksi = $produksi->produksi - $totalDistribusi;
+
+        if ($request->jumlah > $sisaProduksi) {
+            return back()->withErrors(['jumlah' => 'Jumlah yang diinput melebihi sisa produksi yang tersedia']);
+        }
+
+        // Buat data distribusi baru
+        $distribusi = Distribusi::create([
+            'id_produksi' => $request->id_produksi,
+            'tanggal' => $request->tanggal,
+            'jumlah' => $request->jumlah,
+            'tujuan' => $request->tujuan,
+            'container' => $request->container
+        ]);
 
         return back()->with('success', 'Data Distribusi Berhasil Ditambahkan');
     }

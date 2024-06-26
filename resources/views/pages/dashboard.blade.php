@@ -18,7 +18,7 @@
                         <table id="summaryTable" class="table table-bordered text-center">
                             <thead>
                                 <tr>
-                                    <th>Month</th>
+                                    <th width="20%">Month</th>
                                     <th>Sum of Produksi</th>
                                 </tr>
                             </thead>
@@ -87,14 +87,15 @@
                         <table id="targetTable" class="table table-stripped text-center">
                             <thead>
                                 <tr>
-                                    <th>No</th>
-                                    <th>Bulan</th>
+                                    <th width="5px">No</th>
+                                    <th width="5px">Bulan</th>
                                     <th>Target</th>
                                     <th>Realisasi</th>
+                                    <th>Persentase Bulanan</th>
                                     <th>Tahun</th>
                                     <th>Target</th>
                                     <th>Realisasi</th>
-                                    <th>Persentase</th>
+                                    <th>Persentase Tahunan</th>
                                 </tr>
                             </thead>
     

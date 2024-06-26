@@ -16,6 +16,7 @@ class Produksi extends Model
 
     protected $fillable = [
         'tanggal',
+        'nama_bull',
         'kode_bull',
         'bangsa',
         'kode_batch',
@@ -24,4 +25,8 @@ class Produksi extends Model
         'konsentrasi',
     ];
 
+    public function distribusi()
+    {
+        return $this->hasMany(Distribusi::class, 'id_produksi');
+    }
 }

@@ -8,15 +8,15 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <h4 class="modal-title">Hapus Data By Id: {{ $data->id }}</h4>
+                <h4 class="modal-title">Hapus Data Produksi</h4>
                 <p>Apakah anda yakin ingin menghapus data?</p>
             </div>
             <form action="{{ url('upload/' . $data->id) }}" method="post">
                 @method("DELETE")
                 @csrf
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-danger delete-confirmation-button">Hapus</button>
+                    <button type="button" class="btn btn-sm btn-default" data-bs-dismiss="modal"><i class="fas fa-times mr-2"></i>Batal</button>
+                    <button type="submit" class="btn btn-sm btn-danger delete-confirmation-button"><i class="fas fa-trash mr-2"></i>Hapus</button>
                 </div>
             </form>
         </div>
@@ -37,10 +37,8 @@
                 <p>Apakah anda yakin ingin menghapus data?</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">
-                    Batal</button>
-                <button type="button" class="btn btn-danger delete-multiple-confirmation-button" data-target="#deleteMultipleModal">
-                    Hapus</button>
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal"><i class="fas fa-times mr-2"></i>Batal</button>
+                <button type="button" class="btn btn-sm btn-danger delete-multiple-confirmation-button" data-target="#deleteMultipleModal"><i class="fas fa-trash mr-2"></i>Hapus</button>
             </div>
         </div>
     </div>

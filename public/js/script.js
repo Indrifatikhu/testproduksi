@@ -43,7 +43,7 @@ function calculateSumByMonth() {
         var row = summaryTableBody.insertRow();
         var monthCell = row.insertCell(0);
         var sumCell = row.insertCell(1);
-        monthCell.textContent = month;
+        monthCell.textContent = getMonthName(month);
         sumCell.textContent = sumByMonth[month];
     }
     var targetSumBody = document.getElementById("targetBody");
@@ -57,6 +57,15 @@ function calculateSumByMonth() {
         console.log(sumCell);
     }
     
+}
+
+function getMonthName(monthNumber) {
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    if (monthNumber >= 1 && monthNumber <= 12) {
+        return monthNames[monthNumber - 1];
+    } else {
+        return "Invalid month number";
+    }
 }
 
 // Call the function when the page loads
@@ -108,13 +117,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${index + 1}</td>
-                    <td>${target.bulan}</td>
+                    <td>${ getMonthName(target.bulan) }</td>
                     <td>${target.target_bulanan}</td>
-                    <td></td>
+                    <td>${target.realisasi_bulanan}</td>
+                    <td>${target.persentase_bulanan}%</td>
                     <td>${target.tahun}</td>
                     <td>${target.target_tahunan}</td>
-                    <td></td>
-                    <td></td>
+                    <td>${target.realisasi_tahunan}</td>
+                    <td>${target.persentase_tahunan}%</td>
                     `;
                     targetBody.appendChild(row);
                 });
@@ -172,3 +182,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
 //     });
 // });
 
+$("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+});

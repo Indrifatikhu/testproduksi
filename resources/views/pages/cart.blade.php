@@ -20,43 +20,33 @@
                                 @csrf
                                 <div id="target_fields">
                                     <div class="form-group row">
-                                        <label for="bangsa" class="col-sm-3 col-form-label text-md-left">Bangsa</label>
-                                        <div class="col-sm-7">
-                                            <input id="bangsa" type="text" class="form-control" name="bangsa" required>
-                                        </div>
-
-                                        <label for="kode_batch" class="col-sm-3 col-form-label text-md-left">Kode Batch</label>
-                                        <div class="col-sm-7">
-                                            <input id="kode_batch" type="text" class="form-control" name="kode_batch" required>
-                                        </div>
-
-                                        <label for="kode_bull" class="col-sm-3 col-form-label text-md-left">Kode Bull</label>
-                                        <div class="col-sm-7">
-                                            <input id="kode_bull" type="text" class="form-control" name="kode_bull" required>
-                                        </div>
-                                        
-                                        <label for="nama_bull" class="col-sm-3 col-form-label text-md-left">Nama Bull</label>
-                                        <div class="col-sm-7">
-                                            <input id="nama_bull" type="text" class="form-control" name="nama_bull" required>
+                                        <label for="bangsa" class="col-sm-3 col-form-label text-md-left">Produksi</label>
+                                        <div class="col-sm-7 mb-2">
+                                            <select name="id_produksi" id="" class="form-control js-example-basic-single">
+                                                <option value="" disabled selected> [Bangsa / Kode Bull / Kode Batch] - [Produksi/Sisa]</option>
+                                                @foreach($produksi as $row)
+                                                    <option value="{{ $row->id }}">{{ '[' . $row->bangsa . ' / ' . $row->kode_bull . ' / ' . $row->kode_batch . '] - [' . $row->produksi . '/' . $row->sisa . ']' }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                         
                                         <label for="tgl_distribusi" class="col-sm-3 col-form-label text-md-left">Tanggal Distribusi</label>
-                                        <div class="col-sm-7">
-                                            <input id="tgl_distribusi" type="date" class="form-control" name="tgl_distribusi" required>
+                                        <div class="col-sm-7 mb-2">
+                                            <input id="tgl_distribusi" type="date" class="form-control" name="tanggal" required>
                                         </div>
 
                                         <label for="jml_distribusi" class="col-sm-3 col-form-label text-md-left">Jumlah Distribusi</label>
-                                        <div class="col-sm-7">
-                                            <input id="jml_distribusi" type="number" class="form-control" name="jml_distribusi" required>
+                                        <div class="col-sm-7 mb-2">
+                                            <input id="jml_distribusi" type="number" class="form-control" name="jumlah" required>
                                         </div>
 
                                         <label for="tujuan_distribusi" class="col-sm-3 col-form-label text-md-left">Tujuan Distribusi</label>
-                                        <div class="col-sm-7">
-                                            <input id="tujuan_distribusi" type="text" class="form-control" name="tujuan_distribusi" required>
+                                        <div class="col-sm-7 mb-2">
+                                            <input id="tujuan_distribusi" type="text" class="form-control" name="tujuan" required>
                                         </div>
 
                                         <label for="container" class="col-sm-3 col-form-label text-md-left">Container</label>
-                                        <div class="col-sm-7">
+                                        <div class="col-sm-7 mb-2">
                                             <input id="container" type="text" class="form-control" name="container" required>
                                         </div>
                                     </div>
@@ -64,9 +54,7 @@
 
                                 <div class="form-group row mb-0">
                                     <div class="col-md-7 offset-md-3">
-                                        <button type="submit" class="btn btn-primary">
-                                            Save
-                                        </button>
+                                        <button type="submit" class="btn btn-sm btn-primary btn-block"><i class="fas fa-save mr-2"></i> Save</button>
                                     </div>
                                 </div>
                             </form>
@@ -82,7 +70,7 @@
                                     </div>
                                 </div>
                             @endif
-                            
+
                             @if (session('success'))
                                 <div class="my-3">
                                     <div class="alert alert-success">
@@ -93,80 +81,40 @@
 
                         </div>
                     </div>
+                    <hr>
                     <div class="row">
                         <div class="col-md">
-                            <table class="table table-fixed table-bordered" id="myTable" 
-                                style="table-layout: fixed; text-align:center; vertical-align: middle; display:none">
-                                <thead class="table-success">
-                                    <tr>
-                                        <th style="width: 4%; text-align: center">
-                                        
-                                        </th>
-                                        <th style="width: 8%; text-align: center">
-                                            <div class="floatU">
-                                                Action
-                                            </div>
-                                        </th>
-                                        <th style="width: 10%; text-align: center">Date</th>
-                                        <th style="width: 14%; text-align: center">Bangsa</th>
-                                        <th style="width: 10%; text-align: center">Kode Bull</th>
-                                        <th style="width: 12%; text-align: center">Kode Batch</th>
-                                        <th style="width: 12%; text-align: center">Produksi</th>
-                                        <th style="width: 9%; text-align: center">PTM (%)</th>
-                                        <th style="width: 13%; text-align: center">Konsentrasi (Juta)</th>
-                                        <th style="width: 8%; text-align: center">Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($allData as $data)
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td>{{ $data->tanggal }}</td>
-                                            <td>{{ $data->kode_bull }}</td>
-                                            <td>{{ $data->bangsa }}</td>
-                                            <td>{{ $data->kode_batch }}</td>
-                                            <td>{{ $data->produksi }}</td>
-                                            <td>{{ $data->ptm }}</td>
-                                            <td>{{ $data->konsentrasi }}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                            <hr>
-                            <table id="targetTable" class="table table-striped position-relative text-center">
+                        <input type="text" id="myInput" class="form-control form-control-sm" placeholder="Search ...">
+
+                            <table class="table table-fixed table-bordered text-center mb-2 mt-2" style="table-layout: fixed">
                                 <thead id="theadTarget">
                                     <tr>
                                         <th>Action</th>
-                                        <th>Bangsa</th>
-                                        <th>Kode Batch</th>
-                                        <th>Kode Bull</th>
-                                        <th>Nama Bull</th>
                                         <th>Tanggal</th>
+                                        <th>Bangsa</th>
+                                        <th>Kode Bull</th>
+                                        <th>Kode Batch</th>
                                         <th>Jumlah</th>
                                         <th>Tujuan</th>
                                         <th>Container</th>
-                                        <th>Sisa</th>
                                     </tr>
                                 </thead>
-                                <tbody id="tbodyDistribusi">
-                                @foreach ($data_distribusi as $data)
+                                <tbody id="myTable">
+                                @foreach ($distribusi as $data)
                                     <tr>
                                         <td>
                                             <button class="icon-button delete-btn" data-id="{{ $data->id }}" data-bs-toggle="modal" data-bs-target="#deleteCartModal{{ $data->id }}"
-                                                style="border: none !important; background-color:transparent"><i class="fas fa-xs fa-trash"></i></button> &nbsp; 
+                                                style="border: none !important; background-color:transparent"><i class="fas fa-xs fa-trash-can"></i></button> &nbsp; 
                                             <button class="icon-button edit-btn" data-id="{{ $data->id }}" data-bs-toggle="modal" data-bs-target="#editCartModal{{ $data->id }}"
-                                                style="border: none !important; background-color:transparent"><i class="fas fa-xs fa-pen-square"></i></button>
+                                                style="border: none !important; background-color:transparent"><i class="fas fa-xs fa-pencil"></i></button>
                                         </td>
-                                        <td>{{ $data->bangsa }}</td>
-                                        <td>{{ $data->kode_batch }}</td>
-                                        <td>{{ $data->kode_bull }}</td>
-                                        <td>{{ $data->nama_bull }}</td>
-                                        <td>{{ $data->tgl_distribusi }}</td>
-                                        <td>{{ $data->jml_distribusi }}</td>
-                                        <td>{{ $data->tujuan_distribusi }}</td>
+                                        <td>{{ date('d/m/Y', strtotime($data->tanggal)) }}</td>
+                                        <td>{{ $data->produksi->bangsa }}</td>
+                                        <td>{{ $data->produksi->kode_bull }}</td>
+                                        <td>{{ $data->produksi->kode_batch }}</td>
+                                        <td>{{ $data->jumlah }}</td>
+                                        <td>{{ $data->tujuan }}</td>
                                         <td>{{ $data->container }}</td>
-                                        <td></td>
                                     </tr>
                                 @endforeach
                                 </tbody>

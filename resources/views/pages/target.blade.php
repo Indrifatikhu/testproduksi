@@ -21,32 +21,23 @@
                                     <div id="target_fields">
                                         <div class="form-group row">
                                             <label for="bulan" class="col-md-4 col-form-label text-md-right">Bulan</label>
-                                            <div class="col-md-6">
+                                            <div class="col-md-6 mb-3">
                                                 {{-- <input id="bulan" type="month" class="form-control" name="bulan" required> --}}
                                                 <select name="bulan" id="bulan" class="form-control" required>
-                                                    <option value="Januari">Januari</option>
-                                                    <option value="Februari">Februari</option>
-                                                    <option value="Maret">Maret</option>
-                                                    <option value="April">April</option>
-                                                    <option value="Mei">Mei</option>
-                                                    <option value="Juni">Juni</option>
-                                                    <option value="Juli">Juli</option>
-                                                    <option value="Agustus">Agustus</option>
-                                                    <option value="September">September</option>
-                                                    <option value="Oktober">Oktober</option>
-                                                    <option value="November">November</option>
-                                                    <option value="Desember">Desember</option>
+                                                    @foreach(range(1, 12) as $m)
+                                                        <option value="{{ $m }}">{{ date('F', mktime(0, 0, 0, $m, 10)) }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
 
-                                            <label for="target_bulanan" class="col-md-4 col-form-label text-md-right">Target Bulanan</label>
-                                            <div class="col-md-6">
-                                                <input id="target_bulanan" type="number" class="form-control" name="target_bulanan" required>
+                                            <label for="tahun" class="col-md-4 col-form-label text-md-right">Tahun</label>
+                                            <div class="col-md-6 mb-3">
+                                                <input id="tahun" type="number" class="form-control" name="tahun" required>
                                             </div>
 
-                                            <label for="tahun" class="col-md-4 col-form-label text-md-right">Tahun</label>
-                                            <div class="col-md-6">
-                                                <input id="tahun" type="text" class="form-control" name="tahun" required>
+                                            <label for="target_bulanan" class="col-md-4 col-form-label text-md-right">Target Bulanan</label>
+                                            <div class="col-md-6 mb-3">
+                                                <input id="target_bulanan" type="number" class="form-control" name="target_bulanan" required>
                                             </div>
 
                                             <label for="target_tahunan" class="col-md-4 col-form-label text-md-right">Target Tahunan</label>
@@ -58,9 +49,7 @@
         
                                     <div class="form-group row mb-0">
                                         <div class="col-md-6 offset-md-4">
-                                            <button type="submit" class="btn btn-primary">
-                                                Save
-                                            </button>
+                                            <button type="submit" class="btn btn-sm btn-block btn-primary"><i class="fas fa-save mr-2"></i> Save</button>
                                         </div>
                                     </div>
                                 </form>
@@ -91,11 +80,11 @@
                                 <table id="targetTable" class="table table-stripped position-relative text-center">
                                     <thead id="theadTarget">
                                         <tr>
-                                            <th>Action</th>
+                                            <th width="10%">Action</th>
                                             <th>Bulan</th>
-                                            <th>Taget</th>
                                             <th>Tahun</th>
-                                            <th>Target</th>
+                                            <th>Target Bulanan</th>
+                                            <th>Target Tahunan</th>
                                         </tr>
                                     </thead>
                                     <tbody id="tbodyTarget">
@@ -111,9 +100,9 @@
                                                     </i>
                                                 </button>    
                                             </td>
-                                            <td>{{ $data->bulan }}</td>
-                                            <td>{{ $data->target_bulanan }}</td>
+                                            <td>{{  date('F', mktime(0, 0, 0, $data->bulan, 10)) }}</td>
                                             <td>{{ $data->tahun }}</td>
+                                            <td>{{ $data->target_bulanan }}</td>
                                             <td>{{ $data->target_tahunan }}</td>
                                         </tr>
                                         @endforeach
@@ -137,7 +126,7 @@
             <!-- Modal content -->
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="staticBackdropLabel">Edit Target by ID : <b>{{ $data->id }}</b></h4>
+                    <h4 class="modal-title" id="staticBackdropLabel">Edit Data Target</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
@@ -148,23 +137,29 @@
                         <input type="hidden" name="id" id="id">
                         <div class="form-group">
                             <label for="editBulan">Bulan</label>
-                            <input type="text" class="form-control @error('bulan') is invalid @enderror" id="bulan" name="bulan" value="{{ old('bulan', $data->bulan) }}">
-                        </div>
-                        <div class="form-group">
-                            <label for="editTargetBulan">Target Bulanan :</label>
-                            <input type="text" class="form-control @error('target_bulanan') is invalid @enderror" id="target_bulanan" name="target_bulanan" value="{{ old('target_bulanan', $data->target_bulanan) }}">
+                            <select name="bulan" id="bulan" class="form-control @error('bulan') is invalid @enderror" required>
+                                @foreach(range(1, 12) as $m)
+                                    <option value="{{ $m }}" {{ old('bulan', $data->bulan) == $m ? 'selected' : '' }}>
+                                        {{ date('F', mktime(0, 0, 0, $m, 10)) }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="editTahun">Tahun :</label>
-                            <input type="text" class="form-control @error('tahun') is invalid @enderror" id="tahun" name="tahun" value="{{ old('tahun', $data->tahun) }}">
+                            <input type="number" class="form-control @error('tahun') is invalid @enderror" id="tahun" name="tahun" value="{{ old('tahun', $data->tahun) }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="editTargetBulan">Target Bulanan :</label>
+                            <input type="number" class="form-control @error('target_bulanan') is invalid @enderror" id="target_bulanan" name="target_bulanan" value="{{ old('target_bulanan', $data->target_bulanan) }}">
                         </div>
                         <div class="form-group">
                             <label for="editTargetTahun">Target Tahunan :</label>
-                            <input type="text" class="form-control @error('target_tahunan') is invalid @enderror" id="target_tahunan" name="target_tahunan" value="{{ old('target_tahunan', $data->target_tahunan) }}">
+                            <input type="number" class="form-control @error('target_tahunan') is invalid @enderror" id="target_tahunan" name="target_tahunan" value="{{ old('target_tahunan', $data->target_tahunan) }}">
                         </div>
-                        <div class="form-group">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" id="updateBtn" class="btn btn-primary" href="javascript:void(0)">Update</button>
+                        <div class="form-group text-end">
+                            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal"><i class="fas fa-times mr-2"></i>Close</button>
+                            <button type="submit" id="updateBtn" class="btn btn-sm btn-primary" href="javascript:void(0)"><i class="fas fa-save mr-2"></i>Update</button>
                         </div>
                     </form>
                 </div>
@@ -182,15 +177,15 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <h4 class="modal-title">Hapus Data By Id: {{ $data->id }}</h4>
+                    <h4 class="modal-title">Hapus Data Target</h4>
                     <p>Apakah anda yakin ingin menghapus data?</p>
                 </div>
                 <form action="{{ url('target/'.$data->id) }}" method="post">
                     @method("DELETE")
                     @csrf
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-danger delete-confirmation-button">Hapus</button>
+                        <button type="button" class="btn btn-sm btn-default" data-bs-dismiss="modal"><i class="fas fa-times mr-2"></i>Batal</button>
+                        <button type="submit" class="btn btn-sm btn-danger delete-confirmation-button"><i class="fas fa-trash mr-2"></i>Hapus</button>
                     </div>
                 </form>
             </div>
