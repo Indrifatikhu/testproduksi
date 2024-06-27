@@ -3,14 +3,16 @@
 @section('title', 'Profile')
 
 @section('content')
+
 <div class="container-fluid py-4">
     <div class="row">
         <div class="col-12">
             <div class="card my-4">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                    <h2><b>My Profile</b></h2>    
+                    <div class="bg-light pt-4 pb-3 shadow-sm">
+                        <h5 class="text-dark text-capitalize ps-3"><b>My Profile</b></h5>
+                    </div>
                 </div>
-
                 <div class="card-body">
                     <div class="card-body">
                         <div class="row">
