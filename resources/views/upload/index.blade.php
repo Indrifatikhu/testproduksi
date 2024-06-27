@@ -103,16 +103,8 @@
                         <table class="table table-fixed table-bordered text-center mb-2 mt-2" style="table-layout: fixed">
                             <thead>
                                 <tr>
-                                    {{-- <th style="width: 4%; text-align: center">
-                                        <div class="floatL t5">
-                                            <input type="checkbox" name="selectAllColumnsCheckbox" id="selectAllColumnsCheckbox">
-                                            <input type="checkbox" onclick="toggleSelectAll(this)">
-                                        </div>
-                                    </th> --}}
                                     <th style="width: 8%; text-align: center">
-                                        <div class="floatU">
-                                            Action
-                                        </div>
+                                        <div class="floatU">Action</div>
                                     </th>
                                     <th style="width: 10%; text-align: center">Date</th>
                                     <th style="width: 10%; text-align: center">Kode Bull</th>
@@ -127,9 +119,6 @@
                             <tbody id="myTable">
                                 @foreach ($allData as $data)
                                     <tr>
-                                        {{-- <td>
-                                            <input type="checkbox" class="columnCheckboxes" data-id="{{ $data->id }}" name="columnCheckboxes" id="columnCheckboxes">
-                                        </td> --}}
                                         <td><button class="icon-button delete-btn" data-id="{{ $data->id }}" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $data->id }}" 
                                                 style="border: none !important; background-color:transparent; size"><i class="fa-solid fa-xs fa-trash-can"></i></button>
                                             <button class="icon-button edit-btn" data-id="{{ $data->id }}" data-bs-toggle="modal" data-bs-target="#editModal{{ $data->id }}"
@@ -163,31 +152,22 @@
                         <!-- Iterate over $filteredData to display FILTERED results -->
                         <table class="table table-relative table-bordered text-center">
                             <thead class="table-success" id="">
-                                {{-- <th style="width: 5%; text-align: center"><input type="checkbox" name="selectAllColumnsCheckbox" id="selectAllColumnsCheckbox"></th> --}}
-                                <th style="width: 8%; text-align: center">
-                                    <div class="floatU">
-                                        Action
-                                    </div>
-                                    <div class="floatD visually-hidden">
-                                        <a href="javascript:void(0);" title="hapus" class="btn btn-default delete-selected-button hidden">
-                                            <i class="fa-solid fa-trash-can text-danger"></i>
-                                            <span class="text-danger">Hapus</span>
-                                        </a>
-                                    </div>
-                                </th>
-                                <th style="width: 15%; text-align: center">Date</th>
-                                <th style="width: 12%; text-align: center">Kode Bull</th>
-                                <th style="width: 14%; text-align: center">Bangsa</th>
-                                <th style="width: 12%; text-align: center">Kode Batch</th>
-                                <th style="width: 12%; text-align: center">Produksi</th>
-                                <th style="width: 9%; text-align: center">PTM (%)</th>
-                                <th style="width: 13%; text-align: center">Konsentrasi (Juta)</th>
-                                <th style="width: 8%; text-align: center">Status</th>
+                                <tr>
+                                    <th style="width: 8%; text-align: center">
+                                        <div class="floatU">Action</div>
+                                    </th>
+                                    <th style="width: 10%; text-align: center">Date</th>
+                                    <th style="width: 10%; text-align: center">Kode Bull</th>
+                                    <th style="width: 14%; text-align: center">Bangsa</th>
+                                    <th style="width: 12%; text-align: center">Kode Batch</th>
+                                    <th style="width: 12%; text-align: center">Produksi</th>
+                                    <th style="width: 9%; text-align: center">PTM (%)</th>
+                                    <th style="width: 13%; text-align: center">Konsentrasi (Juta)</th>
+                                    <th style="width: 8%; text-align: center">Status</th>
                             </thead>
                             <tbody id="myTable">
                                 @foreach ($filteredData as $result)
                                     <tr>
-                                        {{-- <td><input type="checkbox" class="columnCheckboxes" data-id="{{ $result->id }}" name="columnCheckboxes" id="columnCheckboxes"></td> --}}
                                         <td><button class="icon-button delete-btn" data-id="{{ $result->id }}" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $result->id }}" 
                                                 style="border: none !important; background-color:transparent"><i class="fa-solid fa-xs fa-trash-can"></i></button>
                                             <button class="icon-button edit-btn" data-id="{{ $result->id }}" data-bs-toggle="modal" data-bs-target="#editModal{{ $result->id }}"
