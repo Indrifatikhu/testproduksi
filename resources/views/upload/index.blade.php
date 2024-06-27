@@ -150,8 +150,8 @@
                         {{ $filteredData->links() }}
                     @else
                         <!-- Iterate over $filteredData to display FILTERED results -->
-                        <table class="table table-relative table-bordered text-center">
-                            <thead class="table-success" id="">
+                        <table class="table table-fixed table-bordered text-center mb-2 mt-2" style="table-layout: fixed">
+                            <thead>
                                 <tr>
                                     <th style="width: 8%; text-align: center">
                                         <div class="floatU">Action</div>
@@ -181,7 +181,15 @@
                                         <td>{{ $result->ptm }}</td>
                                         <td>{{ $result->konsentrasi }}</td>
                                         <td>
-                                            <button type="button" class="btn btn-sm btn-block btn-success"><i class="fas fa-check-circle"></i></button>
+                                            @if ($result->sisa > 0)
+                                                <button type="button" class="btn btn-sm btn-block btn-success" data-toggle="tooltip" title="Tersedia: {{ $result->sisa }}">
+                                                    <i class="fas fa-check-circle mr-2"></i> <strong>{{ $result->sisa }}</strong>
+                                                </button>
+                                            @else
+                                                <button type="button" class="btn btn-sm btn-block btn-danger" data-toggle="tooltip" title="Habis">
+                                                    <i class="fas fa-times-circle"></i>
+                                                </button>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
