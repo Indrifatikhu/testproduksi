@@ -56,7 +56,6 @@ function calculateSumByMonth() {
         sumCell.textContent = sumByMonth[month];
         console.log(sumCell);
     }
-    
 }
 
 function getMonthName(monthNumber) {
@@ -70,7 +69,6 @@ function getMonthName(monthNumber) {
 
 // Call the function when the page loads
 window.onload = calculateSumByMonth;
-
 
 function sisaProduksi() {
     var jml_produksi = document.getElementById("myTable");

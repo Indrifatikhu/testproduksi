@@ -69,10 +69,10 @@
                                         @foreach ($bangsa as $data)
                                         <tr>
                                             <td>
-                                                <button class="icon-button delete-btn" data-id="{{ $data->id }}" data-bs-toggle="modal" data-bs-target="#deleteTargetModal{{ $data->id }}"
+                                                <button class="icon-button delete-btn" data-id="{{ $data->id }}" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $data->id }}"
                                                     style="border: none !important; background-color:transparent">
                                                     <i class="fa-solid fas-xs fa-trash-can"></i></button> &nbsp;
-                                                <button class="icon-button edit-btn" data-id="{{ $data->id }}" data-bs-toggle="modal" data-bs-target="#editTargetModal{{ $data->id }}"
+                                                <button class="icon-button edit-btn" data-id="{{ $data->id }}" data-bs-toggle="modal" data-bs-target="#editModal{{ $data->id }}"
                                                     style="border: none !important; background-color:transparent">
                                                     <i class="fa-solid fas-xs fa-pencil">
                                                     </i>
@@ -96,7 +96,7 @@
 
     @foreach ($bangsa as $row)
 
-    <div class="modal fade" id="editTargetModal{{ $row->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="editModal{{ $row->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <!-- Modal content -->
             <div class="modal-content">
@@ -126,7 +126,7 @@
 
     <!-- Delete confirmation dialog -->
         
-    <div class="delete-confirmation modal fade" id="deleteTargetModal{{ $row->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="delete-confirmation modal fade" id="deleteModal{{ $row->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
         <div class="modal-dialog modal-sm modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">

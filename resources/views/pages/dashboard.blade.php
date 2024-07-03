@@ -136,8 +136,22 @@
                                 </tr>
                             </thead>
     
-                            <tbody id="targetBangsaBody">
-                                <!-- The summary will be added here by JavaScript -->
+                            <tbody >
+                                @php $no=1; @endphp
+                                @foreach($targetBangsa as $row)
+                                    <tr>
+                                        <td>{{ $no++ }}</td>
+                                        <td>{{ $row['bangsa']->bangsa }}</td>
+                                        <td>{{ $row['bulan'] }}</td>
+                                        <td>{{ $row['target_bulanan'] }}</td>
+                                        <td>{{ $row['realisasi_bulanan'] }}</td>
+                                        <td>{{ $row['persentase_bulanan'] }}</td>
+                                        <td>{{ $row['tahun'] }}</td>
+                                        <td>{{ $row['target_tahunan'] }}</td>
+                                        <td>{{ $row['realisasi_tahunan'] }}</td>
+                                        <td>{{ $row['persentase_tahunan'] }}</td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

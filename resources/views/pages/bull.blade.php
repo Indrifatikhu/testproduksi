@@ -90,10 +90,10 @@
                                         @foreach ($bull as $data)
                                         <tr>
                                             <td>
-                                                <button class="icon-button delete-btn" data-id="{{ $data->id }}" data-bs-toggle="modal" data-bs-target="#deleteTargetModal{{ $data->id }}"
+                                                <button class="icon-button delete-btn" data-id="{{ $data->id }}" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $data->id }}"
                                                     style="border: none !important; background-color:transparent">
                                                     <i class="fa-solid fas-xs fa-trash-can"></i></button> &nbsp;
-                                                <button class="icon-button edit-btn" data-id="{{ $data->id }}" data-bs-toggle="modal" data-bs-target="#editTargetModal{{ $data->id }}"
+                                                <button class="icon-button edit-btn" data-id="{{ $data->id }}" data-bs-toggle="modal" data-bs-target="#editModal{{ $data->id }}"
                                                     style="border: none !important; background-color:transparent">
                                                     <i class="fa-solid fas-xs fa-pencil">
                                                     </i>
@@ -117,9 +117,9 @@
 
     {{-- Modal Blade --}}
 
-    @foreach ($bangsa as $row)
+    @foreach ($bull as $row)
 
-    <div class="modal fade" id="editTargetModal{{ $row->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="editModal{{ $row->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <!-- Modal content -->
             <div class="modal-content">
@@ -132,9 +132,24 @@
                     <!-- Form fields for editing target data -->
                     <form action="{{ url('bull/'.$row->id) }}" href="javascript:void(0)" method="POST" id="editTargetForm{{ $row->id }}" name="editTargetForm" class="form-horizontal" enctype="multipart/form-data">
                         @csrf
-                        <div class="form-group">
-                            <label for="editTahun">Bangsa :</label>
-                            <input type="text" class="form-control @error('bangsa') is invalid @enderror" name="bangsa" value="{{ old('bangsa', $row->bangsa) }}">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="editTahun">Bangsa</label>
+                                    <select name="id_bangsa" class="form-control" required>
+                                        <option value="" disabled selected>- PILIH BANGSA -</option>
+                                        @foreach($bangsa as $b)
+                                            <option {{ $b->id == $row->id_bangsa ? 'selected' : '' }} value="{{ $b->id }}">{{ $b->bangsa }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="editTahun">Bull</label>
+                                    <input type="text" class="form-control" name="bull" value="{{ $row->bull }}" required>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group text-end">
                             <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal"><i class="fas fa-times mr-2"></i>Close</button>
@@ -148,14 +163,14 @@
     </div>
 
     <!-- Delete confirmation dialog -->
-    <div class="delete-confirmation modal fade" id="deleteTargetModal{{ $row->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="delete-confirmation modal fade" id="deleteModal{{ $row->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
         <div class="modal-dialog modal-sm modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <h4 class="modal-title">Hapus Data Bangsa</h4>
+                    <h4 class="modal-title">Hapus Data Bull</h4>
                     <p>Apakah anda yakin ingin menghapus data?</p>
                 </div>
                 <form action="{{ url('bull/'.$row->id) }}" method="post">
