@@ -32,24 +32,42 @@ class UserController extends Controller
 
     public function prosesRegister(Request $request)
     {
-        $user = new User();
-        $user->name = request('name');
-        $user->email = request('email');
-        $user->password = Hash::make($request->password);
-        $user->save();
-
-        return redirect(route('login'));
+        $cekUser = User::where('email', $request->email)->exists();
+        if($cekUser){
+            return back()->withErrors(['email' => 'Email Sudah Digunakan']);
+        }else{
+            $user = new User();
+            $user->name = request('name');
+            $user->email = request('email');
+            $user->password = Hash::make($request->password);
+            $user->save();
+    
+            return redirect(route('login'));
+        }
     }
 
 
     public function profile()
     {
-        return view('pages.profile', ["tittle"=>"Profile"]);
+        
+        return view('pages.profile', [
+            'tittle' => "Profile",
+            'user' => Auth::user()
+        ]);
     }
 
     public function updateProfile(Request $request, $id)
     {
-        User::find($id)->update($request->all());
+        $user = User::findOrFail($id);
+        $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+        ]);
+        $userData = $request->except(['password']);
+        if ($request->filled('password')) {
+            $userData['password'] = Hash::make($request->password);
+        }
+        $user->update($userData);
         return back()->with('success', 'Data Berhasil di Update');
     }
 

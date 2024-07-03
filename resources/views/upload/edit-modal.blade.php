@@ -19,6 +19,10 @@
                         <input type="date" class="form-control @error('created_at') is invalid @enderror" id="tanggal" name="tanggal" value="{{ old('tanggal', $data->tanggal) }}">
                     </div>
                     <div class="form-group">
+                        <label for="editKodeBull">Nama Bull :</label>
+                        <input type="text" class="form-control @error('nama_bull') is invalid @enderror" id="nama_bull" name="nama_bull" value="{{ old('nama_bull', $data->nama_bull) }}">
+                    </div>
+                    <div class="form-group">
                         <label for="editKodeBull">Kode Bull :</label>
                         <input type="text" class="form-control @error('kode_bull') is invalid @enderror" id="kode_bull" name="kode_bull" value="{{ old('kode_bull', $data->kode_bull) }}">
                     </div>

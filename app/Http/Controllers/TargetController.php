@@ -12,7 +12,6 @@ class TargetController extends Controller
     public function index() 
     {
         $data_target = TargetProduksi::all();
-        
         return view('pages.target', compact('data_target'));
     }
 

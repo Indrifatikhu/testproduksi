@@ -107,6 +107,7 @@
                                         <div class="floatU">Action</div>
                                     </th>
                                     <th style="width: 10%; text-align: center">Date</th>
+                                    <th style="width: 10%; text-align: center">Nama Bull</th>
                                     <th style="width: 10%; text-align: center">Kode Bull</th>
                                     <th style="width: 14%; text-align: center">Bangsa</th>
                                     <th style="width: 12%; text-align: center">Kode Batch</th>
@@ -125,6 +126,7 @@
                                                 style="border: none !important; background-color:transparent"><i class="fa-solid fa-xs fa-pencil"></i></button>
                                         </td>
                                         <td>{{ date('d/m/Y', strtotime($data->tanggal)) }}</td>
+                                        <td>{{ $data->nama_bull }}</td>
                                         <td>{{ $data->kode_bull }}</td>
                                         <td>{{ $data->bangsa }}</td>
                                         <td>{{ $data->kode_batch }}</td>
@@ -157,6 +159,7 @@
                                         <div class="floatU">Action</div>
                                     </th>
                                     <th style="width: 10%; text-align: center">Date</th>
+                                    <th style="width: 10%; text-align: center">Nama Bull</th>
                                     <th style="width: 10%; text-align: center">Kode Bull</th>
                                     <th style="width: 14%; text-align: center">Bangsa</th>
                                     <th style="width: 12%; text-align: center">Kode Batch</th>
@@ -174,6 +177,7 @@
                                                 style="border: none !important; background-color:transparent"><i class="fa-solid fa-xs fa-pencil"></i></button>
                                         </td>
                                         <td>{{ date('d/m/Y', strtotime($result->tanggal)) }}</td>
+                                        <td>{{ $result->nama_bull }}</td>
                                         <td>{{ $result->kode_bull }}</td>
                                         <td>{{ $result->bangsa }}</td>
                                         <td>{{ $result->kode_batch }}</td>

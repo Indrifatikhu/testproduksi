@@ -17,9 +17,9 @@
                             <label for="bangsa" class="col-md col-form-label text-md-left">Bangsa</label>
                             <div class="col-md">
                                 <select name="id_produksi" id="" class="form-control js-example-basic-single form-control @error('bangsa') is invalid @enderror">
-                                    <option value="" disabled selected>Bangsa / Kode Bull / Kode Batch / Produksi / Sisa</option>
+                                    <option value="" disabled selected> [Bangsa / Nama / Kode Bull / Kode Batch] - [Produksi/Sisa]</option>
                                     @foreach($produksi as $row)
-                                        <option {{ $data->id_produksi == $row->id ? 'selected' : '' }} value="{{ $row->id }}">{{ $row->bangsa . ' / ' . $row->kode_bull . ' / ' . $row->kode_batch . ' / ' . $row->produksi }}</option>
+                                        <option {{ $data->id_produksi == $row->id ? 'selected' : '' }} value="{{ $row->id }}">{{ '[' . $row->bangsa . ' / ' . $row->nama_bull . ' / ' . $row->kode_bull . ' / ' . $row->kode_batch . '] - [' . $row->produksi . '/' . $row->sisa . ']' }}</option>
                                     @endforeach
                                 </select>
                             </div>

@@ -329,15 +329,32 @@ return [
             'url' => 'pages/dashboard',
             'icon' => 'fas fa-tachometer-alt',
         ],
+        ['header' => 'MASTER DATA'],
         [
-            'text' => 'Data Produksi',
-            'url' => 'upload',
-            'icon' => 'fas fa-fw fa-file-upload',
+            'text' => 'Data Bangsa',
+            'url' => 'bangsa',
+            'icon' => 'fas fa-fw fa-cow',
+        ],
+        [
+            'text' => 'Data Bull',
+            'url' => 'bull',
+            'icon' => 'fas fa-hippo fa-cow',
         ],
         [
             'text' => 'Target',
             'url' => 'pages/target',
             'icon' => 'fas fa-fw fa-chart-line',
+        ],
+        [
+            'text' => 'Target Bangsa',
+            'url' => 'targetbangsa',
+            'icon' => 'fas fa-fw fa-chart-line',
+        ],
+        ['header' => ''],
+        [
+            'text' => 'Data Produksi',
+            'url' => 'upload',
+            'icon' => 'fas fa-fw fa-file-upload',
         ],
         [
             'text' => 'Distribusi',
@@ -349,6 +366,11 @@ return [
             'text' => 'profile',
             'url' => 'profile',
             'icon' => 'fas fa-fw fa-user',
+        ], 
+        [
+            'text' => 'logout',
+            'url' => 'logout',
+            'icon' => 'fas fa-fw fa-right-from-bracket',
         ],
         // Multilevel
         // [

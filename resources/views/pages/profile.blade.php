@@ -31,20 +31,20 @@
                             <div class="col-12 col-md mb-3">
                                 <div class="card">
                                     <div class="card-body">
-                                        <form action="" method="POST">
+                                        <form action="profile/{{ $user->id }}" method="POST">
                                             {{-- {{ route('updateProfile', ['user'=>session('users')->id]) }} --}}
                                             @csrf
                                             <h3>Edit Profile</h3>
                                             <hr>
                                             <div class="mb-3">
                                                 <label for="name">Name</label>
-                                                <input type="text" id="name" name="name" class="form-control"
+                                                <input type="text" id="name" name="name" value="{{ $user->name }}" class="form-control"
                                                     value="" required>
                                                     {{-- {{ session('user')->name }} --}}
                                             </div>
                                             <div class="mb-3">
                                                 <label for="email">Email</label>
-                                                <input type="email" name="email" id="email" class="form-control"
+                                                <input type="email" name="email" id="email" value="{{ $user->email }}" class="form-control"
                                                     value="" required>
                                                     {{-- {{ session('user')->email }} --}}
                                             </div>
@@ -54,13 +54,13 @@
                                                 <label for="password">New Password</label>
                                                 <input type="password" name="password" id="password" class="form-control">
                                             </div>
-                                            <button class="btn btn-primary">Save Changes</button>
-                                            <button class="btn btn-danger" onclick="event.preventDefault(); document.getElementById('deleteForm').submit()">Delete Account</button>
+                                            <button class="btn btn-primary btn-sm btn-block"><i class="fas fa-save mr-2"></i>Save Changes</button>
+                                            <!-- <button class="btn btn-danger btn-sm" onclick="event.preventDefault(); document.getElementById('deleteForm').submit()"><i class="fas fa-trash mr-2"></i>Delete Account</button> -->
                                         </form>
-                                        <form id="deleteForm" action="" method="post" style="display: none">
+                                        <!-- <form id="deleteForm" action="" method="post" style="display: none">
                                             {{-- {{ route('delete', ['user'=>session('user')->id]) }} --}}
                                             @csrf
-                                        </form>
+                                        </form> -->
                                     </div>
                                 </div>
                             </div>

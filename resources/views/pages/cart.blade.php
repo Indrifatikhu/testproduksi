@@ -23,9 +23,9 @@
                                         <label for="bangsa" class="col-sm-3 col-form-label text-md-left">Produksi</label>
                                         <div class="col-sm-7 mb-2">
                                             <select name="id_produksi" id="" class="form-control js-example-basic-single">
-                                                <option value="" disabled selected> [Bangsa / Kode Bull / Kode Batch] - [Produksi/Sisa]</option>
+                                                <option value="" disabled selected> [Bangsa / Nama / Kode Bull / Kode Batch] - [Produksi/Sisa]</option>
                                                 @foreach($produksi as $row)
-                                                    <option value="{{ $row->id }}">{{ '[' . $row->bangsa . ' / ' . $row->kode_bull . ' / ' . $row->kode_batch . '] - [' . $row->produksi . '/' . $row->sisa . ']' }}</option>
+                                                    <option value="{{ $row->id }}">{{ '[' . $row->bangsa . ' / ' . $row->nama_bull . ' / ' . $row->kode_bull . ' / ' . $row->kode_batch . '] - [' . $row->produksi . '/' . $row->sisa . ']' }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -92,6 +92,7 @@
                                         <th>Action</th>
                                         <th>Tanggal</th>
                                         <th>Bangsa</th>
+                                        <th>Nama Bull</th>
                                         <th>Kode Bull</th>
                                         <th>Kode Batch</th>
                                         <th>Jumlah</th>
@@ -110,6 +111,7 @@
                                         </td>
                                         <td>{{ date('d/m/Y', strtotime($data->tanggal)) }}</td>
                                         <td>{{ $data->produksi->bangsa }}</td>
+                                        <td>{{ $data->produksi->nama_bull }}</td>
                                         <td>{{ $data->produksi->kode_bull }}</td>
                                         <td>{{ $data->produksi->kode_batch }}</td>
                                         <td>{{ $data->jumlah }}</td>
