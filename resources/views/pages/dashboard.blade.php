@@ -124,8 +124,8 @@
                             <thead>
                                 <tr>
                                     <th width="5px">No</th>
-                                    <th>Bangsa</th>
                                     <th width="5px">Bulan</th>
+                                    <th>Bangsa</th>
                                     <th>Target</th>
                                     <th>Realisasi</th>
                                     <th>Persentase Bulanan</th>
@@ -141,8 +141,8 @@
                                 @foreach($targetBangsa as $row)
                                     <tr>
                                         <td>{{ $no++ }}</td>
+                                        <td>{{  date('F', mktime(0, 0, 0, $row['bulan'], 10)) }}</td>
                                         <td>{{ $row['bangsa']->bangsa }}</td>
-                                        <td>{{ $row['bulan'] }}</td>
                                         <td>{{ $row['target_bulanan'] }}</td>
                                         <td>{{ $row['realisasi_bulanan'] }}</td>
                                         <td>{{ $row['persentase_bulanan'] }}</td>
