@@ -183,8 +183,25 @@ document.addEventListener('DOMContentLoaded', (event) => {
 // });
 
 $("#myInput").on("keyup", function() {
-    var value = $(this).val().toLowerCase();
+    var value = $(this).val().toLowerCase()
     $("#myTable tr").filter(function() {
         $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-    });
+    })
 });
+
+$('#select-bangsa').change(function(){
+    var id = $(this).val()
+    $.ajax({
+        url: 'bullsByBangsa/' + id,
+        type: 'get',
+        beforeSend: function(){
+            $('#select-bull').empty()
+        }, success: function(res){
+            $('#select-bull').append(`<option selected disabled>- PILIH BULL -</option>`)
+            for (let i = 0; i < res.length; i++) {
+                $('#select-bull').append(`<option value="${ res[i].id }"> ${ res[i].kode_bull } - ${ res[i].bull }</option>`)
+            }
+            $('#select-bull').attr('disabled', false)
+        }
+    })
+})

@@ -46,4 +46,10 @@ class BullController extends Controller
         $successMessage = 'Data id' . $id . ' Berhasil di Hapus.';
         return back()->with('success', $successMessage);  
     }
+
+    function getBulls($idbangsa)
+    {
+        $bulls = Bull::where('id_bangsa', $idbangsa)->get();
+        return response()->json($bulls);
+    }
 }

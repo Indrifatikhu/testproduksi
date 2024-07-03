@@ -11,10 +11,15 @@ class DistribusiController extends Controller
 {
     public function index()
     {
-        $distribusi = Distribusi::with('produksi')->get();
+        $distribusi = Distribusi::select('distribusi.*', 'bangsa.bangsa', 'bull.bull', 'bull.kode_bull', 'produksi.kode_batch')
+                                ->leftJoin('produksi', 'distribusi.id_produksi', '=', 'produksi.id')
+                                ->leftJoin('bull', 'produksi.id_bull', '=', 'bull.id')
+                                ->leftJoin('bangsa', 'bull.id_bangsa', '=', 'bangsa.id')->get();
         $produksi = Produksi::with('distribusi')
-                            ->select('produksi.*', DB::raw('produksi.produksi - IFNULL(SUM(distribusi.jumlah), 0) as sisa'))
+                            ->select('produksi.*', 'bangsa.bangsa', 'bull.bull', 'bull.kode_bull', DB::raw('produksi.produksi - IFNULL(SUM(distribusi.jumlah), 0) as sisa'))
                             ->leftJoin('distribusi', 'produksi.id', '=', 'distribusi.id_produksi')
+                            ->leftJoin('bull', 'produksi.id_bull', '=', 'bull.id')
+                            ->leftJoin('bangsa', 'bull.id_bangsa', '=', 'bangsa.id')
                             ->groupBy('produksi.id')
                             ->havingRaw('sisa > 0')
                             ->get();

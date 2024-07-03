@@ -1,10 +1,9 @@
 <?php
 
 namespace App\Models;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Eloquent\Model;
-use App\Http\Controllers\UploadController;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Produksi extends Model
 {
@@ -12,14 +11,10 @@ class Produksi extends Model
 
     protected $table = 'produksi';
 
-    // public $id_produksi = Produksi::select(['produksi.*', DB::raw("CONCAT(produksi.kode_bull, '-', produksi.kode_batch, '-', produksi.produksi) as id_produksi")])->get();
-
     protected $fillable = [
-        'tanggal',
-        'nama_bull',
-        'kode_bull',
-        'bangsa',
+        'id_bull',
         'kode_batch',
+        'tanggal',
         'produksi',
         'ptm',
         'konsentrasi',

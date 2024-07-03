@@ -108,6 +108,43 @@
             </div>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card my-4">
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                    <div class="bg-light pt-4 pb-3 shadow-sm">
+                        <h5 class="text-dark text-capitalize ps-3"><b>Target Produksi Bangsa</b></h5>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="mb-3">
+                        <table id="targetBangsaTable" class="table table-stripped text-center">
+                            <thead>
+                                <tr>
+                                    <th width="5px">No</th>
+                                    <th>Bangsa</th>
+                                    <th width="5px">Bulan</th>
+                                    <th>Target</th>
+                                    <th>Realisasi</th>
+                                    <th>Persentase Bulanan</th>
+                                    <th>Tahun</th>
+                                    <th>Target</th>
+                                    <th>Realisasi</th>
+                                    <th>Persentase Tahunan</th>
+                                </tr>
+                            </thead>
+    
+                            <tbody id="targetBangsaBody">
+                                <!-- The summary will be added here by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 @stop

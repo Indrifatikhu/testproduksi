@@ -1,5 +1,5 @@
 <!-- Delete confirmation dialog -->
-@foreach ($data_distribusi as $data)
+@foreach ($distribusi as $data)
     
 <div class="delete-confirmation modal fade" id="deleteModal{{ $data->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
     <div class="modal-dialog modal-sm modal-dialog-centered">

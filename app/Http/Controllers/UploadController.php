@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Log;
 use App\Models\Produksi;
+use App\Models\Bangsa;
 use Illuminate\Http\Request;
 use App\Imports\ProduksiImport;
 use Illuminate\Routing\Controller;
@@ -16,7 +17,10 @@ class UploadController extends Controller
 {
     public function index() 
     {
-        return view('upload.index');
+        $bangsa = Bangsa::all();
+        return view('upload.index', [
+            'bangsa' => $bangsa
+        ]);
     }
 
 
@@ -39,38 +43,46 @@ class UploadController extends Controller
         // If a filter is applied
         if ($filter_bangsa) {
             if ($filter_from_date && $filter_to_date) {
-                $filteredData = Produksi::select('produksi.*', DB::raw('produksi.produksi - IFNULL(SUM(distribusi.jumlah), 0) as sisa'))
+                $filteredData = Produksi::select('produksi.*', 'bangsa.bangsa', 'bangsa.id as id_bangsa', 'bull.bull', 'bull.kode_bull', DB::raw('produksi.produksi - IFNULL(SUM(distribusi.jumlah), 0) as sisa'))
                                         ->leftJoin('distribusi', 'produksi.id', '=', 'distribusi.id_produksi')
-                                        ->where('produksi.bangsa', $filter_bangsa)
+                                        ->leftJoin('bull', 'produksi.id_bull', '=', 'bull.id')
+                                        ->leftJoin('bangsa', 'bull.id_bangsa', '=', 'bangsa.id')
+                                        ->where('bangsa.id', $filter_bangsa)
                                         ->whereBetween('produksi.tanggal', [date('Y-m-d', strtotime($filter_from_date)), date('Y-m-d', strtotime($filter_to_date))])
                                         ->groupBy('produksi.id')
                                         ->paginate($filter_per_page);
             } else {
-                $filteredData = Produksi::select('produksi.*', DB::raw('produksi.produksi - IFNULL(SUM(distribusi.jumlah), 0) as sisa'))
+                $filteredData = Produksi::select('produksi.*', 'bangsa.bangsa', 'bangsa.id as id_bangsa', 'bull.bull', 'bull.kode_bull', DB::raw('produksi.produksi - IFNULL(SUM(distribusi.jumlah), 0) as sisa'))
                                         ->leftJoin('distribusi', 'produksi.id', '=', 'distribusi.id_produksi')
-                                        ->where('produksi.bangsa', $filter_bangsa)
+                                        ->leftJoin('bull', 'produksi.id_bull', '=', 'bull.id')
+                                        ->leftJoin('bangsa', 'bull.id_bangsa', '=', 'bangsa.id')
+                                        ->where('bangsa.id', $filter_bangsa)
                                         ->groupBy('produksi.id')
                                         ->latest()
                                         ->paginate($filter_per_page);
             }
         } else {
             if ($filter_from_date && $filter_to_date) {
-                $filteredData = Produksi::select('produksi.*', DB::raw('produksi.produksi - IFNULL(SUM(distribusi.jumlah), 0) as sisa'))
+                $filteredData = Produksi::select('produksi.*', 'bangsa.bangsa', 'bangsa.id as id_bangsa', 'bull.bull', 'bull.kode_bull', DB::raw('produksi.produksi - IFNULL(SUM(distribusi.jumlah), 0) as sisa'))
                                         ->leftJoin('distribusi', 'produksi.id', '=', 'distribusi.id_produksi')
+                                        ->leftJoin('bull', 'produksi.id_bull', '=', 'bull.id')
+                                        ->leftJoin('bangsa', 'bull.id_bangsa', '=', 'bangsa.id')
                                         ->whereBetween('produksi.tanggal', [date('Y-m-d', strtotime($filter_from_date)), date('Y-m-d', strtotime($filter_to_date))])
                                         ->groupBy('produksi.id')
                                         ->paginate($filter_per_page);
             } else {
-                $filteredData = Produksi::select('produksi.*', DB::raw('produksi.produksi - IFNULL(SUM(distribusi.jumlah), 0) as sisa'))
+                $filteredData = Produksi::select('produksi.*', 'bangsa.bangsa', 'bangsa.id as id_bangsa', 'bull.bull', 'bull.kode_bull', DB::raw('produksi.produksi - IFNULL(SUM(distribusi.jumlah), 0) as sisa'))
                                         ->leftJoin('distribusi', 'produksi.id', '=', 'distribusi.id_produksi')
+                                        ->leftJoin('bull', 'produksi.id_bull', '=', 'bull.id')
+                                        ->leftJoin('bangsa', 'bull.id_bangsa', '=', 'bangsa.id')
                                         ->groupBy('produksi.id')
                                         ->paginate($filter_per_page);
             }
         }
 
         $totalFiltered = $filteredData->total();
-        $bangsa = Produksi::select('bangsa')->groupBy('bangsa')->get();
-        // dd($filteredData);
+        $bangsa = Bangsa::all();
+        
         return view('upload.index', [
             "tittle" => "Tambah Data", 
             'bangsa' => $bangsa,
@@ -87,44 +99,24 @@ class UploadController extends Controller
     public function importexcel(Request $request) 
     {
         $request->validate([
-            'file' => [
-                'required', 
-                'file'
-            ],
+            'file' => 'required|mimes:xlsx,xls,csv',
         ]);
-
-        $file = $request->file('file');
-        Excel::import(new ProduksiImport, $file);
-        
+        Excel::import(new ProduksiImport, $request->file('file'));
         return back()->with('success','File Imported Successfully');
     }    
 
     
     public function store(Request $request) {
-        // $produksiId = $request->id;
         $request->validate([
-            'tanggal' => 'required',
-            'nama_bull' => 'required',
-            'kode_bull' => 'required',
-            'bangsa' => 'required',
-            'kode_batch' => 'required',
-            'produksi' => 'required',
-            'ptm' => 'required',
-            'konsentrasi' => 'required'
+            'id_bull' => 'required|integer',
+            'kode_batch' => 'required|string|max:255',
+            'tanggal' => 'required|date',
+            'produksi' => 'required|integer',
+            'ptm' => 'required|string|max:255',
+            'konsentrasi' => 'required|string|max:255',
         ]);
-        $produksi = Produksi::create(
-            [
-                'tanggal' => $request->tanggal,
-                'nama_bull' => $request->nama_bull,
-                'kode_bull' => $request->kode_bull,
-                'bangsa' => $request->bangsa,
-                'kode_batch' => $request->kode_batch,
-                'produksi' => $request->produksi,
-                'ptm' => $request->ptm,
-                'konsentrasi' => $request->konsentrasi
-            ]
-        );
 
+        Produksi::create($request->all());
         return back()->with('success', 'Data Produksi Harian Berhasil Ditambahkan');
     }
 

@@ -3,27 +3,42 @@
 namespace App\Imports;
 
 use App\Models\Produksi;
-use Maatwebsite\Excel\Excel;
-use Illuminate\Support\Collection;
-use App\Http\Controllers\UploadController;
-use Maatwebsite\Excel\Concerns\ToCollection;
+use App\Models\Bull;
+use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\SkipsFailures;
+use Maatwebsite\Excel\Concerns\SkipsOnFailure;
 
-class ProduksiImport implements ToCollection, WithHeadingRow 
+class ProduksiImport implements ToModel, WithHeadingRow, SkipsOnFailure
 {
-    public function collection(Collection $rows)
+    use SkipsFailures;
+
+    public function model(array $row)
     {
-        foreach ($rows as $row) 
-        {
-            Produksi::create([
-                'tanggal'       => $row['tanggal'],
-                'kode_bull'     => $row['kode_bull'],
-                'bangsa'        => $row['bangsa'],
-                'kode_batch'    => $row['kode_batch'],
-                'produksi'      => $row['produksi'],
-                'ptm'           => $row['ptm'],
-                'konsentrasi'   => $row['konsentrasi']
+        if (
+            !isset($row['kode_bull']) || empty($row['kode_bull']) ||
+            !isset($row['kode_batch']) || empty($row['kode_batch']) ||
+            !isset($row['tanggal']) || empty($row['tanggal']) ||
+            !isset($row['produksi']) || empty($row['produksi']) ||
+            !isset($row['ptm']) || empty($row['ptm']) ||
+            !isset($row['konsentrasi']) || empty($row['konsentrasi'])
+        ) {
+            return null;
+        }
+
+        $bull = Bull::where('kode_bull', $row['kode_bull'])->first();
+
+        if ($bull) {
+            return new Produksi([
+                'id_bull' => $bull->id,
+                'kode_batch' => $row['kode_batch'],
+                'tanggal' => $row['tanggal'],
+                'produksi' => $row['produksi'],
+                'ptm' => $row['ptm'],
+                'konsentrasi' => $row['konsentrasi'],
             ]);
         }
+
+        return null;
     }
 }

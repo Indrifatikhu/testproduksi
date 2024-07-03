@@ -30,6 +30,11 @@
                                                 </select>
                                             </div>
 
+                                            <label for="tahun" class="col-md-4 col-form-label text-md-right">Tahun</label>
+                                            <div class="col-md-6 mb-3">
+                                                <input id="tahun" type="number" class="form-control" name="tahun" required>
+                                            </div>
+
                                             <label for="bulan" class="col-md-4 col-form-label text-md-right">Bulan</label>
                                             <div class="col-md-6 mb-3">
                                                 {{-- <input id="bulan" type="month" class="form-control" name="bulan" required> --}}
@@ -38,11 +43,6 @@
                                                         <option value="{{ $m }}">{{ date('F', mktime(0, 0, 0, $m, 10)) }}</option>
                                                     @endforeach
                                                 </select>
-                                            </div>
-
-                                            <label for="tahun" class="col-md-4 col-form-label text-md-right">Tahun</label>
-                                            <div class="col-md-6 mb-3">
-                                                <input id="tahun" type="number" class="form-control" name="tahun" required>
                                             </div>
 
                                             <label for="target_bulanan" class="col-md-4 col-form-label text-md-right">Target Bulanan</label>
@@ -156,27 +156,38 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label for="editBulan">Bulan</label>
-                            <select name="bulan" id="bulan" class="form-control @error('bulan') is invalid @enderror" required>
-                                @foreach(range(1, 12) as $m)
-                                    <option value="{{ $m }}" {{ old('bulan', $row->bulan) == $m ? 'selected' : '' }}>
-                                        {{ date('F', mktime(0, 0, 0, $m, 10)) }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="editTahun">Tahun :</label>
-                            <input type="number" class="form-control @error('tahun') is invalid @enderror" id="tahun" name="tahun" value="{{ old('tahun', $row->tahun) }}">
-                        </div>
-                        <div class="form-group">
-                            <label for="editTargetBulan">Target Bulanan :</label>
-                            <input type="number" class="form-control @error('target_bulanan') is invalid @enderror" id="target_bulanan" name="target_bulanan" value="{{ old('target_bulanan', $row->target_bulanan) }}">
-                        </div>
-                        <div class="form-group">
-                            <label for="editTargetTahun">Target Tahunan :</label>
-                            <input type="number" class="form-control @error('target_tahunan') is invalid @enderror" id="target_tahunan" name="target_tahunan" value="{{ old('target_tahunan', $row->target_tahunan) }}">
+
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="editTahun">Tahun :</label>
+                                    <input type="number" class="form-control @error('tahun') is invalid @enderror" id="tahun" name="tahun" value="{{ old('tahun', $row->tahun) }}">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="editBulan">Bulan</label>
+                                    <select name="bulan" id="bulan" class="form-control @error('bulan') is invalid @enderror" required>
+                                        @foreach(range(1, 12) as $m)
+                                            <option value="{{ $m }}" {{ old('bulan', $row->bulan) == $m ? 'selected' : '' }}>
+                                                {{ date('F', mktime(0, 0, 0, $m, 10)) }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="editTargetBulan">Target Bulanan :</label>
+                                    <input type="number" class="form-control @error('target_bulanan') is invalid @enderror" id="target_bulanan" name="target_bulanan" value="{{ old('target_bulanan', $row->target_bulanan) }}">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="editTargetTahun">Target Tahunan :</label>
+                                    <input type="number" class="form-control @error('target_tahunan') is invalid @enderror" id="target_tahunan" name="target_tahunan" value="{{ old('target_tahunan', $row->target_tahunan) }}">
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group text-end">
                             <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal"><i class="fas fa-times mr-2"></i>Close</button>

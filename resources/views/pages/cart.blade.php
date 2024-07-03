@@ -25,7 +25,7 @@
                                             <select name="id_produksi" id="" class="form-control js-example-basic-single">
                                                 <option value="" disabled selected> [Bangsa / Nama / Kode Bull / Kode Batch] - [Produksi/Sisa]</option>
                                                 @foreach($produksi as $row)
-                                                    <option value="{{ $row->id }}">{{ '[' . $row->bangsa . ' / ' . $row->nama_bull . ' / ' . $row->kode_bull . ' / ' . $row->kode_batch . '] - [' . $row->produksi . '/' . $row->sisa . ']' }}</option>
+                                                    <option value="{{ $row->id }}">{{ '[' . $row->bangsa . ' / ' . $row->bull . ' / ' . $row->kode_bull . ' / ' . $row->kode_batch . '] - [' . $row->produksi . '/' . $row->sisa . ']' }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -110,10 +110,10 @@
                                                 style="border: none !important; background-color:transparent"><i class="fas fa-xs fa-pencil"></i></button>
                                         </td>
                                         <td>{{ date('d/m/Y', strtotime($data->tanggal)) }}</td>
-                                        <td>{{ $data->produksi->bangsa }}</td>
-                                        <td>{{ $data->produksi->nama_bull }}</td>
-                                        <td>{{ $data->produksi->kode_bull }}</td>
-                                        <td>{{ $data->produksi->kode_batch }}</td>
+                                        <td>{{ $data->bangsa }}</td>
+                                        <td>{{ $data->bull }}</td>
+                                        <td>{{ $data->kode_bull }}</td>
+                                        <td>{{ $data->kode_batch }}</td>
                                         <td>{{ $data->jumlah }}</td>
                                         <td>{{ $data->tujuan }}</td>
                                         <td>{{ $data->container }}</td>
