@@ -76,7 +76,7 @@
                         <hr>
                         <input type="text" id="myInput" class="form-control form-control-sm" placeholder="Search ...">
                         <div class="row">
-                            <div class="col-md">
+                            <div class="col-md" style="max-height: 700px; overflow:auto">
                                 <table id="targetTable" class="table table-stripped position-relative text-center">
                                     <thead id="theadTarget">
                                         <tr>

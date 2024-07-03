@@ -83,7 +83,7 @@
                     </div>
                     <hr>
                     <div class="row">
-                        <div class="col-md">
+                        <div class="col-md" style="max-height: 700px; overflow:auto">
                         <input type="text" id="myInput" class="form-control form-control-sm" placeholder="Search ...">
 
                             <table class="table table-fixed table-bordered text-center mb-2 mt-2" style="table-layout: fixed">
