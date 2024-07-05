@@ -61,6 +61,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('bangsa', [BangsaController::class, 'index'])->name('bangsa.index');
     Route::get('bull', [BullController::class, 'index'])->name('bull.index');
     Route::get('bullsByBangsa/{id}', [BullController::class, 'getBulls'])->name('bangsabull');
+    Route::get('getRegencyByProvinceId/{id}', [DistribusiController::class, 'getRegencyByProvinceId'])->name('getRegencyByProvinceId');
     
     Route::post('upload', [UploadController::class, 'importexcel']);
     Route::post('updateProfile/{id}', [UserController::class, 'updateProfile'])->name('updateProfile');

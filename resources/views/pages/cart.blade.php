@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Data Target')
+@section('title', 'Distribusi')
 
 @section('content')
 
@@ -40,9 +40,22 @@
                                             <input id="jml_distribusi" type="number" class="form-control" name="jumlah" required>
                                         </div>
 
-                                        <label for="tujuan_distribusi" class="col-sm-3 col-form-label text-md-left">Tujuan Distribusi</label>
+                                        <label for="tujuan_distribusi" class="col-sm-3 col-form-label text-md-left">Tujuan Distribusi - Provinsi</label>
                                         <div class="col-sm-7 mb-2">
-                                            <input id="tujuan_distribusi" type="text" class="form-control" name="tujuan" required>
+                                            <select name="provinsi_id" id="provinsi_id" class="form-control" required>
+                                                <option value="" selected disabled>- Pilih Provinsi -</option>
+                                                @foreach($provinsi as $p)
+                                                    <option value="{{ $p->id }}">{{ $p->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <label for="tujuan_distribusi" class="col-sm-3 col-form-label text-md-left">Tujuan Distribusi - Kabupaten/Kota</label>
+                                        <div class="col-sm-7 mb-2">
+                                            <select name="kabupaten_id" id="regency_id" class="form-control" required disabled>
+                                                <option value="" selected disabled>- Pilih Kabupaten/Kota -</option>
+                                                
+                                            </select>
                                         </div>
 
                                         <label for="container" class="col-sm-3 col-form-label text-md-left">Container</label>
@@ -96,7 +109,8 @@
                                         <th>Kode Bull</th>
                                         <th>Kode Batch</th>
                                         <th>Jumlah</th>
-                                        <th>Tujuan</th>
+                                        <th>Provinsi</th>
+                                        <th>Kabupaten</th>
                                         <th>Container</th>
                                     </tr>
                                 </thead>
@@ -115,7 +129,8 @@
                                         <td>{{ $data->kode_bull }}</td>
                                         <td>{{ $data->kode_batch }}</td>
                                         <td>{{ $data->jumlah }}</td>
-                                        <td>{{ $data->tujuan }}</td>
+                                        <td>{{ $data->provinsi }}</td>
+                                        <td>{{ str_replace('KABUPATEN', '', $data->kabupaten) }}</td>
                                         <td>{{ $data->container }}</td>
                                     </tr>
                                 @endforeach

@@ -13,7 +13,8 @@ class Distribusi extends Model
         'id_produksi',
         'tanggal',
         'jumlah',
-        'tujuan',
+        'provinsi_id',
+        'kabupaten_id',
         'container'
     ];
 

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Distribusi;
+use App\Models\Province;
+use App\Models\Regency;
 use Illuminate\Http\Request;
 use App\Models\Produksi;
 use Illuminate\Support\Facades\DB;
@@ -11,10 +13,13 @@ class DistribusiController extends Controller
 {
     public function index()
     {
-        $distribusi = Distribusi::select('distribusi.*', 'bangsa.bangsa', 'bull.bull', 'bull.kode_bull', 'produksi.kode_batch')
+        $distribusi = Distribusi::select('distribusi.*', 'bangsa.bangsa', 'bull.bull', 'bull.kode_bull', 'produksi.kode_batch', 'provinces.name as provinsi', 'regencies.name as kabupaten')
+                                ->leftJoin('provinces', 'distribusi.provinsi_id', '=', 'provinces.id')
+                                ->leftJoin('regencies', 'distribusi.kabupaten_id', '=', 'regencies.id')
                                 ->leftJoin('produksi', 'distribusi.id_produksi', '=', 'produksi.id')
                                 ->leftJoin('bull', 'produksi.id_bull', '=', 'bull.id')
                                 ->leftJoin('bangsa', 'bull.id_bangsa', '=', 'bangsa.id')->get();
+                                
         $produksi = Produksi::with('distribusi')
                             ->select('produksi.*', 'bangsa.bangsa', 'bull.bull', 'bull.kode_bull', DB::raw('produksi.produksi - IFNULL(SUM(distribusi.jumlah), 0) as sisa'))
                             ->leftJoin('distribusi', 'produksi.id', '=', 'distribusi.id_produksi')
@@ -24,9 +29,12 @@ class DistribusiController extends Controller
                             ->havingRaw('sisa > 0')
                             ->get();
 
+        $provinsi = Province::all();
+
         return view('pages.cart', [
             'distribusi' => $distribusi,
-            'produksi' => $produksi
+            'produksi' => $produksi,
+            'provinsi' => $provinsi
         ]);
     }
 
@@ -36,7 +44,8 @@ class DistribusiController extends Controller
             'id_produksi' => 'required',
             'tanggal' => 'required',
             'jumlah' => 'required|numeric',
-            'tujuan' => 'required',
+            'provinsi_id' => 'required|numeric',
+            'kabupaten_id' => 'required|numeric',
             'container' => 'required'
         ]);
 
@@ -59,7 +68,8 @@ class DistribusiController extends Controller
             'id_produksi' => $request->id_produksi,
             'tanggal' => $request->tanggal,
             'jumlah' => $request->jumlah,
-            'tujuan' => $request->tujuan,
+            'provinsi_id' => $request->provinsi_id,
+            'kabupaten_id' => $request->kabupaten_id,
             'container' => $request->container
         ]);
 
@@ -85,5 +95,9 @@ class DistribusiController extends Controller
         
         // Return back with the success message
         return back()->with('success', $successMessage);  
+    }
+
+    function getRegencyByProvinceId($id){
+        return response()->json(Regency::where('province_id', $id)->get());
     }
 }

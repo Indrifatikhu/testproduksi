@@ -300,3 +300,20 @@ $('#select-bangsa').change(function(){
         }
     })
 })
+
+$('#provinsi_id').change(function(){
+    var provinsi_id = $(this).val()
+    $.ajax({
+        url: '/getRegencyByProvinceId/' + provinsi_id,
+        type: 'get',
+        beforeSend: function(){
+            $('#regency_id').empty()
+        }, success: function(res){
+            $('#regency_id').attr('disabled', false)
+            $('#regency_id').append(`<option value="" selected disabled>- Pilih Kabupaten/Kota -</option>`)
+            for (let i = 0; i < res.length; i++) {
+                $('#regency_id').append(`<option value="${ res[i].id }">${ res[i].name }</option>`)
+            }
+        }
+    })
+})
