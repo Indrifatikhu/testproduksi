@@ -133,6 +133,7 @@
                                     <th>Target</th>
                                     <th>Realisasi</th>
                                     <th>Persentase Tahunan</th>
+                                    <th></th>
                                 </tr>
                             </thead>
     
@@ -145,17 +146,58 @@
                                         <td>{{ $row['bangsa']->bangsa }}</td>
                                         <td>{{ $row['target_bulanan'] }}</td>
                                         <td>{{ $row['realisasi_bulanan'] }}</td>
-                                        <td>{{ $row['persentase_bulanan'] }}</td>
+                                        <td>{{ $row['persentase_bulanan'] }}%</td>
                                         <td>{{ $row['tahun'] }}</td>
                                         <td>{{ $row['target_tahunan'] }}</td>
                                         <td>{{ $row['realisasi_tahunan'] }}</td>
-                                        <td>{{ $row['persentase_tahunan'] }}</td>
+                                        <td>{{ $row['persentase_tahunan'] }}%</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-info btn-detail-target-bangsa" 
+                                                data-id="{{ $row['id'] }}" 
+                                                data-tahun="{{ $row['tahun'] }}"
+                                                data-bulan="{{  date('F', mktime(0, 0, 0, $row['bulan'], 10)) }}"
+                                                data-bangsa="{{ $row['bangsa']->bangsa }}"
+                                            ><i class="fas fa-eye"></i></button>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade-lg" id="produksi-report-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-center"><strong class="text-center" id="label-report"></strong></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- <div class="modal-body"> -->
+                <table class="table table-stripped table-hover text-center">
+                    <thead>
+                        <tr>
+                            <th class="text-left">Bull</th>
+                            @foreach(range(1, 12) as $m)
+                                <th class="text-center" width="5px">{{  sprintf('%02d', $m) }}</th>
+                            @endforeach
+                            <th class="text-center" width="5px">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="produksibulltable">
+                        
+                    </tbody>
+                    <tfoot id="produksibulltotal">
+                        
+                    </tfoot>
+                </table>
+            <!-- </div> -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary btn-block" data-bs-dismiss="modal"><i class="fas fa-times mr-2"></i>Close</button>
             </div>
         </div>
     </div>

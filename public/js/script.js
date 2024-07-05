@@ -180,6 +180,103 @@ document.addEventListener('DOMContentLoaded', (event) => {
 //     });
 // });
 
+$('.btn-detail-target-bangsa').click(function(){
+    var id = $(this).attr('data-id')
+    var bangsa = $(this).attr('data-bangsa')
+    var tahun = $(this).attr('data-tahun')
+    var bulan = $(this).attr('data-bulan')
+
+    $.ajax({
+        url: '/reportbangsa/' + id,
+        method: 'GET',
+        beforeSend: function(){
+            $('#produksibulltable').empty()
+            $('#label-report').text(`Detail Report Produksi Bangsa ${ bangsa } ${ bulan } ${ tahun }`)
+        }, success: function(response) {
+            let tableBody = '';
+            let totalBulanan = {
+                january: 0, february: 0, march: 0, april: 0,
+                may: 0, june: 0, july: 0, august: 0,
+                september: 0, october: 0, november: 0, december: 0
+            };
+            let totalTahunan = 0;
+
+            response.forEach(item => {
+                // Convert string values to numeric before adding to the total
+                const january = parseInt(item.realisasi_bulanan.january) || 0;
+                const february = parseInt(item.realisasi_bulanan.february) || 0;
+                const march = parseInt(item.realisasi_bulanan.march) || 0;
+                const april = parseInt(item.realisasi_bulanan.april) || 0;
+                const may = parseInt(item.realisasi_bulanan.may) || 0;
+                const june = parseInt(item.realisasi_bulanan.june) || 0;
+                const july = parseInt(item.realisasi_bulanan.july) || 0;
+                const august = parseInt(item.realisasi_bulanan.august) || 0;
+                const september = parseInt(item.realisasi_bulanan.september) || 0;
+                const october = parseInt(item.realisasi_bulanan.october) || 0;
+                const november = parseInt(item.realisasi_bulanan.november) || 0;
+                const december = parseInt(item.realisasi_bulanan.december) || 0;
+                const annual = parseInt(item.realisasi_tahunan) || 0;
+
+                tableBody += `
+                    <tr>
+                        <td class="text-left">${item.bull}</td>
+                        <td class="text-center">${january}</td>
+                        <td class="text-center">${february}</td>
+                        <td class="text-center">${march}</td>
+                        <td class="text-center">${april}</td>
+                        <td class="text-center">${may}</td>
+                        <td class="text-center">${june}</td>
+                        <td class="text-center">${july}</td>
+                        <td class="text-center">${august}</td>
+                        <td class="text-center">${september}</td>
+                        <td class="text-center">${october}</td>
+                        <td class="text-center">${november}</td>
+                        <td class="text-center">${december}</td>
+                        <td class="text-center">${annual}</td>
+                    </tr>`;
+
+                totalBulanan.january += january;
+                totalBulanan.february += february;
+                totalBulanan.march += march;
+                totalBulanan.april += april;
+                totalBulanan.may += may;
+                totalBulanan.june += june;
+                totalBulanan.july += july;
+                totalBulanan.august += august;
+                totalBulanan.september += september;
+                totalBulanan.october += october;
+                totalBulanan.november += november;
+                totalBulanan.december += december;
+                totalTahunan += annual;
+            });
+
+            tableBody += `
+                <tr>
+                    <th class="text-left">Total</th>
+                    <th class="text-center">${totalBulanan.january}</th>
+                    <th class="text-center">${totalBulanan.february}</th>
+                    <th class="text-center">${totalBulanan.march}</th>
+                    <th class="text-center">${totalBulanan.april}</th>
+                    <th class="text-center">${totalBulanan.may}</th>
+                    <th class="text-center">${totalBulanan.june}</th>
+                    <th class="text-center">${totalBulanan.july}</th>
+                    <th class="text-center">${totalBulanan.august}</th>
+                    <th class="text-center">${totalBulanan.september}</th>
+                    <th class="text-center">${totalBulanan.october}</th>
+                    <th class="text-center">${totalBulanan.november}</th>
+                    <th class="text-center">${totalBulanan.december}</th>
+                    <th class="text-center">${totalTahunan}</th>
+                </tr>`;
+
+            $('#produksibulltable').html(tableBody);
+            $('#produksi-report-modal').modal('show');
+        },
+        error: function(error) {
+            console.log(error);
+        }
+    });
+})
+
 $("#myInput").on("keyup", function() {
     var value = $(this).val().toLowerCase()
     $("#myTable tr").filter(function() {

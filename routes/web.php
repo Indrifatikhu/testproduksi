@@ -57,6 +57,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('target', [TargetController::class, 'getTargets'])->name('target.dashboard');
     Route::get('targetbangsa', [TargetBangsaController::class, 'index'])->name('targetbangsa.index');
+    Route::get('reportbangsa/{id}', [TargetBangsaController::class, 'reportDetail'])->name('targetbangsa.reportDetail');
     Route::get('bangsa', [BangsaController::class, 'index'])->name('bangsa.index');
     Route::get('bull', [BullController::class, 'index'])->name('bull.index');
     Route::get('bullsByBangsa/{id}', [BullController::class, 'getBulls'])->name('bangsabull');
