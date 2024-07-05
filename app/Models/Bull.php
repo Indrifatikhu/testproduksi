@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Bull extends Model
 {
@@ -12,7 +13,10 @@ class Bull extends Model
     protected $fillable = [
         'id_bangsa',
         'kode_bull',
-        'bull'
+        'bull',
+        'tanggal_lahir',
+        'status',
+        'keterangan'
     ];
 
     public function bangsa()

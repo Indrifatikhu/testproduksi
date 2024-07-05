@@ -27,6 +27,8 @@ class BullController extends Controller
             'id_bangsa' => 'required|integer',
             'kode_bull' => 'required|string|max:255',
             'bull' => 'required|string|max:255',
+            'tanggal_lahir' => 'required',
+            'status' => 'required',
         ]);
 
         Bull::create($request->all());

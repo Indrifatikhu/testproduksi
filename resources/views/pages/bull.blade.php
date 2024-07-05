@@ -1,3 +1,7 @@
+@php
+    use Carbon\Carbon;
+@endphp
+
 @extends('adminlte::page')
 
 @section('title', 'Master Data Bangsa')
@@ -44,6 +48,30 @@
                                                 <input type="text" class="form-control" name="kode_bull" required>
                                             </div>
                                         </div>
+
+                                        <div class="form-group row">
+                                            <label for="bulan" class="col-md-3 col-form-label text-md-right">Tanggal Lahir</label>
+                                            <div class="col-md-6 mb-3">
+                                                <input type="date" class="form-control" name="tanggal_lahir" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="bulan" class="col-md-3 col-form-label text-md-right">Status</label>
+                                            <div class="col-md-6 mb-3">
+                                                <select name="status" id="" class="form-control" required>
+                                                    <option value="hidup">Hidup</option>
+                                                    <option value="mati">Mati</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="bulan" class="col-md-3 col-form-label text-md-right">Keterangan</label>
+                                            <div class="col-md-6 mb-3">
+                                                <input type="text" class="form-control" name="keterangan">
+                                            </div>
+                                        </div>
                                     </div>
         
                                     <div class="form-group row mb-0">
@@ -84,10 +112,20 @@
                                             <th class="text-left" width="10%">Bangsa</th>
                                             <th class="text-left">Nama Bull</th>
                                             <th class="text-left" width="10%">Kode Bull</th>
+                                            <th class="text-left" width="10%">Tanggal Lahir</th>
+                                            <th class="text-left" width="10%">Usia</th>
+                                            <th class="text-left" width="10%">Status</th>
+                                            <th class="text-left">Keterangan</th>
                                         </tr>
                                     </thead>
                                     <tbody id="myTable">
                                         @foreach ($bull as $data)
+                                        @php
+                                            $tanggal_lahir = Carbon::parse($data->tanggal_lahir);
+                                            $current_date = Carbon::now();
+                                            $years = $tanggal_lahir->diffInYears($current_date);
+                                            $months = $tanggal_lahir->diffInMonths($current_date) % 12;
+                                        @endphp
                                         <tr>
                                             <td>
                                                 <button class="icon-button delete-btn" data-id="{{ $data->id }}" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $data->id }}"
@@ -102,6 +140,10 @@
                                             <td class="text-left">{{  $data->bangsa->bangsa }}</td>
                                             <td class="text-left">{{  $data->bull }}</td>
                                             <td class="text-left">{{  $data->kode_bull }}</td>
+                                            <td class="text-left">{{  $data->tanggal_lahir }}</td>
+                                            <td class="text-left">{{ $years }} tahun, {{ $months }} bulan</td>
+                                            <td class="text-left">{{  $data->status }}</td>
+                                            <td class="text-left">{{  $data->keterangan }}</td>
                                         </tr>
                                         @endforeach
                                     </tbody>
@@ -133,7 +175,7 @@
                     <form action="{{ url('bull/'.$row->id) }}" href="javascript:void(0)" method="POST" id="editTargetForm{{ $row->id }}" name="editTargetForm" class="form-horizontal" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-4">
                                 <div class="form-group">
                                     <label for="editTahun">Bangsa</label>
                                     <select name="id_bangsa" class="form-control" required>
@@ -144,10 +186,37 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-4">
                                 <div class="form-group">
-                                    <label for="editTahun">Bull</label>
+                                    <label for="editTahun">Nama Bull</label>
                                     <input type="text" class="form-control" name="bull" value="{{ $row->bull }}" required>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="editTahun">Kode Bull</label>
+                                    <input type="text" class="form-control" name="kode_bull" value="{{ $row->kode_bull }}" required>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="editTahun">Tanggal Lahir</label>
+                                    <input type="date" class="form-control" name="tanggal_lahir" value="{{ $row->tanggal_lahir }}" required>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="editTahun">Status</label>
+                                    <select name="status" id="" class="form-control" required>
+                                        <option {{ $row->status == 'hidup' ? 'selected' : '' }} value="hidup">Hidup</option>
+                                        <option {{ $row->status == 'mati' ? 'selected' : '' }} value="mati">Mati</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="editTahun">Keterangan</label>
+                                    <input type="text" class="form-control" name="keterangan" value="{{ $row->keterangan }}" required>
                                 </div>
                             </div>
                         </div>
