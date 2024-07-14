@@ -40,7 +40,7 @@
                         <div class="form-group">
                             <label for="tujuan" class="col-md col-form-label text-md-left">Tujuan Distribusi - Provinsi</label>
                             <div class="col-md">
-                                <select name="provinsi_id" id="provinsi_id_edit" class="form-control" required>
+                                <select name="provinsi_id" id="provinsi_id_edit" class="js-example-basic-single form-control" required>
                                     <option value="" selected disabled>- Pilih Provinsi -</option>
                                     @foreach($provinsi as $p)
                                         <option {{ $p->id == $data->provinsi_id ? 'selected' : '' }} value="{{ $p->id }}">{{ $p->name }}</option>
@@ -52,7 +52,7 @@
                         <div class="form-group">
                             <label for="tujuan" class="col-md col-form-label text-md-left">Tujuan Distribusi - Kabupaten</label>
                             <div class="col-md">
-                                <select name="kabupaten_id" id="regency_id_edit" class="form-control" required disabled>
+                                <select name="kabupaten_id" id="regency_id_edit" class="js-example-basic-single form-control" required disabled>
                                     <option value="" selected disabled>- Pilih Kabupaten/Kota -</option>
                                     
                                 </select>
@@ -114,6 +114,7 @@
                 var provinsi_id = $(this).val();
                 getRegency(provinsi_id, modal);
             });
+            modal.find('select[name="provinsi_id"]').select2()
         });
 
         function getRegency(provinsi_id, modal, kabupaten_id){
@@ -136,6 +137,7 @@
                     regencySelect.attr('disabled', false)
                 }
             })
+            regencySelect.select2()
         }
     });
 </script>

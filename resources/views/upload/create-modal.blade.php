@@ -18,7 +18,7 @@
                     <div class="form-group">
                         <label for="bangsa" class="col-sm-3 control-label">Bangsa</label>
                         <div class="col-sm-12">
-                            <select id="select-bangsa" name="id_bangsa" class="form-control @error('id_bangsa') is invalid @enderror" required>
+                            <select id="select-bangsa" name="id_bangsa" class="js-example-basic-single form-control @error('id_bangsa') is invalid @enderror" required>
                                 <option value="" disabled selected>- PILIH BANGSA -</option>
                                 @foreach($bangsa as $b)
                                     <option {{ old('bangsa') == $b->id ? 'selected' : '' }} value="{{ $b->id }}">{{ $b->bangsa }}</option>
@@ -29,7 +29,7 @@
                     <div class="form-group">
                         <label for="nama_bull" class="col-sm-3 control-label">Bull</label>
                         <div class="col-sm-12">
-                            <select id="select-bull" name="id_bull" class="form-control @error('id_bull') is invalid @enderror" required disabled>
+                            <select id="select-bull" name="id_bull" class="js-example-basic-single form-control @error('id_bull') is invalid @enderror" required disabled>
 
                             </select>
                         </div>

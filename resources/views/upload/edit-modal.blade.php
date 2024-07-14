@@ -20,7 +20,7 @@
                     </div>
                     <div class="form-group">
                         <label for="bangsa" class="control-label">Bangsa</label>
-                        <select id="select-bangsa-{{ $data->id }}" name="id_bangsa" class="form-control @error('id_bangsa') is invalid @enderror" required>
+                        <select id="select-bangsa-{{ $data->id }}" name="id_bangsa" class="js-example-basic-single form-control @error('id_bangsa') is invalid @enderror" required>
                             <option value="" disabled selected>- PILIH BANGSA -</option>
                             @foreach($bangsa as $b)
                                 <option {{ $data->id_bangsa == $b->id ? 'selected' : '' }} value="{{ $b->id }}">{{ $b->bangsa }}</option>
@@ -29,7 +29,7 @@
                     </div>
                     <div class="form-group">
                         <label for="nama_bull" class="col-sm-3 control-label">Bull</label>
-                        <select id="select-bull-{{ $data->id }}" name="id_bull" class="form-control" required disabled>
+                        <select id="select-bull-{{ $data->id }}" name="id_bull" class="js-example-basic-single form-control" required disabled>
 
                         </select>
                     </div>
@@ -85,6 +85,7 @@
                 var idbgs = $(this).val();
                 getBull(idbgs, modal);
             });
+
         });
 
         function getBull(idbangsa, modal, idbull) {

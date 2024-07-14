@@ -27,8 +27,8 @@
 
                                             <label for="bulan" class="col-md-4 col-form-label text-md-right">Bulan</label>
                                             <div class="col-md-6 mb-3">
-                                                {{-- <input id="bulan" type="month" class="form-control" name="bulan" required> --}}
-                                                <select name="bulan" id="bulan" class="form-control" required>
+                                                {{-- <input id="bulan" type="month" class="form-control " name="bulan" required> --}}
+                                                <select name="bulan" id="bulan" class="form-control js-example-basic-single" required>
                                                     @foreach(range(1, 12) as $m)
                                                         <option value="{{ $m }}">{{ date('F', mktime(0, 0, 0, $m, 10)) }}</option>
                                                     @endforeach
@@ -147,7 +147,7 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="editBulan">Bulan</label>
-                                    <select name="bulan" id="bulan" class="form-control @error('bulan') is invalid @enderror" required>
+                                    <select name="bulan" id="bulan" class="form-control js-example-basic-single @error('bulan') is invalid @enderror" required>
                                         @foreach(range(1, 12) as $m)
                                             <option value="{{ $m }}" {{ old('bulan', $data->bulan) == $m ? 'selected' : '' }}>
                                                 {{ date('F', mktime(0, 0, 0, $m, 10)) }}

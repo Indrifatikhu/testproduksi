@@ -22,7 +22,7 @@
                                         <div class="form-group row">
                                             <label for="bulan" class="col-md-4 col-form-label text-md-right">Bangsa</label>
                                             <div class="col-md-6 mb-3">
-                                                <select name="id_bangsa" id="" class="form-control">
+                                                <select name="id_bangsa" id="" class="form-control js-example-basic-single">
                                                     <option value="" disabled selected> - PILIH BANGSA -</option>
                                                     @foreach($bangsa as $row)
                                                         <option value="{{ $row->id }}">{{ $row->bangsa }}</option>
@@ -38,7 +38,7 @@
                                             <label for="bulan" class="col-md-4 col-form-label text-md-right">Bulan</label>
                                             <div class="col-md-6 mb-3">
                                                 {{-- <input id="bulan" type="month" class="form-control" name="bulan" required> --}}
-                                                <select name="bulan" id="bulan" class="form-control" required>
+                                                <select name="bulan" id="bulan" class="form-control js-example-basic-single" required>
                                                     @foreach(range(1, 12) as $m)
                                                         <option value="{{ $m }}">{{ date('F', mktime(0, 0, 0, $m, 10)) }}</option>
                                                     @endforeach
@@ -149,7 +149,7 @@
                         <input type="hidden" name="id" id="id">
                         <div class="form-group">
                             <label for="bulan">Bangsa</label>
-                            <select name="id_bangsa" id="" class="form-control @error('id_bangsa') is invalid @enderror">
+                            <select name="id_bangsa" id="" class="js-example-basic-single form-control @error('id_bangsa') is invalid @enderror">
                                 <option value="" disabled selected> - PILIH BANGSA -</option>
                                 @foreach($bangsa as $dd)
                                     <option value="{{ $dd->id }}" {{ old('id_bangsa', $row->id_bangsa) == $dd->id ? 'selected' : '' }}>{{ $dd->bangsa }}</option>
@@ -167,7 +167,7 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="editBulan">Bulan</label>
-                                    <select name="bulan" id="bulan" class="form-control @error('bulan') is invalid @enderror" required>
+                                    <select name="bulan" id="bulan" class="js-example-basic-single form-control @error('bulan') is invalid @enderror" required>
                                         @foreach(range(1, 12) as $m)
                                             <option value="{{ $m }}" {{ old('bulan', $row->bulan) == $m ? 'selected' : '' }}>
                                                 {{ date('F', mktime(0, 0, 0, $m, 10)) }}

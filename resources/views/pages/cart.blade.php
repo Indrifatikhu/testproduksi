@@ -42,7 +42,7 @@
 
                                         <label for="tujuan_distribusi" class="col-sm-3 col-form-label text-md-left">Tujuan Distribusi - Provinsi</label>
                                         <div class="col-sm-7 mb-2">
-                                            <select name="provinsi_id" id="provinsi_id" class="form-control" required>
+                                            <select name="provinsi_id" id="provinsi_id" class="form-control js-example-basic-single" required>
                                                 <option value="" selected disabled>- Pilih Provinsi -</option>
                                                 @foreach($provinsi as $p)
                                                     <option value="{{ $p->id }}">{{ $p->name }}</option>
@@ -52,7 +52,7 @@
 
                                         <label for="tujuan_distribusi" class="col-sm-3 col-form-label text-md-left">Tujuan Distribusi - Kabupaten/Kota</label>
                                         <div class="col-sm-7 mb-2">
-                                            <select name="kabupaten_id" id="regency_id" class="form-control" required disabled>
+                                            <select name="kabupaten_id" id="regency_id" class="form-control js-example-basic-single" required disabled>
                                                 <option value="" selected disabled>- Pilih Kabupaten/Kota -</option>
                                                 
                                             </select>

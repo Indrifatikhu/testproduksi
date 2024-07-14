@@ -26,7 +26,7 @@
                                         <div class="form-group row">
                                             <label for="editBulan" class="col-md-3 col-form-label text-md-right">Bangsa</label>
                                             <div class="col-md-6 mb-3">
-                                                <select name="id_bangsa" class="form-control @error('id_bangsa') is invalid @enderror" required>
+                                                <select name="id_bangsa" class="js-example-basic-single form-control @error('id_bangsa') is invalid @enderror" required>
                                                     <option value="" disabled selected>- PILIH BANGSA -</option>
                                                     @foreach($bangsa as $b)
                                                         <option value="{{ $b->id }}">{{ $b->bangsa }}</option>
@@ -59,7 +59,7 @@
                                         <div class="form-group row">
                                             <label for="bulan" class="col-md-3 col-form-label text-md-right">Status</label>
                                             <div class="col-md-6 mb-3">
-                                                <select name="status" id="" class="form-control" required>
+                                                <select name="status" id="" class="form-control js-example-basic-single" required>
                                                     <option value="hidup">Hidup</option>
                                                     <option value="mati">Mati</option>
                                                 </select>
@@ -178,7 +178,7 @@
                             <div class="col-4">
                                 <div class="form-group">
                                     <label for="editTahun">Bangsa</label>
-                                    <select name="id_bangsa" class="form-control" required>
+                                    <select name="id_bangsa" class="form-control js-example-basic-single" required>
                                         <option value="" disabled selected>- PILIH BANGSA -</option>
                                         @foreach($bangsa as $b)
                                             <option {{ $b->id == $row->id_bangsa ? 'selected' : '' }} value="{{ $b->id }}">{{ $b->bangsa }}</option>
@@ -207,7 +207,7 @@
                             <div class="col-4">
                                 <div class="form-group">
                                     <label for="editTahun">Status</label>
-                                    <select name="status" id="" class="form-control" required>
+                                    <select name="status" id="" class="form-control js-example-basic-single" required>
                                         <option {{ $row->status == 'hidup' ? 'selected' : '' }} value="hidup">Hidup</option>
                                         <option {{ $row->status == 'mati' ? 'selected' : '' }} value="mati">Mati</option>
                                     </select>
