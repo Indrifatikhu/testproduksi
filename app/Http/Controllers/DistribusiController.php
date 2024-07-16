@@ -13,7 +13,7 @@ class DistribusiController extends Controller
 {
     public function index()
     {
-        $distribusi = Distribusi::select('distribusi.*', 'bangsa.bangsa', 'bull.bull', 'bull.kode_bull', 'produksi.kode_batch', 'provinces.name as provinsi', 'regencies.name as kabupaten')
+        $distribusi = Distribusi::select('distribusi.*', 'bangsa.bangsa', 'bull.bull', 'bull.kode_bull', 'produksi.kode_batch', 'produksi.ptm', 'provinces.name as provinsi', 'regencies.name as kabupaten')
                                 ->leftJoin('provinces', 'distribusi.provinsi_id', '=', 'provinces.id')
                                 ->leftJoin('regencies', 'distribusi.kabupaten_id', '=', 'regencies.id')
                                 ->leftJoin('produksi', 'distribusi.id_produksi', '=', 'produksi.id')

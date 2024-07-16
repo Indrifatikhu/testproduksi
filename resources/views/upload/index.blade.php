@@ -53,6 +53,8 @@
                                                 <option {{ request()->get('perPage') == 25 ? 'selected' : '' }} value="25">25</option>
                                                 <option {{ request()->get('perPage') == 50 ? 'selected' : '' }} value="50">50</option>
                                                 <option {{ request()->get('perPage') == 100 ? 'selected' : '' }} value="100">100</option>
+                                                <option {{ request()->get('perPage') == 500 ? 'selected' : '' }} value="500">500</option>
+                                                <option {{ request()->get('perPage') == 'ALL' ? 'selected' : '' }} value="ALL">ALL</option>
                                             </select>
                                         </div>
                                     </div>

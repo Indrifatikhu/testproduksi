@@ -18,6 +18,7 @@ use App\Http\Controllers\TargetBangsaController;
 use App\Http\Controllers\BangsaController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BullController;
+use App\Http\Controllers\CustomerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,6 +63,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('bull', [BullController::class, 'index'])->name('bull.index');
     Route::get('bullsByBangsa/{id}', [BullController::class, 'getBulls'])->name('bangsabull');
     Route::get('getRegencyByProvinceId/{id}', [DistribusiController::class, 'getRegencyByProvinceId'])->name('getRegencyByProvinceId');
+    Route::get('customers', [CustomerController::class, 'index'])->name('customers.index');
     
     Route::post('upload', [UploadController::class, 'importexcel']);
     Route::post('updateProfile/{id}', [UserController::class, 'updateProfile'])->name('updateProfile');
@@ -80,6 +82,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('bangsa/{id}', [BangsaController::class, 'edit'])->name('bangsa.edit');
     Route::post('bull', [BullController::class, 'store'])->name('bull.store');
     Route::post('bull/{id}', [BullController::class, 'edit'])->name('bull.edit');
+    Route::post('customers', [CustomerController::class, 'store'])->name('customers.store');
+    Route::post('customers/{id}', [CustomerController::class, 'edit'])->name('customers.edit');
+    Route::post('customersimport', [CustomerController::class, 'import'])->name('customers.import');
 
     Route::delete('target/{id}', [TargetController::class, 'destroy'])->name('target.destroy');
     Route::delete('pages/cart/{id}', [DistribusiController::class, 'destroy'])->name('cart.destroy');
@@ -87,6 +92,5 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('targetbangsa/{id}', [TargetBangsaController::class, 'destroy'])->name('targetbangsa.destroy');
     Route::delete('bangsa/{id}', [BangsaController::class, 'destroy'])->name('bangsa.destroy');
     Route::delete('bull/{id}', [BullController::class, 'destroy'])->name('bull.destroy');
+    Route::delete('customers/{id}', [CustomerController::class, 'destroy'])->name('customers.destroy');
 });
-
-

@@ -112,6 +112,7 @@
                                         <th>Provinsi</th>
                                         <th>Kabupaten</th>
                                         <th>Container</th>
+                                        <th>PTM</th>
                                     </tr>
                                 </thead>
                                 <tbody id="myTable">
@@ -132,6 +133,7 @@
                                         <td>{{ $data->provinsi }}</td>
                                         <td>{{ str_replace('KABUPATEN', '', $data->kabupaten) }}</td>
                                         <td>{{ $data->container }}</td>
+                                        <td>{{ $data->ptm }}%</td>
                                     </tr>
                                 @endforeach
                                 </tbody>

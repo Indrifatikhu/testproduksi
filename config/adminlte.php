@@ -341,6 +341,11 @@ return [
             'icon' => 'fas fa-hippo fa-cow',
         ],
         [
+            'text' => 'Data Customer',
+            'url' => 'customers',
+            'icon' => 'fas fa-fw fa-users',
+        ],
+        [
             'text' => 'Target',
             'url' => 'pages/target',
             'icon' => 'fas fa-fw fa-chart-line',

@@ -43,6 +43,11 @@ class UploadController extends Controller
         // If a filter is applied
         if ($filter_bangsa) {
             if ($filter_from_date && $filter_to_date) {
+                if($filter_per_page == 'ALL'){
+
+                }else{
+
+                }
                 $filteredData = Produksi::select('produksi.*', 'bangsa.bangsa', 'bangsa.id as id_bangsa', 'bull.bull', 'bull.kode_bull', DB::raw('produksi.produksi - IFNULL(SUM(distribusi.jumlah), 0) as sisa'))
                                         ->leftJoin('distribusi', 'produksi.id', '=', 'distribusi.id_produksi')
                                         ->leftJoin('bull', 'produksi.id_bull', '=', 'bull.id')
@@ -52,6 +57,11 @@ class UploadController extends Controller
                                         ->groupBy('produksi.id')
                                         ->paginate($filter_per_page);
             } else {
+                if($filter_per_page == 'ALL'){
+
+                }else{
+
+                }
                 $filteredData = Produksi::select('produksi.*', 'bangsa.bangsa', 'bangsa.id as id_bangsa', 'bull.bull', 'bull.kode_bull', DB::raw('produksi.produksi - IFNULL(SUM(distribusi.jumlah), 0) as sisa'))
                                         ->leftJoin('distribusi', 'produksi.id', '=', 'distribusi.id_produksi')
                                         ->leftJoin('bull', 'produksi.id_bull', '=', 'bull.id')
@@ -63,20 +73,37 @@ class UploadController extends Controller
             }
         } else {
             if ($filter_from_date && $filter_to_date) {
-                $filteredData = Produksi::select('produksi.*', 'bangsa.bangsa', 'bangsa.id as id_bangsa', 'bull.bull', 'bull.kode_bull', DB::raw('produksi.produksi - IFNULL(SUM(distribusi.jumlah), 0) as sisa'))
+                if($filter_per_page == 'ALL'){
+                    $filteredData = Produksi::select('produksi.*', 'bangsa.bangsa', 'bangsa.id as id_bangsa', 'bull.bull', 'bull.kode_bull', DB::raw('produksi.produksi - IFNULL(SUM(distribusi.jumlah), 0) as sisa'))
+                                        ->leftJoin('distribusi', 'produksi.id', '=', 'distribusi.id_produksi')
+                                        ->leftJoin('bull', 'produksi.id_bull', '=', 'bull.id')
+                                        ->leftJoin('bangsa', 'bull.id_bangsa', '=', 'bangsa.id')
+                                        ->whereBetween('produksi.tanggal', [date('Y-m-d', strtotime($filter_from_date)), date('Y-m-d', strtotime($filter_to_date))])
+                                        ->groupBy('produksi.id');
+                }else{
+                    $filteredData = Produksi::select('produksi.*', 'bangsa.bangsa', 'bangsa.id as id_bangsa', 'bull.bull', 'bull.kode_bull', DB::raw('produksi.produksi - IFNULL(SUM(distribusi.jumlah), 0) as sisa'))
                                         ->leftJoin('distribusi', 'produksi.id', '=', 'distribusi.id_produksi')
                                         ->leftJoin('bull', 'produksi.id_bull', '=', 'bull.id')
                                         ->leftJoin('bangsa', 'bull.id_bangsa', '=', 'bangsa.id')
                                         ->whereBetween('produksi.tanggal', [date('Y-m-d', strtotime($filter_from_date)), date('Y-m-d', strtotime($filter_to_date))])
                                         ->groupBy('produksi.id')
                                         ->paginate($filter_per_page);
+                }
             } else {
-                $filteredData = Produksi::select('produksi.*', 'bangsa.bangsa', 'bangsa.id as id_bangsa', 'bull.bull', 'bull.kode_bull', DB::raw('produksi.produksi - IFNULL(SUM(distribusi.jumlah), 0) as sisa'))
-                                        ->leftJoin('distribusi', 'produksi.id', '=', 'distribusi.id_produksi')
-                                        ->leftJoin('bull', 'produksi.id_bull', '=', 'bull.id')
-                                        ->leftJoin('bangsa', 'bull.id_bangsa', '=', 'bangsa.id')
-                                        ->groupBy('produksi.id')
-                                        ->paginate($filter_per_page);
+                if($filter_per_page == 'ALL'){
+                    $filteredData = Produksi::select('produksi.*', 'bangsa.bangsa', 'bangsa.id as id_bangsa', 'bull.bull', 'bull.kode_bull', DB::raw('produksi.produksi - IFNULL(SUM(distribusi.jumlah), 0) as sisa'))
+                                            ->leftJoin('distribusi', 'produksi.id', '=', 'distribusi.id_produksi')
+                                            ->leftJoin('bull', 'produksi.id_bull', '=', 'bull.id')
+                                            ->leftJoin('bangsa', 'bull.id_bangsa', '=', 'bangsa.id')
+                                            ->groupBy('produksi.id');
+                }else{
+                    $filteredData = Produksi::select('produksi.*', 'bangsa.bangsa', 'bangsa.id as id_bangsa', 'bull.bull', 'bull.kode_bull', DB::raw('produksi.produksi - IFNULL(SUM(distribusi.jumlah), 0) as sisa'))
+                                            ->leftJoin('distribusi', 'produksi.id', '=', 'distribusi.id_produksi')
+                                            ->leftJoin('bull', 'produksi.id_bull', '=', 'bull.id')
+                                            ->leftJoin('bangsa', 'bull.id_bangsa', '=', 'bangsa.id')
+                                            ->groupBy('produksi.id')
+                                            ->paginate($filter_per_page);
+                }
             }
         }
 
