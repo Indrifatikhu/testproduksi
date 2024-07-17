@@ -128,6 +128,121 @@
                                         <td class="text-left">{{ $data->provinsi }}</td>
                                         <td class="text-left">{{ $data->kabupaten }}</td>
                                     </tr>
+
+                                    <div class="delete-confirmation modal fade" id="deleteModal{{ $data->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+                                        <div class="modal-dialog modal-sm modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <h4 class="modal-title">Hapus Data Customer</h4>
+                                                    <p>Apakah anda yakin ingin menghapus data?</p>
+                                                </div>
+                                                <form action="{{ url('customers/'.$data->id) }}" method="post">
+                                                    @method("DELETE")
+                                                    @csrf
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-sm btn-default" data-bs-dismiss="modal"><i class="fas fa-times mr-2"></i>Batal</button>
+                                                        <button type="submit" class="btn btn-sm btn-danger delete-confirmation-button"><i class="fas fa-trash mr-2"></i>Hapus</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal fade" id="editModal{{ $data->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" id="staticBackdropLabel">Edit Data Customer</h4>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <form action="{{ url('customers/'.$data->id) }}" method="POST">
+                                                    <div class="modal-body" >
+                                                        @csrf
+                                                        <div class="mb-3">
+                                                            <label for="nama_instansi" class="form-label">Name</label>
+                                                            <input type="text" class="form-control" id="nama_instansi" name="nama_instansi" value="{{ $data->nama_instansi }}" required>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="alamat" class="form-label">Address</label>
+                                                            <input type="text" class="form-control" id="alamat" name="alamat" value="{{ $data->alamat }}" required>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="contact_person" class="form-label">Contact Person</label>
+                                                            <input type="text" class="form-control" id="contact_person" name="contact_person" value="{{ $data->contact_person }}" required>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="telp" class="form-label">Phone</label>
+                                                            <input type="text" class="form-control" id="telp" name="telp" value="{{ $data->telp }}" required>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="provinsi_id" class="form-label">Province</label>
+                                                            <select class="form-control" name="provinsi_id" required>
+                                                                @foreach($provinces as $province)
+                                                                    <option value="{{ $province->id }}" {{ $data->provinsi_id == $province->id ? 'selected' : '' }}>{{ $province->name }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="kabupaten_id" class="form-label">Regency</label>
+                                                            <select class="form-control" name="kabupaten_id" required>
+                                                                
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-sm btn-default" data-bs-dismiss="modal"><i class="fas fa-times mr-2"></i>Batal</button>
+                                                        <button type="submit" id="updateBtn" class="btn btn-sm btn-primary" href="javascript:void(0)"><i class="fas fa-save mr-2"></i>Update</button>
+                                                    </div>
+                                                </form>
+                                                <input type="hidden" value="<?= $data->kabupaten_id ?>" name="kabupaten_id_old">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <script>
+                                        $(document).ready(function() {
+                                            var idid = {{ $data->id }};
+                                            $(`[id^="editModal${ idid }"]`).on('shown.bs.modal', function(event) {
+                                                var modal = $(this);
+                                                var provinsi_id = modal.find('select[name="provinsi_id"]').val();
+                                                var kabupaten_id = modal.find('input[name="kabupaten_id_old"]').val();
+
+                                                getRegency(provinsi_id, modal, kabupaten_id);
+
+                                                modal.find('select[name="provinsi_id"]').change(function(){
+                                                    var provinsi_id = $(this).val();
+                                                    getRegency(provinsi_id, modal);
+                                                });
+                                                modal.find('select[name="provinsi_id"]').select2()
+                                            });
+
+                                            function getRegency(provinsi_id, modal, kabupaten_id){
+                                                var regencySelect = modal.find('select[name="kabupaten_id"]');
+                                                $.ajax({
+                                                    url: '/getRegencyByProvinceId/' + provinsi_id,
+                                                    type: 'get',
+                                                    beforeSend: function(){
+                                                        regencySelect.empty()
+                                                    }, success: function(res){
+                                                        regencySelect.append(`<option value="" selected disabled>- Pilih Kabupaten/Kota -</option>`)
+                                                        for (let i = 0; i < res.length; i++) {
+                                                            if(kabupaten_id == res[i].id){
+                                                                regencySelect.append(`<option value="${ res[i].id }" selected>${ res[i].name }</option>`)
+                                                            }else{
+                                                                regencySelect.append(`<option value="${ res[i].id }">${ res[i].name }</option>`)
+                                                            }
+                                                        }
+
+                                                        regencySelect.attr('disabled', false)
+                                                    }
+                                                })
+                                                regencySelect.select2()
+                                            }
+                                        });
+                                    </script>
                                 @endforeach
                             </tbody>
                         </table>

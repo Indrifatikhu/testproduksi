@@ -38,26 +38,16 @@ class CustomerController extends Controller
                          ->with('success', 'Customer created successfully.');
     }
 
-    public function update(Request $request, Customer $customer)
+    public function edit(Request $request, string $id)
     {
-        $request->validate([
-            'nama_instansi' => 'required|string',
-            'alamat' => 'required|string',
-            'contact_person' => 'required|string',
-            'telp' => 'required|string',
-            'provinsi_id' => 'required|exists:provinces,id',
-            'kabupaten_id' => 'required|exists:regencies,id',
-        ]);
-
-        $customer->update($request->all());
-
+        Customer::find($id)->update($request->all());
         return redirect()->route('customers.index')
                          ->with('success', 'Customer updated successfully.');
     }
 
-    public function destroy(Customer $customer)
+    public function destroy($id) 
     {
-        $customer->delete();
+        Customer::find($id)->delete();
         return redirect()->route('customers.index')
                          ->with('success', 'Customer deleted successfully.');
     }
