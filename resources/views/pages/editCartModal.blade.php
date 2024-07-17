@@ -40,21 +40,11 @@
                         <div class="form-group">
                             <label for="tujuan" class="col-md col-form-label text-md-left">Tujuan Distribusi - Provinsi</label>
                             <div class="col-md">
-                                <select name="provinsi_id" id="provinsi_id_edit" class="js-example-basic-single form-control" required>
+                                <select name="customer_id" class="js-example-basic-single form-control" required>
                                     <option value="" selected disabled>- Pilih Provinsi -</option>
-                                    @foreach($provinsi as $p)
-                                        <option {{ $p->id == $data->provinsi_id ? 'selected' : '' }} value="{{ $p->id }}">{{ $p->name }}</option>
+                                    @foreach($customer as $c)
+                                        <option {{ $c->id == $data->customer_id ? 'selected' : '' }} value="{{ $c->id }}">{{ $c->nama_instansi }}</option>
                                     @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="tujuan" class="col-md col-form-label text-md-left">Tujuan Distribusi - Kabupaten</label>
-                            <div class="col-md">
-                                <select name="kabupaten_id" id="regency_id_edit" class="js-example-basic-single form-control" required disabled>
-                                    <option value="" selected disabled>- Pilih Kabupaten/Kota -</option>
-                                    
                                 </select>
                             </div>
                         </div>
@@ -71,7 +61,6 @@
                         <button type="submit" id="updateBtn" class="btn btn-sm btn-primary" href="javascript:void(0)"><i class="fas fa-save mr-2"></i>Update</button>
                     </div>
                 </form>
-                <input type="hidden" name="kabupaten_id_old" value="{{ $data->kabupaten_id }}">
             </div>
 
         </div>
@@ -99,46 +88,4 @@
         </div>
     </div>
 </div>
-
-<script>
-    $(document).ready(function() {
-        var idid = {{ $data->id }};
-        $(`[id^="editCartModal${ idid }"]`).on('shown.bs.modal', function(event) {
-            var modal = $(this);
-            var provinsi_id = modal.find('select[name="provinsi_id"]').val();
-            var kabupaten_id = modal.find('input[name="kabupaten_id_old"]').val();
-
-            getRegency(provinsi_id, modal, kabupaten_id);
-
-            modal.find('select[name="provinsi_id"]').change(function(){
-                var provinsi_id = $(this).val();
-                getRegency(provinsi_id, modal);
-            });
-            modal.find('select[name="provinsi_id"]').select2()
-        });
-
-        function getRegency(provinsi_id, modal, kabupaten_id){
-            var regencySelect = modal.find('select[name="kabupaten_id"]');
-            $.ajax({
-                url: '/getRegencyByProvinceId/' + provinsi_id,
-                type: 'get',
-                beforeSend: function(){
-                    regencySelect.empty()
-                }, success: function(res){
-                    regencySelect.append(`<option value="" selected disabled>- Pilih Kabupaten/Kota -</option>`)
-                    for (let i = 0; i < res.length; i++) {
-                        if(kabupaten_id == res[i].id){
-                            regencySelect.append(`<option value="${ res[i].id }" selected>${ res[i].name }</option>`)
-                        }else{
-                            regencySelect.append(`<option value="${ res[i].id }">${ res[i].name }</option>`)
-                        }
-                    }
-
-                    regencySelect.attr('disabled', false)
-                }
-            })
-            regencySelect.select2()
-        }
-    });
-</script>
 @endforeach

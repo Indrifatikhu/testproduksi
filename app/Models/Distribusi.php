@@ -13,10 +13,14 @@ class Distribusi extends Model
         'id_produksi',
         'tanggal',
         'jumlah',
-        'provinsi_id',
-        'kabupaten_id',
-        'container'
+        'container',
+        'customer_id',
     ];
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
 
     public function produksi()
     {

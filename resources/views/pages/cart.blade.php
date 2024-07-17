@@ -1,4 +1,4 @@
-@extends('adminlte::page')
+ @extends('adminlte::page')
 
 @section('title', 'Distribusi')
 
@@ -40,21 +40,13 @@
                                             <input id="jml_distribusi" type="number" class="form-control" name="jumlah" required>
                                         </div>
 
-                                        <label for="tujuan_distribusi" class="col-sm-3 col-form-label text-md-left">Tujuan Distribusi - Provinsi</label>
+                                        <label for="tujuan_distribusi" class="col-sm-3 col-form-label text-md-left">Customer</label>
                                         <div class="col-sm-7 mb-2">
-                                            <select name="provinsi_id" id="provinsi_id" class="form-control js-example-basic-single" required>
-                                                <option value="" selected disabled>- Pilih Provinsi -</option>
-                                                @foreach($provinsi as $p)
-                                                    <option value="{{ $p->id }}">{{ $p->name }}</option>
+                                            <select name="customer_id" id="customer_id" class="form-control js-example-basic-single" required>
+                                                <option value="" selected disabled>- Pilih Customer -</option>
+                                                @foreach($customer as $c)
+                                                    <option value="{{ $c->id }}">{{ $c->nama_instansi }}</option>
                                                 @endforeach
-                                            </select>
-                                        </div>
-
-                                        <label for="tujuan_distribusi" class="col-sm-3 col-form-label text-md-left">Tujuan Distribusi - Kabupaten/Kota</label>
-                                        <div class="col-sm-7 mb-2">
-                                            <select name="kabupaten_id" id="regency_id" class="form-control js-example-basic-single" required disabled>
-                                                <option value="" selected disabled>- Pilih Kabupaten/Kota -</option>
-                                                
                                             </select>
                                         </div>
 
@@ -102,17 +94,18 @@
                             <table class="table table-fixed table-bordered text-center mb-2 mt-2" style="table-layout: fixed">
                                 <thead id="theadTarget">
                                     <tr>
-                                        <th>Action</th>
-                                        <th>Tanggal</th>
-                                        <th>Bangsa</th>
+                                        <th width="5%">Action</th>
+                                        <th width="10%">Tanggal</th>
+                                        <th width="5%">Bangsa</th>
                                         <th>Nama Bull</th>
-                                        <th>Kode Bull</th>
-                                        <th>Kode Batch</th>
-                                        <th>Jumlah</th>
-                                        <th>Provinsi</th>
+                                        <th width="5%">Kode Bull</th>
+                                        <th width="5%">Kode Batch</th>
+                                        <th width="5%">Jumlah</th>
+                                        <th>Tujuan</th>
+                                        <th width="10%">Provinsi</th>
                                         <th>Kabupaten</th>
-                                        <th>Container</th>
-                                        <th>PTM</th>
+                                        <th width="5%">Container</th>
+                                        <th width="5%">PTM</th>
                                     </tr>
                                 </thead>
                                 <tbody id="myTable">
@@ -130,6 +123,7 @@
                                         <td>{{ $data->kode_bull }}</td>
                                         <td>{{ $data->kode_batch }}</td>
                                         <td>{{ $data->jumlah }}</td>
+                                        <td>{{ $data->nama_instansi }}</td>
                                         <td>{{ $data->provinsi }}</td>
                                         <td>{{ str_replace('KABUPATEN', '', $data->kabupaten) }}</td>
                                         <td>{{ $data->container }}</td>

@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Distribusi;
-use App\Models\Province;
-use App\Models\Regency;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\Models\Produksi;
 use Illuminate\Support\Facades\DB;
@@ -13,9 +12,10 @@ class DistribusiController extends Controller
 {
     public function index()
     {
-        $distribusi = Distribusi::select('distribusi.*', 'bangsa.bangsa', 'bull.bull', 'bull.kode_bull', 'produksi.kode_batch', 'produksi.ptm', 'provinces.name as provinsi', 'regencies.name as kabupaten')
-                                ->leftJoin('provinces', 'distribusi.provinsi_id', '=', 'provinces.id')
-                                ->leftJoin('regencies', 'distribusi.kabupaten_id', '=', 'regencies.id')
+        $distribusi = Distribusi::select('distribusi.*', 'bangsa.bangsa', 'bull.bull', 'bull.kode_bull', 'produksi.kode_batch', 'produksi.ptm', 'provinces.name as provinsi', 'regencies.name as kabupaten', 'customers.nama_instansi', 'customers.alamat', 'customers.contact_person', 'customers.telp')
+                                ->leftJoin('customers', 'distribusi.customer_id', '=', 'customers.id')
+                                ->leftJoin('provinces', 'customers.provinsi_id', '=', 'provinces.id')
+                                ->leftJoin('regencies', 'customers.kabupaten_id', '=', 'regencies.id')
                                 ->leftJoin('produksi', 'distribusi.id_produksi', '=', 'produksi.id')
                                 ->leftJoin('bull', 'produksi.id_bull', '=', 'bull.id')
                                 ->leftJoin('bangsa', 'bull.id_bangsa', '=', 'bangsa.id')->get();
@@ -29,12 +29,12 @@ class DistribusiController extends Controller
                             ->havingRaw('sisa > 0')
                             ->get();
 
-        $provinsi = Province::all();
+        $customer = Customer::all();
 
         return view('pages.cart', [
             'distribusi' => $distribusi,
             'produksi' => $produksi,
-            'provinsi' => $provinsi
+            'customer' => $customer
         ]);
     }
 
@@ -44,9 +44,8 @@ class DistribusiController extends Controller
             'id_produksi' => 'required',
             'tanggal' => 'required',
             'jumlah' => 'required|numeric',
-            'provinsi_id' => 'required|numeric',
-            'kabupaten_id' => 'required|numeric',
-            'container' => 'required'
+            'container' => 'required',
+            'customer_id' => 'required|numeric',
         ]);
 
         $produksi = Produksi::find($request->id_produksi);
@@ -68,8 +67,7 @@ class DistribusiController extends Controller
             'id_produksi' => $request->id_produksi,
             'tanggal' => $request->tanggal,
             'jumlah' => $request->jumlah,
-            'provinsi_id' => $request->provinsi_id,
-            'kabupaten_id' => $request->kabupaten_id,
+            'customer_id' => $request->customer_id,
             'container' => $request->container
         ]);
 
