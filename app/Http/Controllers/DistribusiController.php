@@ -4,15 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\Distribusi;
 use App\Models\Customer;
+use App\Models\Container;
 use Illuminate\Http\Request;
 use App\Models\Produksi;
 use Illuminate\Support\Facades\DB;
+use App\Exports\DistribusiExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DistribusiController extends Controller
 {
     public function index()
     {
-        $distribusi = Distribusi::select('distribusi.*', 'bangsa.bangsa', 'bull.bull', 'bull.kode_bull', 'produksi.kode_batch', 'produksi.ptm', 'provinces.name as provinsi', 'regencies.name as kabupaten', 'customers.nama_instansi', 'customers.alamat', 'customers.contact_person', 'customers.telp')
+        $distribusi = Distribusi::select('distribusi.*', 'bangsa.bangsa', 'bull.bull', 'bull.kode_bull', 'produksi.kode_batch', 'produksi.ptm', 'provinces.name as provinsi', 'regencies.name as kabupaten', 'customers.nama_instansi', 'customers.alamat', 'customers.contact_person', 'customers.telp', 'containers.nama_container', 'containers.type_container')
+                                ->leftJoin('containers', 'distribusi.container_id', '=', 'containers.id')
                                 ->leftJoin('customers', 'distribusi.customer_id', '=', 'customers.id')
                                 ->leftJoin('provinces', 'customers.provinsi_id', '=', 'provinces.id')
                                 ->leftJoin('regencies', 'customers.kabupaten_id', '=', 'regencies.id')
@@ -30,11 +34,12 @@ class DistribusiController extends Controller
                             ->get();
 
         $customer = Customer::all();
-
+        $container = Container::all();
         return view('pages.cart', [
             'distribusi' => $distribusi,
             'produksi' => $produksi,
-            'customer' => $customer
+            'customer' => $customer,
+            'container' => $container
         ]);
     }
 
@@ -44,7 +49,7 @@ class DistribusiController extends Controller
             'id_produksi' => 'required',
             'tanggal' => 'required',
             'jumlah' => 'required|numeric',
-            'container' => 'required',
+            'container_id' => 'required',
             'customer_id' => 'required|numeric',
         ]);
 
@@ -68,7 +73,7 @@ class DistribusiController extends Controller
             'tanggal' => $request->tanggal,
             'jumlah' => $request->jumlah,
             'customer_id' => $request->customer_id,
-            'container' => $request->container
+            'container_id' => $request->container_id
         ]);
 
         return back()->with('success', 'Data Distribusi Berhasil Ditambahkan');
@@ -97,5 +102,31 @@ class DistribusiController extends Controller
 
     function getRegencyByProvinceId($id){
         return response()->json(Regency::where('province_id', $id)->get());
+    }
+
+    function getReportByIdProduksi($id){
+        $distribusi = Distribusi::select('distribusi.*', 'bangsa.bangsa', 'bull.bull', 'bull.kode_bull', 'produksi.kode_batch', 'produksi.ptm', 'provinces.name as provinsi', 'regencies.name as kabupaten', 'customers.nama_instansi', 'customers.alamat', 'customers.contact_person', 'customers.telp', 'containers.nama_container', 'containers.type_container')
+                                ->leftJoin('containers', 'distribusi.container_id', '=', 'containers.id')
+                                ->leftJoin('customers', 'distribusi.customer_id', '=', 'customers.id')
+                                ->leftJoin('provinces', 'customers.provinsi_id', '=', 'provinces.id')
+                                ->leftJoin('regencies', 'customers.kabupaten_id', '=', 'regencies.id')
+                                ->leftJoin('produksi', 'distribusi.id_produksi', '=', 'produksi.id')
+                                ->leftJoin('bull', 'produksi.id_bull', '=', 'bull.id')
+                                ->leftJoin('bangsa', 'bull.id_bangsa', '=', 'bangsa.id')
+                                ->where('distribusi.id_produksi', $id)->get();
+        return response()->json($distribusi);
+    }
+
+    public function export(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+        ]);
+
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+        return Excel::download(new DistribusiExport($startDate, $endDate), 'distribusi.xlsx');
     }
 }

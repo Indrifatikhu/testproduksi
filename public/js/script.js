@@ -317,3 +317,28 @@ $('#provinsi_id').change(function(){
         }
     })
 })
+
+$('.btn-detail-produksi').click(function(){
+    $('#modal-detail').modal('show')
+    var id = $(this).attr('data-id')
+    $.ajax({
+        url: '/getReportByIdProduksi/' + id,
+        type: 'get',
+        beforeSend: function(){
+            $('#table-history').empty()
+            $('#table-history').html(`Loading Data ....`)
+        }, success: function(res){
+            $('#table-history').empty()
+            for (let i = 0; i < res.length; i++) {
+                $('#table-history').append(`<tr>
+                        <td>${ res[i].nama_instansi }</td>
+                        <td>${ res[i].provinsi }</td>
+                        <td>${ res[i].kabupaten.replace('KABUPATEN', '') }</td>
+                        <td>${ res[i].nama_container }/${ res[i].type_container }</td>
+                        <td>${ res[i].jumlah }</td>
+                    </tr>`)
+                
+            }
+        }
+    })
+})

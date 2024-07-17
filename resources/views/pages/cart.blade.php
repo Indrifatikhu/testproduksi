@@ -10,7 +10,14 @@
             <div class="card my-4">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                     <div class="bg-light pt-4 pb-3 shadow-sm">
-                        <h5 class="text-dark text-capitalize ps-3"><b>Tambah Data Distribusi Semen Beku</b></h5>
+                        <div class="row">
+                            <div class="col-10">
+                                <h5 class="text-dark text-capitalize ps-3"><b>Tambah Data Distribusi Semen Beku</b></h5>
+                            </div>
+                            <div class="col-2">
+                                <button type="button" class="btn btn-block btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#export-modal"><i class="fas fa-file-excel mr-2"></i>Export</button>&nbsp;
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="card-body pb-2 m-auto w-100">
@@ -52,7 +59,12 @@
 
                                         <label for="container" class="col-sm-3 col-form-label text-md-left">Container</label>
                                         <div class="col-sm-7 mb-2">
-                                            <input id="container" type="text" class="form-control" name="container" required>
+                                            <select name="container_id" id="container_id" class="form-control js-example-basic-single" required>
+                                                <option value="" selected disabled>- Pilih Container -</option>
+                                                @foreach($container as $ct)
+                                                    <option value="{{ $ct->id }}">{{ $ct->nama_container . '/' . $ct->type_container }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -126,7 +138,7 @@
                                         <td>{{ $data->nama_instansi }}</td>
                                         <td>{{ $data->provinsi }}</td>
                                         <td>{{ str_replace('KABUPATEN', '', $data->kabupaten) }}</td>
-                                        <td>{{ $data->container }}</td>
+                                        <td>{{ $data->nama_container . '/' . $data->type_container }}</td>
                                         <td>{{ $data->ptm }}%</td>
                                     </tr>
                                 @endforeach
@@ -140,6 +152,36 @@
     </div>
 </div>
 
+<div class="modal fade" id="export-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Export File Distribusi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+            <form action="{{ route('distribusi.export') }}" method="GET" class="mb-3">
+            @csrf
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="start_date" class="form-label">Start Date</label>
+                            <input type="date" class="form-control" id="start_date" name="start_date" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="end_date" class="form-label">End Date</label>
+                            <input type="date" class="form-control" id="end_date" name="end_date">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal"><i class="fas fa-times mr-2"></i>Close</button>
+                    <button type="submit" class="btn btn-sm btn-primary"><i class="fas fa-file-excel mr-2"></i>Export</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <!-- Edit Modal -->
 @include('pages.editCartModal')

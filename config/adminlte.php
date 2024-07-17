@@ -346,6 +346,11 @@ return [
             'icon' => 'fas fa-fw fa-users',
         ],
         [
+            'text' => 'Data Container',
+            'url' => 'containers',
+            'icon' => 'fas fa-fw fa-box',
+        ],
+        [
             'text' => 'Target',
             'url' => 'pages/target',
             'icon' => 'fas fa-fw fa-chart-line',

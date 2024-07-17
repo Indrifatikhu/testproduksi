@@ -19,6 +19,7 @@ use App\Http\Controllers\BangsaController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BullController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\ContainerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,7 +64,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('bull', [BullController::class, 'index'])->name('bull.index');
     Route::get('bullsByBangsa/{id}', [BullController::class, 'getBulls'])->name('bangsabull');
     Route::get('getRegencyByProvinceId/{id}', [DistribusiController::class, 'getRegencyByProvinceId'])->name('getRegencyByProvinceId');
+    Route::get('getReportByIdProduksi/{id}', [DistribusiController::class, 'getReportByIdProduksi'])->name('getReportByIdProduksi');
+    Route::get('distribusi/export', [DistribusiController::class, 'export'])->name('distribusi.export');
     Route::get('customers', [CustomerController::class, 'index'])->name('customers.index');
+    Route::get('containers', [ContainerController::class, 'index'])->name('containers.index');
     
     Route::post('upload', [UploadController::class, 'importexcel']);
     Route::post('updateProfile/{id}', [UserController::class, 'updateProfile'])->name('updateProfile');
@@ -85,6 +89,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('customers', [CustomerController::class, 'store'])->name('customers.store');
     Route::post('customers/{id}', [CustomerController::class, 'edit'])->name('customers.edit');
     Route::post('customersimport', [CustomerController::class, 'import'])->name('customers.import');
+    Route::post('containers', [ContainerController::class, 'store'])->name('containers.store');
+    Route::post('containers/{id}', [ContainerController::class, 'edit'])->name('containers.edit');
 
     Route::delete('target/{id}', [TargetController::class, 'destroy'])->name('target.destroy');
     Route::delete('pages/cart/{id}', [DistribusiController::class, 'destroy'])->name('cart.destroy');
@@ -93,4 +99,5 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('bangsa/{id}', [BangsaController::class, 'destroy'])->name('bangsa.destroy');
     Route::delete('bull/{id}', [BullController::class, 'destroy'])->name('bull.destroy');
     Route::delete('customers/{id}', [CustomerController::class, 'destroy'])->name('customers.destroy');
+    Route::delete('containers/{id}', [ContainerController::class, 'destroy'])->name('containers.destroy');
 });

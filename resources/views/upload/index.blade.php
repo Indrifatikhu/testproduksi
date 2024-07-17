@@ -122,7 +122,8 @@
                             <tbody id="myTable">
                                 @foreach ($allData as $data)
                                     <tr>
-                                        <td><button class="icon-button delete-btn" data-id="{{ $data->id }}" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $data->id }}" 
+                                        <td>
+                                            <button class="icon-button delete-btn" data-id="{{ $data->id }}" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $data->id }}" 
                                                 style="border: none !important; background-color:transparent; size"><i class="fa-solid fa-xs fa-trash-can"></i></button>
                                             <button class="icon-button edit-btn" data-id="{{ $data->id }}" data-bs-toggle="modal" data-bs-target="#editModal{{ $data->id }}"
                                                 style="border: none !important; background-color:transparent"><i class="fa-solid fa-xs fa-pencil"></i></button>
@@ -137,11 +138,11 @@
                                         <td>{{ $data->konsentrasi }}</td>
                                         <td>
                                             @if ($data->sisa > 0)
-                                                <button type="button" class="btn btn-sm btn-block btn-success" data-toggle="tooltip" title="Tersedia: {{ $data->sisa }}">
+                                                <button type="button" class="btn btn-sm btn-block btn-success btn-detail-produksi" data-id="{{ $data->id }}" data-toggle="tooltip" title="Tersedia: {{ $data->sisa }}">
                                                     <i class="fas fa-check-circle mr-2"></i> <strong>{{ $data->sisa }}</strong>
                                                 </button>
                                             @else
-                                                <button type="button" class="btn btn-sm btn-block btn-danger" data-toggle="tooltip" title="Habis">
+                                                <button type="button" class="btn btn-sm btn-block btn-danger btn-detail-produksi" data-id="{{ $data->id }}" data-toggle="tooltip" title="Habis">
                                                     <i class="fas fa-times-circle"></i>
                                                 </button>
                                             @endif
@@ -173,7 +174,8 @@
                             <tbody id="myTable">
                                 @foreach ($filteredData as $result)
                                     <tr>
-                                        <td><button class="icon-button delete-btn" data-id="{{ $result->id }}" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $result->id }}" 
+                                        <td>
+                                            <button class="icon-button delete-btn" data-id="{{ $result->id }}" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $result->id }}" 
                                                 style="border: none !important; background-color:transparent"><i class="fa-solid fa-xs fa-trash-can"></i></button>
                                             <button class="icon-button edit-btn" data-id="{{ $result->id }}" data-bs-toggle="modal" data-bs-target="#editModal{{ $result->id }}"
                                                 style="border: none !important; background-color:transparent"><i class="fa-solid fa-xs fa-pencil"></i></button>
@@ -188,11 +190,11 @@
                                         <td>{{ $result->konsentrasi }}</td>
                                         <td>
                                             @if ($result->sisa > 0)
-                                                <button type="button" class="btn btn-sm btn-block btn-success" data-toggle="tooltip" title="Tersedia: {{ $result->sisa }}">
+                                                <button type="button" class="btn btn-sm btn-block btn-success btn-detail-produksi" data-id="{{ $data->id }}" data-toggle="tooltip" title="Tersedia: {{ $result->sisa }}">
                                                     <i class="fas fa-check-circle mr-2"></i> <strong>{{ $result->sisa }}</strong>
                                                 </button>
                                             @else
-                                                <button type="button" class="btn btn-sm btn-block btn-danger" data-toggle="tooltip" title="Habis">
+                                                <button type="button" class="btn btn-sm btn-block btn-danger btn-detail-produksi" data-id="{{ $data->id }}" data-toggle="tooltip" title="Habis">
                                                     <i class="fas fa-times-circle"></i>
                                                 </button>
                                             @endif
@@ -222,4 +224,35 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal-detail" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="staticBackdropLabel">Detail Distribusi Produksi</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <table class="table table-fixed table-bordered text-center mb-2 mt-2" style="table-layout: fixed">
+                    <thead>
+                        <tr>
+                            <td width="40%">Tujuan</td>
+                            <td>Provinsi</td>
+                            <td>Kabupaten</td>
+                            <td>Container</td>
+                            <td>Jumlah</td>
+                        </tr>
+                    </thead>
+                    <tbody id="table-history">
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-default btn-block" data-bs-dismiss="modal"><i class="fas fa-times mr-2"></i>Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
 @stop

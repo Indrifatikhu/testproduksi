@@ -13,8 +13,8 @@ class Distribusi extends Model
         'id_produksi',
         'tanggal',
         'jumlah',
-        'container',
-        'customer_id',
+        'container_id',
+        'customer_id'
     ];
 
     public function customer()
