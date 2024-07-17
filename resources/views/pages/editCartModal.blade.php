@@ -52,7 +52,12 @@
                         <div class="form-group">
                             <label for="container" class="col-md col-form-label text-md-left">Container</label>
                             <div class="col-md">
-                                <input type="text" class="form-control @error('container') is invalid @enderror" id="container" name="container" value="{{ old('container', $data->container) }}" required>
+                                <select name="container_id" class="form-control js-example-basic-single" required>
+                                    <option value="" selected disabled>- Pilih Container -</option>
+                                    @foreach($container as $ct)
+                                        <option {{ $ct->id == $data->container_id ? 'selected' : '' }} value="{{ $ct->id }}">{{ $ct->nama_container . '/' . $ct->type_container }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                     </div>
