@@ -18,6 +18,7 @@ class ContainerController extends Controller
         $request->validate([
             'nama_container' => 'required|string|max:255',
             'type_container' => 'required|string|max:255',
+            'code' => 'required|string|max:255',
         ]);
 
         Container::create($request->all());
@@ -29,6 +30,7 @@ class ContainerController extends Controller
         $request->validate([
             'nama_container' => 'required|string|max:255',
             'type_container' => 'required|string|max:255',
+            'code' => 'required|string|max:255',
         ]);
         Container::find($id)->update($request->all());
         return redirect()->route('containers.index')->with('success', 'Container updated successfully.');

@@ -55,7 +55,7 @@
                                 <select name="container_id" class="form-control js-example-basic-single" required>
                                     <option value="" selected disabled>- Pilih Container -</option>
                                     @foreach($container as $ct)
-                                        <option {{ $ct->id == $data->container_id ? 'selected' : '' }} value="{{ $ct->id }}">{{ $ct->nama_container . '/' . $ct->type_container }}</option>
+                                        <option {{ $ct->id == $data->container_id ? 'selected' : '' }} value="{{ $ct->id }}">{{ $ct->nama_container . '/' . $ct->type_container . ' - ' . $ct->code }}</option>
                                     @endforeach
                                 </select>
                             </div>

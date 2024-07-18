@@ -12,6 +12,7 @@ class Container extends Model
     protected $fillable = [
         'nama_container',
         'type_container',
+        'code'
     ];
 
     public function getFullContainerAttribute()

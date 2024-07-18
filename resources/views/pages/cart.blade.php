@@ -62,7 +62,7 @@
                                             <select name="container_id" id="container_id" class="form-control js-example-basic-single" required>
                                                 <option value="" selected disabled>- Pilih Container -</option>
                                                 @foreach($container as $ct)
-                                                    <option value="{{ $ct->id }}">{{ $ct->nama_container . '/' . $ct->type_container }}</option>
+                                                    <option value="{{ $ct->id }}">{{ $ct->nama_container . '/' . $ct->type_container . ' - ' . $ct->code }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -116,7 +116,7 @@
                                         <th>Tujuan</th>
                                         <th width="10%">Provinsi</th>
                                         <th>Kabupaten</th>
-                                        <th width="5%">Container</th>
+                                        <th width="10%">Container</th>
                                         <th width="5%">PTM</th>
                                     </tr>
                                 </thead>
@@ -138,7 +138,7 @@
                                         <td>{{ $data->nama_instansi }}</td>
                                         <td>{{ $data->provinsi }}</td>
                                         <td>{{ str_replace('KABUPATEN', '', $data->kabupaten) }}</td>
-                                        <td>{{ $data->nama_container . '/' . $data->type_container }}</td>
+                                        <td>{{ $data->nama_container . '/' . $data->type_container . ' - ' . $data->code }}</td>
                                         <td>{{ $data->ptm }}%</td>
                                     </tr>
                                 @endforeach

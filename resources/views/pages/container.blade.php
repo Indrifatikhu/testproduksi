@@ -20,6 +20,13 @@
     
                                 <div id="target_fields">
                                     <div class="form-group row">
+                                        <label for="bulan" class="col-md-3 col-form-label text-md-right">Nama Container</label>
+                                        <div class="col-md-6 mb-3">
+                                            <input type="text" class="form-control" name="code" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
                                         <label for="bulan" class="col-md-3 col-form-label text-md-right">Nomor Container</label>
                                         <div class="col-md-6 mb-3">
                                             <input type="text" class="form-control" name="nama_container" required>
@@ -69,6 +76,7 @@
                                 <thead id="theadTarget">
                                     <tr>
                                         <th width="10%">Action</th>
+                                        <th class="text-left" width="10%">Nama Container</th>
                                         <th class="text-left" width="10%">Nomor Container</th>
                                         <th class="text-left">Type Container</th>
                                     </tr>
@@ -88,6 +96,7 @@
                                         </td>
                                         <td class="text-left">{{  $data->nama_container }}</td>
                                         <td class="text-left">{{  $data->type_container }}</td>
+                                        <td class="text-left">{{  $data->code }}</td>
                                     </tr>
 
                                     <div class="modal fade" id="editModal{{ $data->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
