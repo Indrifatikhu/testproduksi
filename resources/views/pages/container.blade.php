@@ -94,9 +94,9 @@
                                                 </i>
                                             </button>    
                                         </td>
+                                        <td class="text-left">{{  $data->code }}</td>
                                         <td class="text-left">{{  $data->nama_container }}</td>
                                         <td class="text-left">{{  $data->type_container }}</td>
-                                        <td class="text-left">{{  $data->code }}</td>
                                     </tr>
 
                                     <div class="modal fade" id="editModal{{ $data->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -113,6 +113,12 @@
                                                     <form action="{{ url('containers/'.$data->id) }}" href="javascript:void(0)" method="POST" id="editTargetForm{{ $data->id }}" name="editTargetForm" class="form-horizontal" enctype="multipart/form-data">
                                                         @csrf
                                                         <div class="row">
+                                                            <div class="col-12">
+                                                                <div class="form-group">
+                                                                    <label for="editTahun">Nama Container</label>
+                                                                    <input type="text" class="form-control" name="code" value="{{ $data->code }}" required>
+                                                                </div>
+                                                            </div>
                                                             <div class="col-12">
                                                                 <div class="form-group">
                                                                     <label for="editTahun">Nomor Container</label>
