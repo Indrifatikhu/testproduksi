@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Distribusi;
 use App\Models\Customer;
 use App\Models\Container;
+use App\Models\Regency;
 use Illuminate\Http\Request;
 use App\Models\Produksi;
 use Illuminate\Support\Facades\DB;
