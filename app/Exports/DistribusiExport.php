@@ -20,9 +20,10 @@ class DistribusiExport implements FromCollection, WithHeadings, WithMapping
 
     public function collection()
     {
-        $query = Distribusi::select('distribusi.id', 'distribusi.id_produksi', 'distribusi.tanggal', 'distribusi.jumlah', 
-                                    'containers.nama_container', 'containers.type_container', 'bangsa.bangsa', 'bull.bull', 
-                                    'bull.kode_bull', 'produksi.kode_batch', 'produksi.ptm', 'provinces.name as provinsi', 
+        $query = Distribusi::select('distribusi.id', 'distribusi.id_produksi', 'distribusi.tanggal',  
+                                    'bangsa.bangsa', 'bull.bull', 'bull.kode_bull', 'produksi.kode_batch', 
+                                    'distribusi.jumlah', 'containers.nama_container', 'containers.type_container',
+                                    'produksi.ptm', 'provinces.name as provinsi', 
                                     'regencies.name as kabupaten', 'customers.nama_instansi', 'customers.alamat', 
                                     'customers.contact_person', 'customers.telp')
                             ->leftJoin('containers', 'distribusi.container_id', '=', 'containers.id')
@@ -47,12 +48,12 @@ class DistribusiExport implements FromCollection, WithHeadings, WithMapping
         return [
             'No',
             'Tanggal',
-            'Jumlah',
-            'Container',
             'Bangsa',
             'Bull',
             'Kode Bull',
             'Kode Batch',
+            'Jumlah',
+            'Container',
             'PTM',
             'Provinsi',
             'Kabupaten',
@@ -71,12 +72,12 @@ class DistribusiExport implements FromCollection, WithHeadings, WithMapping
         return [
             $rowNumber,
             $row->tanggal,
-            $row->jumlah,
-            $row->nama_container . '/' . $row->type_container,
             $row->bangsa,
             $row->bull,
             $row->kode_bull,
             $row->kode_batch,
+            $row->jumlah,
+            $row->nama_container . '/' . $row->type_container,
             $row->ptm,
             $row->provinsi,
             $row->kabupaten,

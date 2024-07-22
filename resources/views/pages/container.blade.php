@@ -127,7 +127,7 @@
                                                             </div>
                                                             <div class="col-12">
                                                                 <div class="form-group">
-                                                                    <label for="editTahun">Kode Bull</label>
+                                                                    <label for="editTahun">Type Container</label>
                                                                     <input type="text" class="form-control" name="type_container" value="{{ $data->type_container }}" required>
                                                                 </div>
                                                             </div>
