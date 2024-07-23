@@ -68,6 +68,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('distribusi/export', [DistribusiController::class, 'export'])->name('distribusi.export');
     Route::get('customers', [CustomerController::class, 'index'])->name('customers.index');
     Route::get('containers', [ContainerController::class, 'index'])->name('containers.index');
+    Route::get('getDetailContainerById/{id}', [ContainerController::class, 'getDetailContainerById'])->name('getDetailContainerById');
     
     Route::post('upload', [UploadController::class, 'importexcel']);
     Route::post('updateProfile/{id}', [UserController::class, 'updateProfile'])->name('updateProfile');

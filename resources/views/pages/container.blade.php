@@ -92,7 +92,16 @@
                                                 style="border: none !important; background-color:transparent">
                                                 <i class="fa-solid fas-xs fa-pencil">
                                                 </i>
-                                            </button>    
+                                            </button>
+                                            <button class="icon-button btn-detail-container" 
+                                                data-id="{{ $data->id }}"
+                                                data-container="{{ $data->code }}"
+                                                data-nomor="{{ $data->nama_container }}"
+                                                data-type="{{ $data->type_container }}"
+                                                style="border: none !important; background-color:transparent">
+                                                <i class="fa-solid fas-xs fa-eye">
+                                                </i>
+                                            </button>
                                         </td>
                                         <td class="text-left">{{  $data->code }}</td>
                                         <td class="text-left">{{  $data->nama_container }}</td>
@@ -170,6 +179,41 @@
                         </div> 
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-detail" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="staticBackdropLabel">Detail Container : <strong class="detail-container-name">HC007</strong></h4>        
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <table class="table table-fixed table-bordered text-center mb-2 mt-2 table-hover" style="table-layout: fixed">
+                    <thead>
+                        <tr>
+                            <th>Nama Bull</th>
+                            <th>Kode Bull</th>
+                            <th>Bangsa</th>
+                            <th>Kode Batch</th>
+                            <th>PTM (%)</th>
+                            <th>Konsentrasi</th>
+                            <th>Produksi</th>
+                            <th>Distribusi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-history">
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-default btn-block" data-bs-dismiss="modal"><i class="fas fa-times mr-2"></i>Tutup</button>
             </div>
         </div>
     </div>

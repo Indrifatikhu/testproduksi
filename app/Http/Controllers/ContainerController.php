@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Container;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ContainerController extends Controller
 {
@@ -40,5 +41,17 @@ class ContainerController extends Controller
     {
         Container::find($id)->delete();
         return redirect()->route('containers.index')->with('success', 'Container deleted successfully.');
+    }
+
+    function getDetailContainerById($id){
+        $data = DB::table('distribusi')
+                    ->select('distribusi.*', 'produksi.*', 'bull.*', 'bangsa.*', 'containers.*')
+                    ->leftJoin('produksi', 'distribusi.id_produksi', '=', 'produksi.id')
+                    ->leftJoin('bull', 'produksi.id_bull', '=', 'bull.id')
+                    ->leftJoin('bangsa', 'bull.id_bangsa', '=', 'bangsa.id')
+                    ->leftJoin('containers', 'distribusi.container_id', '=', 'containers.id')
+                    ->where('distribusi.container_id', $id)
+                    ->get();
+        return response()->json($data);
     }
 }

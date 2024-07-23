@@ -321,12 +321,13 @@ $('#provinsi_id').change(function(){
 $('.btn-detail-produksi').click(function(){
     $('#modal-detail').modal('show')
     var id = $(this).attr('data-id')
+
     $.ajax({
         url: '/getReportByIdProduksi/' + id,
         type: 'get',
         beforeSend: function(){
             $('#table-history').empty()
-            $('#table-history').html(`Loading Data ....`)
+            $('#table-history').html(`<tr><td colspan="5">Loading Data ....</td></tr>`)
         }, success: function(res){
             $('#table-history').empty()
             for (let i = 0; i < res.length; i++) {
@@ -338,6 +339,39 @@ $('.btn-detail-produksi').click(function(){
                         <td>${ res[i].jumlah }</td>
                     </tr>`)
                 
+            }
+        }
+    })
+})
+
+$('.btn-detail-container').click(function(){
+    var id = $(this).attr('data-id')
+    var container = $(this).attr('data-container')
+    var nomor = $(this).attr('data-nomor')
+    var type = $(this).attr('data-type')
+
+    $('.detail-container-name').text(container + ' ' + nomor + '/' + type)
+    $('#modal-detail').modal('show')
+
+    $.ajax({
+        url: '/getDetailContainerById/' + id,
+        type: 'get',
+        beforeSend: function(){
+            $('#table-history').empty()
+            $('#table-history').html(`<tr><td colspan="8">Loading Data ....</td></tr>`)
+        }, success: function(result){
+            $('#table-history').empty()
+            for (let i = 0; i < result.length; i++) {
+                $(`#table-history`).append(`<tr>
+                        <td class="text-left">${ result[i].bull }</td>
+                        <td>${ result[i].kode_bull }</td>
+                        <td class="text-left">${ result[i].bangsa }</td>
+                        <td>${ result[i].kode_batch }</td>
+                        <td>${ result[i].ptm }%</td>
+                        <td>${ result[i].konsentrasi }</td>
+                        <td>${ result[i].produksi }</td>
+                        <td>${ result[i].jumlah }</td>
+                    </tr>`)
             }
         }
     })
