@@ -30,9 +30,9 @@
                                         <label for="bangsa" class="col-sm-3 col-form-label text-md-left">Produksi</label>
                                         <div class="col-sm-7 mb-2">
                                             <select name="id_produksi" id="" class="form-control js-example-basic-single">
-                                                <option value="" disabled selected> [Bangsa / Nama / Kode Bull / Kode Batch] - [Produksi/Sisa]</option>
+                                                <option value="" disabled selected> [Bangsa / Nama / Kode Bull / Kode Batch] - [Container] - [Produksi/Sisa]</option>
                                                 @foreach($produksi as $row)
-                                                    <option value="{{ $row->id }}">{{ '[' . $row->bangsa . ' / ' . $row->bull . ' / ' . $row->kode_bull . ' / ' . $row->kode_batch . '] - [' . $row->produksi . '/' . $row->sisa . ']' }}</option>
+                                                    <option value="{{ $row->id }}">{{ '[' . $row->bangsa . ' / ' . $row->bull . ' / ' . $row->kode_bull . ' / ' . $row->kode_batch . '] [ ' . $row->code . ' ' . $row->nama_container . '/' . $row->type_container . ' ] - [' . $row->produksi . '/' . $row->sisa . ']' }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -53,16 +53,6 @@
                                                 <option value="" selected disabled>- Pilih Customer -</option>
                                                 @foreach($customer as $c)
                                                     <option value="{{ $c->id }}">{{ $c->nama_instansi }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-
-                                        <label for="container" class="col-sm-3 col-form-label text-md-left">Container</label>
-                                        <div class="col-sm-7 mb-2">
-                                            <select name="container_id" id="container_id" class="form-control js-example-basic-single" required>
-                                                <option value="" selected disabled>- Pilih Container -</option>
-                                                @foreach($container as $ct)
-                                                    <option value="{{ $ct->id }}">{{ $ct->nama_container . '/' . $ct->type_container . ' - ' . $ct->code }}</option>
                                                 @endforeach
                                             </select>
                                         </div>

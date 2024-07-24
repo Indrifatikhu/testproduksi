@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Distribusi;
 use App\Models\Customer;
-use App\Models\Container;
 use App\Models\Regency;
 use Illuminate\Http\Request;
 use App\Models\Produksi;
@@ -17,16 +16,17 @@ class DistribusiController extends Controller
     public function index()
     {
         $distribusi = Distribusi::select('distribusi.*', 'bangsa.bangsa', 'bull.bull', 'bull.kode_bull', 'produksi.kode_batch', 'produksi.ptm', 'provinces.name as provinsi', 'regencies.name as kabupaten', 'customers.nama_instansi', 'customers.alamat', 'customers.contact_person', 'customers.telp', 'containers.nama_container', 'containers.type_container', 'containers.code')
-                                ->leftJoin('containers', 'distribusi.container_id', '=', 'containers.id')
                                 ->leftJoin('customers', 'distribusi.customer_id', '=', 'customers.id')
                                 ->leftJoin('provinces', 'customers.provinsi_id', '=', 'provinces.id')
                                 ->leftJoin('regencies', 'customers.kabupaten_id', '=', 'regencies.id')
                                 ->leftJoin('produksi', 'distribusi.id_produksi', '=', 'produksi.id')
+                                ->leftJoin('containers', 'produksi.container_id', '=', 'containers.id')
                                 ->leftJoin('bull', 'produksi.id_bull', '=', 'bull.id')
                                 ->leftJoin('bangsa', 'bull.id_bangsa', '=', 'bangsa.id')->get();
                                 
         $produksi = Produksi::with('distribusi')
-                            ->select('produksi.*', 'bangsa.bangsa', 'bull.bull', 'bull.kode_bull', DB::raw('produksi.produksi - IFNULL(SUM(distribusi.jumlah), 0) as sisa'))
+                            ->select('produksi.*', 'bangsa.bangsa', 'bull.bull', 'bull.kode_bull', 'containers.nama_container', 'containers.type_container', 'containers.code', DB::raw('produksi.produksi - IFNULL(SUM(distribusi.jumlah), 0) as sisa'))
+                            ->leftJoin('containers', 'produksi.container_id', '=', 'containers.id')
                             ->leftJoin('distribusi', 'produksi.id', '=', 'distribusi.id_produksi')
                             ->leftJoin('bull', 'produksi.id_bull', '=', 'bull.id')
                             ->leftJoin('bangsa', 'bull.id_bangsa', '=', 'bangsa.id')
@@ -35,12 +35,10 @@ class DistribusiController extends Controller
                             ->get();
 
         $customer = Customer::all();
-        $container = Container::all();
         return view('pages.cart', [
             'distribusi' => $distribusi,
             'produksi' => $produksi,
-            'customer' => $customer,
-            'container' => $container
+            'customer' => $customer
         ]);
     }
 
@@ -50,7 +48,6 @@ class DistribusiController extends Controller
             'id_produksi' => 'required',
             'tanggal' => 'required',
             'jumlah' => 'required|numeric',
-            'container_id' => 'required',
             'customer_id' => 'required|numeric',
         ]);
 
@@ -73,8 +70,7 @@ class DistribusiController extends Controller
             'id_produksi' => $request->id_produksi,
             'tanggal' => $request->tanggal,
             'jumlah' => $request->jumlah,
-            'customer_id' => $request->customer_id,
-            'container_id' => $request->container_id
+            'customer_id' => $request->customer_id
         ]);
 
         return back()->with('success', 'Data Distribusi Berhasil Ditambahkan');
@@ -107,11 +103,11 @@ class DistribusiController extends Controller
 
     function getReportByIdProduksi($id){
         $distribusi = Distribusi::select('distribusi.*', 'bangsa.bangsa', 'bull.bull', 'bull.kode_bull', 'produksi.kode_batch', 'produksi.ptm', 'provinces.name as provinsi', 'regencies.name as kabupaten', 'customers.nama_instansi', 'customers.alamat', 'customers.contact_person', 'customers.telp', 'containers.nama_container', 'containers.type_container')
-                                ->leftJoin('containers', 'distribusi.container_id', '=', 'containers.id')
                                 ->leftJoin('customers', 'distribusi.customer_id', '=', 'customers.id')
                                 ->leftJoin('provinces', 'customers.provinsi_id', '=', 'provinces.id')
                                 ->leftJoin('regencies', 'customers.kabupaten_id', '=', 'regencies.id')
                                 ->leftJoin('produksi', 'distribusi.id_produksi', '=', 'produksi.id')
+                                ->leftJoin('containers', 'produksi.container_id', '=', 'containers.id')
                                 ->leftJoin('bull', 'produksi.id_bull', '=', 'bull.id')
                                 ->leftJoin('bangsa', 'bull.id_bangsa', '=', 'bangsa.id')
                                 ->where('distribusi.id_produksi', $id)->get();

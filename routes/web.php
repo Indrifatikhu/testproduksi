@@ -92,6 +92,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('customersimport', [CustomerController::class, 'import'])->name('customers.import');
     Route::post('containers', [ContainerController::class, 'store'])->name('containers.store');
     Route::post('containers/{id}', [ContainerController::class, 'edit'])->name('containers.edit');
+    Route::post('update-container', [UploadController::class, 'updateContainer'])->name('updateContainer');
 
     Route::delete('target/{id}', [TargetController::class, 'destroy'])->name('target.destroy');
     Route::delete('pages/cart/{id}', [DistribusiController::class, 'destroy'])->name('cart.destroy');

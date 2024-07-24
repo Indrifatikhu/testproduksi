@@ -26,11 +26,11 @@ class DistribusiExport implements FromCollection, WithHeadings, WithMapping
                                     'produksi.ptm', 'provinces.name as provinsi', 
                                     'regencies.name as kabupaten', 'customers.nama_instansi', 'customers.alamat', 
                                     'customers.contact_person', 'customers.telp')
-                            ->leftJoin('containers', 'distribusi.container_id', '=', 'containers.id')
                             ->leftJoin('customers', 'distribusi.customer_id', '=', 'customers.id')
                             ->leftJoin('provinces', 'customers.provinsi_id', '=', 'provinces.id')
                             ->leftJoin('regencies', 'customers.kabupaten_id', '=', 'regencies.id')
                             ->leftJoin('produksi', 'distribusi.id_produksi', '=', 'produksi.id')
+                            ->leftJoin('containers', 'produksi.container_id', '=', 'containers.id')
                             ->leftJoin('bull', 'produksi.id_bull', '=', 'bull.id')
                             ->leftJoin('bangsa', 'bull.id_bangsa', '=', 'bangsa.id');
 

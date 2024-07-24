@@ -49,8 +49,8 @@ class ContainerController extends Controller
                     ->leftJoin('produksi', 'distribusi.id_produksi', '=', 'produksi.id')
                     ->leftJoin('bull', 'produksi.id_bull', '=', 'bull.id')
                     ->leftJoin('bangsa', 'bull.id_bangsa', '=', 'bangsa.id')
-                    ->leftJoin('containers', 'distribusi.container_id', '=', 'containers.id')
-                    ->where('distribusi.container_id', $id)
+                    ->leftJoin('containers', 'produksi.container_id', '=', 'containers.id')
+                    ->where('produksi.container_id', $id)
                     ->get();
         return response()->json($data);
     }

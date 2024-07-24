@@ -34,7 +34,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="bangsa" class="control-label">Bangsa</label>
-                                            <select id="bangsa" class="form-control select" name="bangsa" value="{{ @$bangsa }}">
+                                            <select id="bangsa" class="form-control js-example-basic-single" name="bangsa" value="{{ @$bangsa }}">
                                                 <option value="">Semua Bangsa</option>
                                                 @foreach($bangsa as $b)
                                                     <option value="{{ $b->id }}" {{ request()->get('bangsa') == $b->id ? 'selected' : '' }}>{{ $b->bangsa }}</option>
@@ -46,7 +46,7 @@
                                     <div class="col-md-1">
                                         <div class="form-group">
                                             <label for="perPage" class="control-label">Perpage</label>
-                                            <select class="form-control select2" id="perPage" name="perPage">
+                                            <select class="form-control js-example-basic-single" id="perPage" name="perPage">
                                                 <option {{ request()->get('perPage') == 10 ? 'selected' : '' }} value="10">10</option>
                                                 <option {{ request()->get('perPage') == 15 ? 'selected' : '' }} value="15">15</option>
                                                 <option {{ request()->get('perPage') == 20 ? 'selected' : '' }} value="20">20</option>
@@ -116,6 +116,7 @@
                                     <th style="width: 12%; text-align: center">Produksi</th>
                                     <th style="width: 9%; text-align: center">PTM (%)</th>
                                     <th style="width: 13%; text-align: center">Konsentrasi (Juta)</th>
+                                    <th style="width: 13%; text-align: center">Container</th>
                                     <th style="width: 8%; text-align: center">Status</th>
                                 </tr>
                             </thead>
@@ -136,6 +137,14 @@
                                         <td>{{ $data->produksi }}</td>
                                         <td>{{ $data->ptm }}</td>
                                         <td>{{ $data->konsentrasi }}</td>
+                                        <td>
+                                            <select name="container_id" data-id="{{ $data->id }}" class="form-control select-container js-example-basic-single">
+                                                <option value="">- PILIH CONTAINER -</option>
+                                                @foreach($container as $c)
+                                                    <option {{ $c->id == $data->container_id ? 'selected' : '' }}  value="{{ $c->id }}">{{ $c->code . ' ' . $c->nama_container . '/' . $c->type_container  }}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
                                         <td>
                                             @if ($data->sisa > 0)
                                                 <button type="button" class="btn btn-sm btn-block btn-success btn-detail-produksi" data-id="{{ $data->id }}" data-toggle="tooltip" title="Tersedia: {{ $data->sisa }}">
@@ -255,4 +264,32 @@
         </div>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.select-container').change(function() {
+            var produksiId = $(this).attr('data-id');
+            var containerId = $(this).val();
+
+            $.ajax({
+                url: '{{ route("updateContainer") }}',
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    id: produksiId,
+                    container_id: containerId
+                },
+                success: function(response) {
+                    if (response.success) {
+                        alert(response.message);
+                    } else {
+                        alert('Failed to update container');
+                    }
+                }
+            });
+        });
+    });
+</script>
+
 @stop

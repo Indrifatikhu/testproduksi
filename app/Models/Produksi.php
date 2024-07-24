@@ -18,6 +18,7 @@ class Produksi extends Model
         'produksi',
         'ptm',
         'konsentrasi',
+        'container_id'
     ];
 
     public function distribusi()

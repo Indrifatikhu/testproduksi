@@ -48,18 +48,6 @@
                                 </select>
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <label for="container" class="col-md col-form-label text-md-left">Container</label>
-                            <div class="col-md">
-                                <select name="container_id" class="form-control js-example-basic-single" required>
-                                    <option value="" selected disabled>- Pilih Container -</option>
-                                    @foreach($container as $ct)
-                                        <option {{ $ct->id == $data->container_id ? 'selected' : '' }} value="{{ $ct->id }}">{{ $ct->nama_container . '/' . $ct->type_container . ' - ' . $ct->code }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-sm btn-default" data-bs-dismiss="modal"><i class="fas fa-times mr-2"></i>Batal</button>

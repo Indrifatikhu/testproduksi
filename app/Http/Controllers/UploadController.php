@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Log;
 use App\Models\Produksi;
 use App\Models\Bangsa;
+use App\Models\Container;
 use Illuminate\Http\Request;
 use App\Imports\ProduksiImport;
 use Illuminate\Routing\Controller;
@@ -119,10 +120,12 @@ class UploadController extends Controller
 
         $totalFiltered = $filteredData->total();
         $bangsa = Bangsa::all();
+        $container = Container::all();
         
         return view('upload.index', [
             "tittle" => "Tambah Data", 
             'bangsa' => $bangsa,
+            'container' => $container,
             'filteredData'=>$filteredData, 
             'filter_bangsa' => $filter_bangsa,
             'allData' => $filteredData,
@@ -151,6 +154,7 @@ class UploadController extends Controller
             'produksi' => 'required|integer',
             'ptm' => 'required|string|max:255',
             'konsentrasi' => 'required|string|max:255',
+            'container_id' => 'required'
         ]);
 
         Produksi::create($request->all());
@@ -166,5 +170,17 @@ class UploadController extends Controller
     public function destroy($id) {
         Produksi::find($id)->delete();
         return back()->with('success', 'Data Berhasil di Hapus');
+    }
+
+    function updateContainer(Request $request){
+        $produksi = Produksi::findOrFail($request->id);
+        $produksi->container_id = $request->container_id;
+        $produksi->save();
+    
+        return response()->json([
+            'success' => true, 
+            'message' => 'Container updated successfully',
+            'data' => $produksi
+        ]);
     }
 }
